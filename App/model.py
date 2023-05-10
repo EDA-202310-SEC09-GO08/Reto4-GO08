@@ -78,7 +78,7 @@ def new_data_structs():
 
     data_structs['grafo']=gr.newGraph()
 
-
+    return(data_structs)
 ### FUNCIONES GENERALES QUE CREAN MAPA A PARTIR DE UN ARRAY
 def crear_mapa_de_columna_a_partir_de_ARRAy(array, columna):
 
@@ -132,7 +132,7 @@ def add_data(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
-    lt.addLast(data_structs['Lista sin filtro'],data)
+    lt.addLast(data_structs['lista sin filtro'],data)
 
 
 # Funciones para creacion de datos

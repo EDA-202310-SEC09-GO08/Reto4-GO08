@@ -62,12 +62,55 @@ def print_menu():
     print("0- Salir")
 
 
-def load_data(control):
+def menu_nombre_archivo():
+    print("Que porcentage de datos ")
+    print("1-1%")
+    print("2-5%")
+    print("3-10%")
+    print("4-20%")
+    print("5-30%")
+    print("6-50%")
+    print("7-80%")
+    print("8-100%")
+
+def menu_archivo():
+    menu_nombre_archivo()
+    porcentaje = input('Seleccione una opción para continuar\n')
+    try:
+        if int(porcentaje) == 2:
+            
+            size ='datos_siniestralidad-5pct.csv'
+            return size
+        elif int(porcentaje) == 3:
+            size = 'datos_siniestralidad-10pct.csv'
+            return size
+        elif int(porcentaje) == 4:
+            size = 'datos_siniestralidad-20pct.csv'
+            return size
+        elif int(porcentaje) == 5:
+            size = 'datos_siniestralidad-30pct.csv'
+            return size
+        elif int(porcentaje) == 6:
+            size = 'datos_siniestralidad-50pct.csv'
+            return size
+        elif int(porcentaje) == 1:
+            size = 'BA-Grey-Wolf-tracks-utf8-small.csv'
+            return size
+        elif int(porcentaje) == 7:
+            size = 'datos_siniestralidad-80pct.csv'
+            return size
+        elif int(porcentaje) == 8:
+            size = 'datos_siniestralidad-large.csv'
+            return size
+    except ValueError:
+            print(" una opción válida.\n")
+            traceback.print_exc()
+def load_data(control,size):
     """
     Carga los datos
     """
-    #TODO: Realizar la carga de datos
-    pass
+    control =controller.load_data(control,size)
+    return control
 
 
 def print_data(control, id):
@@ -157,7 +200,10 @@ if __name__ == "__main__":
         try:
             if int(inputs) == 1:
                 print("Cargando información de los archivos ....\n")
-                data = load_data(control)
+                size = menu_archivo()
+                control = new_controller()
+                data = load_data(control,size)
+                print(data[1])
             elif int(inputs) == 2:
                 print_req_1(control)
 

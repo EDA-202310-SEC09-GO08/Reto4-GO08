@@ -77,7 +77,51 @@ def new_data_structs():
     data_structs['lista nodos de encuentro']=lt.newList(datastructure='ARRAY_LIST')
 
 
+def crear_mapa_de_columna_a_partir_de_ARRAy(array, columna):
 
+ 
+    mapa = mp.newMap(40, maptype='CHAINING' , loadfactor=0.5)
+    
+    ### Iteración para añadir
+    i = 1
+    tamanio_array = lt.size(array)
+    while i<=tamanio_array:
+
+        data = lt.getElement(array,i)
+
+        add_data_y_o_casilla_al_mapa(mapa,data,columna)
+
+        i+=1
+    
+    return mapa
+
+    
+
+    
+def add_data_y_o_casilla_al_mapa(mapa, data,parametro):
+ 
+    llave_casilla = data[parametro]
+    
+
+    exist_casilla = mp.contains(mapa,llave_casilla)
+    if exist_casilla:
+        entry = mp.get(mapa,llave_casilla)
+        array_asociado = me.getValue(entry)
+    else:
+        array_asociado = new_casilla()
+        mp.put(mapa,llave_casilla,array_asociado)
+    
+    lt.addLast(array_asociado,data)
+
+
+def new_casilla():
+    """
+    Esta funcion crea la estructura de libros asociados
+    a un año.
+    """
+   
+    entry = lt.newList('ARRAY_LIST', compareYears)
+    return entry
 
 # Funciones para agregar informacion al modelo
 

@@ -64,7 +64,7 @@ def new_data_structs():
     data_structs ={}
     data_structs['lista sin filtro']=lt.newList(datastructure='ARRAY_LIST')
 
-    data_structs['lista total (filtrada)']=lt.newList(datastructure='ARRAY_LIST')
+    data_structs['lista total']=lt.newList(datastructure='ARRAY_LIST')
 
 #### mapa cuya llave es un lobo en id y el valor es el array de los eventos seguidos por el dicho lobo (ordenado)
     data_structs['mapa lobos']= None
@@ -145,6 +145,37 @@ def new_data(id, info):
     pass
 
 
+###a. Redondear lista
+def redondear_4_hacia_arriba(num):
+    parte_decimal = str(num).split('.')[1]
+    parte_entera =str(num).split('.')[0]
+    cuatro_decimales = parte_decimal[0:4]
+    num=float(parte_entera+'.'+cuatro_decimales)
+    if num>0:
+        num=num+0.0001
+    return num
+
+def redondear_lista_total(data_structs):
+    lista_original = (data_structs['lista sin filtro'])
+
+    size = data_structs['lista sin filtro']
+
+    i =1
+
+    while i<=size:
+        evento = lt.getElement(lista_original,i)
+
+        long = evento['location-long']
+        lat = evento['location-lat']
+
+        evento['location-long']=redondear_4_hacia_arriba(long)
+        evento['location-lat']=redondear_4_hacia_arriba(lat)
+
+        i+=1
+
+    return data_structs
+
+    
 # Funciones de consulta
 
 def get_data(data_structs, id):

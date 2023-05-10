@@ -67,14 +67,16 @@ def new_data_structs():
     data_structs['lista total (filtrada)']=lt.newList(datastructure='ARRAY_LIST')
 
 #### mapa cuya llave es un lobo en id y el valor es el array de los eventos seguidos por el dicho lobo (ordenado)
-    data_structs['mapa lobos']= mp.newMap()
+    data_structs['mapa lobos']= None
 
 ###mapa con llave localización (latLong compuesto como se indica) y valor array de eventos con esa localización
-    data_structs['mapa localizacion']=mp.newMap()
+    data_structs['mapa localizacion']=None
 
     data_structs['lista nodos seguimiento']=lt.newList(datastructure='ARRAY_LIST')
 
     data_structs['lista nodos de encuentro']=lt.newList(datastructure='ARRAY_LIST')
+
+    data_structs['grafo']=gr.newGraph()
 
 
 ### FUNCIONES GENERALES QUE CREAN MAPA A PARTIR DE UN ARRAY
@@ -130,8 +132,7 @@ def add_data(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
-    #TODO: Crear la función para agregar elementos a una lista
-    pass
+    lt.addLast(data_structs['Lista sin filtro'],data)
 
 
 # Funciones para creacion de datos

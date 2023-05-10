@@ -61,8 +61,22 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    #TODO: Inicializar las estructuras de datos
-    pass
+    data_structs ={}
+    data_structs['lista sin filtro']=lt.newList(datastructure='ARRAY_LIST')
+
+    data_structs['lista total (filtrada)']=lt.newList(datastructure='ARRAY_LIST')
+
+#### mapa cuya llave es un lobo en id y el valor es el array de los eventos seguidos por el dicho lobo (ordenado)
+    data_structs['mapa lobos']= mp.newMap()
+
+###mapa con llave localización (latLong compuesto como se indica) y valor array de eventos con esa localización
+    data_structs['mapa localizacion']=mp.newMap()
+
+    data_structs['lista nodos seguimiento']=lt.newList(datastructure='ARRAY_LIST')
+
+    data_structs['lista nodos de encuentro']=lt.newList(datastructure='ARRAY_LIST')
+
+
 
 
 # Funciones para agregar informacion al modelo

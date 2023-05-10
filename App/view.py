@@ -42,11 +42,11 @@ operación solicitada
 
 def new_controller():
     """
-        Se crea una instancia del controlador
+    Crea una instancia del modelo
     """
-    #TODO: Llamar la función del controlador donde se crean las estructuras de datos
-    pass
+    control = controller.new_controller()
 
+    return control
 
 def print_menu():
     print("Bienvenido")

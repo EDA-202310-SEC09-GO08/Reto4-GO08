@@ -51,14 +51,14 @@ def new_controller():
 def print_menu():
     print("Bienvenido")
     print("1- Cargar información")
-    print("2- Ejecutar Requerimiento 1")
-    print("3- Ejecutar Requerimiento 2")
-    print("4- Ejecutar Requerimiento 3")
-    print("5- Ejecutar Requerimiento 4")
-    print("6- Ejecutar Requerimiento 5")
-    print("7- Ejecutar Requerimiento 6")
-    print("8- Ejecutar Requerimiento 7")
-    print("9- Ejecutar Requerimiento 8")
+    print("2- REQ. 1: Planear una posible ruta entre dos puntos de encuentro (G)")
+    print("3- REQ. 2: Planear una ruta con menos paradas entre dos puntos de encuentro (G)")
+    print("4- REQ. 3: Reconocer los territorios habitados por distintas manadas (I)")
+    print("5- REQ. 4: Identificar el camino más corto entre dos puntos del hábitat (I)")
+    print("6- REQ. 5: Reconocer el coredor migratorio mas extenso (I)")
+    print("7- REQ. 6: Identificar diferencias de movilidad entre tipos de miembros de la manada (G)")
+    print("8- REQ. 7: Identificar cambios en el territorio de las manadas según condiciones climáticas (G)")
+    print("9- REQ. 8: Graficar resultados para cada uno de los requerimientos (B)")
     print("0- Salir")
 
 

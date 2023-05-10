@@ -174,7 +174,7 @@ def redondear_4_hacia_arriba(num):
 def redondear_lista_total(data_structs):
     lista_original = (data_structs['lista total'])
 
-    size = data_structs['lista total']
+    size = lt.size(data_structs['lista total'])
 
     i =1
 

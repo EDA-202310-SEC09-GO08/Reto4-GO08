@@ -50,12 +50,17 @@ def load_data(control, filename):
     """
     Carga los datos del reto
     """
+
+    ###CArga datos
     file = cf.data_dir + filename
     input_file = csv.DictReader(open(file, encoding='utf-8'))
     catalog = control['model']
     for line in input_file:
         model.add_data(catalog, line)
 
+
+##### Crea grafo
+    model.crear_grafo(catalog)
     size = lt.size(catalog['lista total'])
     return control, size
 

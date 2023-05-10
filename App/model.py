@@ -77,6 +77,7 @@ def new_data_structs():
     data_structs['lista nodos de encuentro']=lt.newList(datastructure='ARRAY_LIST')
 
 
+### FUNCIONES GENERALES QUE CREAN MAPA A PARTIR DE UN ARRAY
 def crear_mapa_de_columna_a_partir_de_ARRAy(array, columna):
 
  
@@ -120,7 +121,7 @@ def new_casilla():
     a un año.
     """
    
-    entry = lt.newList('ARRAY_LIST', compareYears)
+    entry = lt.newList('ARRAY_LIST')
     return entry
 
 # Funciones para agregar informacion al modelo

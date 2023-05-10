@@ -62,9 +62,9 @@ def new_data_structs():
     manera vacía para posteriormente almacenar la información.
     """
     data_structs ={}
-    data_structs['lista sin filtro']=lt.newList(datastructure='ARRAY_LIST')
-
     data_structs['lista total']=lt.newList(datastructure='ARRAY_LIST')
+
+
 
 #### mapa cuya llave es un lobo en id y el valor es el array de los eventos seguidos por el dicho lobo (ordenado)
     data_structs['mapa lobos']= None
@@ -132,7 +132,7 @@ def add_data(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
-    lt.addLast(data_structs['lista sin filtro'],data)
+    lt.addLast(data_structs['lista total'],data)
 
 
 # Funciones para creacion de datos
@@ -145,6 +145,22 @@ def new_data(id, info):
     pass
 
 
+
+
+
+
+#######                      CREAR GRAFO CON LAS ESPECIFICACIONES CORRESPONDIENTES
+
+
+
+def crear_grafo(data_structs):
+
+    ###a. Redondear
+    redondear_lista_total(data_structs)
+
+
+    return data_structs
+
 ###a. Redondear lista
 def redondear_4_hacia_arriba(num):
     parte_decimal = str(num).split('.')[1]
@@ -156,9 +172,9 @@ def redondear_4_hacia_arriba(num):
     return num
 
 def redondear_lista_total(data_structs):
-    lista_original = (data_structs['lista sin filtro'])
+    lista_original = (data_structs['lista total'])
 
-    size = data_structs['lista sin filtro']
+    size = data_structs['lista total']
 
     i =1
 
@@ -174,6 +190,7 @@ def redondear_lista_total(data_structs):
         i+=1
 
     return data_structs
+
 
     
 # Funciones de consulta

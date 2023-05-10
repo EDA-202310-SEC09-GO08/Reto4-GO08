@@ -56,7 +56,7 @@ def load_data(control, filename):
     for line in input_file:
         model.add_data(catalog, line)
 
-    size = lt.size(catalog['lista sin filtro'])
+    size = lt.size(catalog['lista total'])
     return control, size
 
 

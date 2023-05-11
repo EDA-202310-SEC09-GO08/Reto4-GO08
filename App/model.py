@@ -192,9 +192,65 @@ def redondear_lista_total(data_structs):
     return data_structs
 
 
-    
-# Funciones de consulta
+####b. mapa  por lobo, con arrays ordenados por tiempo y luego filtrados si 2 consecutivos tienen la misma localización
 
+def crear_mapa_lobos(data_structs):
+    mapa_lobos = crear_mapa_de_columna_a_partir_de_ARRAy(data_structs['lista total'],'individual-local-identifier')
+
+    ###ordenar mapa
+    llaves_mapa = lt.iterator(mp.keySet(mapa_lobos))
+
+    for lobo in llaves_mapa:
+        lista_eventos = devolver_value(mapa_lobos,lobo)
+        quk.sort(lista_eventos,sort_criteria_tiempo)
+
+    ### filtrar si hay repetido con lista auxiliar
+
+    for lobo in llaves_mapa:
+        lista_eventos = devolver_value(mapa_lobos,lobo)
+        size =lt.size(lista_eventos)
+        lista_aux = lt.newList('ARRAY_LIST')
+        i=2
+        ##añadir el primero
+        primer_elemento =lt.getElement(lista_eventos,1)
+
+        long = primer_elemento['location-long']
+        lat = primer_elemento['location-lat']
+
+        lt.addLast(lista_aux,primer_elemento)
+        while i<=size:
+            evento =lt.getElement(lista_eventos,i)
+
+            if evento['location-long']!=long and evento['location-lat']!=lat:
+
+                lt.addLast(lista_aux,evento)
+                long=evento['location-long']
+                lat=evento['location-lat']
+
+            i+=1
+        mp.remove(mapa_lobos,lobo)
+        mp.put(mapa_lobos,lobo,lista_aux)
+
+        data_structs['mapa lobos']=mapa_lobos
+
+        
+
+
+
+
+
+
+    return data_structs
+
+
+
+
+# Funciones de consulta
+def devolver_value(map, key):
+    llave_valor = mp.get(map, key)
+    valor = me.getValue(llave_valor)
+    
+    return valor 
 def get_data(data_structs, id):
     """
     Retorna un dato a partir de su ID
@@ -286,6 +342,11 @@ def compare(data_1, data_2):
 
 # Funciones de ordenamiento
 
+def sort_criteria_tiempo(a,b):
+
+        cod_1 = a["timestamp"].replace(':','').replace('-','').replace(' ','')
+        cod_2 = b["timestamp"].replace(':','').replace('-','').replace(' ','')
+        return(float(cod_1)<float(cod_2))
 
 def sort_criteria(data_1, data_2):
     """sortCriteria criterio de ordenamiento para las funciones de ordenamiento

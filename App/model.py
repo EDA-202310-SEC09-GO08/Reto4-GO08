@@ -252,9 +252,9 @@ def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(dat
     lista_iterable = lt.iterator(lista)
 
     for evento in lista_iterable:
-        long=evento['location-long'].replace('.','p').replace('-','m')
-        lat =evento['location lat'].replace('.','p').replace('-','m')
-        id=evento['individual-local-identifier']
+        long=str(evento['location-long'].replace('.','p').replace('-','m'))
+        lat =str(evento['location lat'].replace('.','p').replace('-','m'))
+        id=str(evento['individual-local-identifier'])
 
         coordenada_compuesta= long+'_'+lat
         evento['coordenada']=coordenada_compuesta

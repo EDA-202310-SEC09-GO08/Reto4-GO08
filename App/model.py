@@ -158,7 +158,8 @@ def crear_grafo(data_structs):
     ###a. Redondear
     redondear_lista_total(data_structs)
 
-
+    ###b. mapa lobos
+    crear_mapa_lobos(data_structs)
     return data_structs
 
 ###a. Redondear lista
@@ -233,7 +234,7 @@ def crear_mapa_lobos(data_structs):
 
         data_structs['mapa lobos']=mapa_lobos
 
-        
+
 
 
 

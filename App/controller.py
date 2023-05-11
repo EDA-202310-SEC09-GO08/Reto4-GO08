@@ -26,6 +26,7 @@ import time
 import csv
 import tracemalloc
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
@@ -62,7 +63,8 @@ def load_data(control, filename):
 ##### Crea grafo
     model.crear_grafo(catalog)
     size = lt.size(catalog['lista total'])
-    return control, size
+    size_mapa =mp.size(catalog['mapa lobos'])
+    return control, size,size_mapa
 
 
 # Funciones de ordenamiento

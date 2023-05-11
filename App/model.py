@@ -251,14 +251,35 @@ def poner_coordenada_en_formato_a_evento(data_structs):
 
     return data_structs
 
-def crear_mapa_localizacion(data_structs):
-    mapa = crear_mapa_de_columna_a_partir_de_ARRAy(data_structs['lista total'],'coordenada')
+def crear_diccionario_coordenadas(data_structs):
+    
+    map= mp.newMap()
 
-    data_structs['mapa localización']=mapa
+    lista_total = data_structs['lista total']
+
+
+    for evento in lista_total:
+        cor = evento['coordenada']
+        estaa= mp.contains(map,cor)
+        if estaa==False:
+            lista = lt.newList()
+            lt.addFirst(evento)
+            mp.put(map, cor, lista)
+
+        else:
+            valor =devolver_value(map,cor)
+            lt.addLast(valor,evento)
+
+    
+
+
+    data_structs['mapa localización']=map
+    
 
     return data_structs
 
 
+def crear_nodos_d
 
     
 

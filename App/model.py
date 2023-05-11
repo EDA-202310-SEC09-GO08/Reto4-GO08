@@ -275,7 +275,7 @@ def crear_mapa_coordenadas(data_structs):
         estaa= mp.contains(map,cor)
         if estaa==False:
             lista = lt.newList()
-            lt.addFirst(evento)
+            lt.addFirst(lista,evento)
             mp.put(map, cor, lista)
 
         else:

@@ -72,7 +72,7 @@ def new_data_structs():
 ###mapa con llave localización (latLong compuesto como se indica) y valor array de eventos con esa localización
     data_structs['mapa localizacion']=None
 
-    data_structs['lista nodos seguimiento']=lt.newList(datastructure='ARRAY_LIST')
+    data_structs['mapa nodos seguimiento']=None
 
     data_structs['lista nodos de encuentro']=lt.newList(datastructure='ARRAY_LIST')
 
@@ -157,9 +157,14 @@ def crear_grafo(data_structs):
 
     ###a. Redondear
     redondear_lista_total(data_structs)
+    poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(data_structs)
 
     ###b. mapa lobos
     crear_mapa_lobos(data_structs)
+
+    ###C. mapa coordenadas
+
+    crear
     return data_structs
 
 ###a. Redondear lista
@@ -237,7 +242,7 @@ def crear_mapa_lobos(data_structs):
 
 #### C. Hash coordenadas
 
-def poner_coordenada_en_formato_a_evento(data_structs):
+def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(data_structs):
     lista =data_structs['lista total']
 
     lista_iterable = lt.iterator(lista)
@@ -245,17 +250,20 @@ def poner_coordenada_en_formato_a_evento(data_structs):
     for evento in lista_iterable:
         long=evento['location-long'].replace('.','p').replace('-','m')
         lat =evento['location lat'].replace('.','p').replace('-','m')
+        id=evento['individual-local-identifier']
 
         coordenada_compuesta= long+'_'+lat
         evento['coordenada']=coordenada_compuesta
 
+        nodo =coordenada_compuesta +'_'+id
+        evento['nodo']=nodo
     return data_structs
 
-def crear_diccionario_coordenadas(data_structs):
+def crear_mapa_coordenadas(data_structs):
     
     map= mp.newMap()
 
-    lista_total = data_structs['lista total']
+    lista_total = lt.iterator(data_structs['lista total'])
 
 
     for evento in lista_total:
@@ -279,7 +287,30 @@ def crear_diccionario_coordenadas(data_structs):
     return data_structs
 
 
-def crear_nodos_d
+### iterar mapa lobos y añadir los nodos a un hash con valores None
+def crear_nodos_de_seguimiento(data_structs):
+
+    mapa_lobos =data_structs['mapa lobos']
+    
+    mapa_nodos_seguimiento =mp.newMap()
+
+    lista_lobos =lt.iterator(mp.keySet(mapa_lobos))
+
+    for lobo in lista_lobos:
+        lista_eventos =lt.iterator(devolver_value(mapa_lobos,lobo))
+
+        for evento in lista_eventos:
+            nodo_asociado = evento['nodo']
+
+            estaa=mp.contains(mapa_nodos_seguimiento,nodo_asociado)
+
+            if estaa==False:
+                mp.put(mapa_nodos_seguimiento,nodo_asociado,None)
+
+    data_structs['mapa nodos de seguimiento']=mapa_nodos_seguimiento
+
+    return data_structs
+
 
     
 

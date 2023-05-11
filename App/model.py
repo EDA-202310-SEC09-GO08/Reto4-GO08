@@ -164,7 +164,11 @@ def crear_grafo(data_structs):
 
     ###C. mapa coordenadas
 
-    crear
+    crear_mapa_coordenadas(data_structs)
+
+    #####D. mapa nodos de seguimiento
+
+    crear_nodos_de_seguimiento(data_structs)
     return data_structs
 
 ###a. Redondear lista

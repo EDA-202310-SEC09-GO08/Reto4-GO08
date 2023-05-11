@@ -204,7 +204,7 @@ if __name__ == "__main__":
                 control = new_controller()
                 data = load_data(control,size)
                 print(data[1])
-                print(data[2])
+
             elif int(inputs) == 2:
                 print_req_1(control)
 

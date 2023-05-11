@@ -232,7 +232,7 @@ def crear_mapa_lobos(data_structs):
         mp.remove(mapa_lobos,lobo)
         mp.put(mapa_lobos,lobo,lista_aux)
 
-        data_structs['mapa lobos']=mapa_lobos
+    data_structs['mapa lobos']=mapa_lobos
 
 
 

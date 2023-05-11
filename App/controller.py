@@ -63,6 +63,7 @@ def load_data(control, filename):
 ##### Crea grafo
     model.crear_grafo(catalog)
     size = lt.size(catalog['lista total'])
+    print(catalog['mapa lobos'])
     size_mapa =mp.size(catalog['mapa lobos'])
     return control, size,size_mapa
 

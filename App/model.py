@@ -235,13 +235,38 @@ def crear_mapa_lobos(data_structs):
     data_structs['mapa lobos']=mapa_lobos
 
 
+#### C. Hash coordenadas
 
+def poner_coordenada_en_formato_a_evento(data_structs):
+    lista =data_structs['lista total']
 
+    lista_iterable = lt.iterator(lista)
 
+    for evento in lista_iterable:
+        long=evento['location-long'].replace('.','p').replace('-','m')
+        lat =evento['location lat'].replace('.','p').replace('-','m')
 
-
+        coordenada_compuesta= long+'_'+lat
+        evento['coordenada']=coordenada_compuesta
 
     return data_structs
+
+def crear_mapa_localizacion(data_structs):
+    mapa = crear_mapa_de_columna_a_partir_de_ARRAy(data_structs['lista total'],'coordenada')
+
+    data_structs['mapa localización']=mapa
+
+    return data_structs
+
+
+
+    
+
+
+
+
+
+
 
 
 

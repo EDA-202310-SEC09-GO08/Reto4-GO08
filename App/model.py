@@ -72,9 +72,10 @@ def new_data_structs():
 ###mapa con llave localización (latLong compuesto como se indica) y valor array de eventos con esa localización
     data_structs['mapa localizacion']=None
 
-    data_structs['mapa nodos seguimiento']=None
 
-    data_structs['lista nodos de encuentro']=None
+    data_structs['mapa nodos seguimiento']=None
+##mapa cuya llave es el indicador del nodo(coordenada) y el valor una lista de nodos de seguimiento asociados a dicho nodo
+    data_structs['mapa nodos de encuentro']=None
 
     data_structs['grafo']=gr.newGraph()
 
@@ -171,6 +172,7 @@ def crear_grafo(data_structs):
     crear_nodos_de_seguimiento(data_structs)
 
     ###E. Crear nodos de encuentro
+    crear_nodos_de_encuentro(data_structs)
     return data_structs
 
 ###a. Redondear lista
@@ -293,7 +295,7 @@ def crear_mapa_coordenadas(data_structs):
     return data_structs
 
 
-### iterar mapa lobos y añadir los nodos a un hash con valores None
+### iterar mapa lobos y añadir los nodos a un hash con valor localización asociada
 def crear_nodos_de_seguimiento(data_structs):
 
     mapa_lobos =data_structs['mapa lobos']
@@ -307,42 +309,44 @@ def crear_nodos_de_seguimiento(data_structs):
 
         for evento in lista_eventos:
             nodo_asociado = evento['nodo']
+            localizacion_asociada=evento['coordenada']
 
             estaa=mp.contains(mapa_nodos_seguimiento,nodo_asociado)
 
             if estaa==False:
-                mp.put(mapa_nodos_seguimiento,nodo_asociado,None)
+                mp.put(mapa_nodos_seguimiento,nodo_asociado,localizacion_asociada)
 
     data_structs['mapa nodos de seguimiento']=mapa_nodos_seguimiento
 
     return data_structs
 
+### mapa con llave el nodo de encuentro y el valor los nodos de seguimiento asociados(en array)
+def crear_nodos_de_encuentro(data_structs):
 
-def encontrar_ubicaciones_compartidas(data_structs):
-    seguimiento = mp.keySet(data_structs['mapa nodos de seguimiento'])
-    interseccion = mp.newMap()
+    mapa_nodos_encuentro = mp.newMap()
+    mapaeventos_en_coordendad= data_structs['mapa localizacion']
+
+    lista_coordenadas=mp.keySet(mapaeventos_en_coordendad)
     #voy por toda las locations
-    for location in lt.iterator(seguimiento):
-        dic = mp.newMap()
-        lista = lt.newList()
-        #entro en cada una
-        for cada_uno in lt.iterator(location):
-            esta = mp.contains(dic, cada_uno)
-            #reviso si esta y si no la agrego al dic y la lista 
-            if esta == False:
-                mp.put(dic, cada_uno,0)
-                lt.addLast(cada_uno)
-        #si la lista tiene un tamaño diferente a 1 quiere decir que mas de un lobo, entonces se cruzan 
-        if lt.size(lista) != 1:
-            agregar = lt.newList()
-            interseccion[location] = agregar
-            # termina el diccionario con la ubicacion como llave y de resultado lista de los lobos a los que se le tiene que agregar 
-            for a in lt.iterator(lista):
-                lt.addLast(interseccion[location],a)
+    for coordenada in lt.iterator(lista_coordenadas):
+        lista_eventos=mapaeventos_en_coordendad(coordenada)
+        
+        #encuentro nodos asociados y los pongo en  mapa auxiliar (por el momento)
+        mapa_auxiliar=mp.newMap()
+        for evento in lt.iterator(lista_eventos):
+            nodo_asociado =evento['nodo']
+            #reviso si esta y si no la agrego al mapa auxiliar
+            estaa=mp.contains(mapa_auxiliar,nodo_asociado)
+            if estaa == False:
+                mp.put(mapa_auxiliar, nodo_asociado,None)
                 
-    data_structs['lista nodos de encuentro'] = interseccion
+        #si el mapa tiene un tamaño diferente a 1, es nodo encuentro, se ponne en el mapa y se le da por valor lista llaves de mapa auxiliar
+        lista_auxiliar=mp.keySet(mapa_auxiliar)
+        size_mapa_auxiliar =lt.size(lista_auxiliar)
 
-
+        if size_mapa_auxiliar != 1:
+            mp.put(mapa_nodos_encuentro,coordenada,lista_auxiliar)
+    data_structs['mapa nodos de encuentro']=mapa_nodos_encuentro
     return data_structs
 
 

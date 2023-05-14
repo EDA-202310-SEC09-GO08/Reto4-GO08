@@ -64,23 +64,16 @@ def new_data_structs():
     """
     data_structs ={}
     data_structs['lista total']=lt.newList(datastructure='ARRAY_LIST')
-
-
-
 #### mapa cuya llave es un lobo en id y el valor es el array de los eventos seguidos por el dicho lobo (ordenado)
     data_structs['mapa lobos']= None
-
 ###mapa con llave localización (latLong compuesto como se indica) y valor array de eventos con esa localización
     data_structs['mapa localizacion']=None
-
-
-    data_structs['mapa nodos seguimiento']=None
 ##mapa cuya llave es el indicador del nodo(coordenada) y el valor una lista de nodos de seguimiento asociados a dicho nodo
     data_structs['mapa nodos de encuentro']=None
-
     data_structs['grafo']=gr.newGraph(directed=True)
-
     return(data_structs)
+
+
 ### FUNCIONES GENERALES QUE CREAN MAPA A PARTIR DE UN ARRAY
 def crear_mapa_de_columna_a_partir_de_ARRAy(array, columna):
 
@@ -401,10 +394,10 @@ def crear_arcos_nodos_seguimiento(data_structs):
             nodo_1=evento_1['nodo']
             nodo_2=evento_2['nodo']
             ### lat,long 1
-            lat_1=evento_1['locaton-lat']
+            lat_1=evento_1['location-lat']
             long_1=evento_1['location-long']
             ###lat long 2
-            lat_2=evento_2['locaton-lat']
+            lat_2=evento_2['location-lat']
             long_2=evento_2['location-long']
 
             distancia=funcion_distancias_lat_long(lat_1,long_1,lat_2,long_2) 

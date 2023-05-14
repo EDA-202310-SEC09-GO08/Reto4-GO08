@@ -289,7 +289,7 @@ def crear_mapa_coordenadas(data_structs):
     
 
 
-    data_structs['mapa localización']=map
+    data_structs['mapa localizacion']=map
     
 
     return data_structs

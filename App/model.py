@@ -46,6 +46,7 @@ from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import selectionsort as se
 from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
+import math 
 assert cf
 
 """
@@ -77,7 +78,7 @@ def new_data_structs():
 ##mapa cuya llave es el indicador del nodo(coordenada) y el valor una lista de nodos de seguimiento asociados a dicho nodo
     data_structs['mapa nodos de encuentro']=None
 
-    data_structs['grafo']=gr.newGraph()
+    data_structs['grafo']=gr.newGraph(directed=True)
 
     return(data_structs)
 ### FUNCIONES GENERALES QUE CREAN MAPA A PARTIR DE UN ARRAY
@@ -173,6 +174,15 @@ def crear_grafo(data_structs):
 
     ###E. Crear nodos de encuentro
     crear_nodos_de_encuentro(data_structs)
+
+    ####F. Poner nodos  en grafo
+    poner_nodos__en_grafo(data_structs)
+
+    ###G. Crear arcos entre nodos de seguimiento
+    crear_arcos_nodos_seguimiento(data_structs)
+
+    ####H. Crear arcos para los nodos de encuentro
+    poner_arcos_encuentro(data_structs)
     return data_structs
 
 ###a. Redondear lista
@@ -329,8 +339,8 @@ def crear_nodos_de_encuentro(data_structs):
     lista_coordenadas=mp.keySet(mapaeventos_en_coordendad)
     #voy por toda las locations
     for coordenada in lt.iterator(lista_coordenadas):
-        lista_eventos=mapaeventos_en_coordendad(coordenada)
-        
+        lista_eventos=devolver_value(mapaeventos_en_coordendad,coordenada)
+        #print(lista_eventos)
         #encuentro nodos asociados y los pongo en  mapa auxiliar (por el momento)
         mapa_auxiliar=mp.newMap()
         for evento in lt.iterator(lista_eventos):
@@ -351,7 +361,74 @@ def crear_nodos_de_encuentro(data_structs):
 
 
 
+####F Poner nodos de encuentro y seguimiento en el grafo
 
+def poner_nodos__en_grafo(data_structs):
+    grafo = data_structs['grafo']
+    lista_nodos_1=mp.keySet(data_structs['mapa nodos de seguimiento'])
+    lista_nodos_2=mp.keySet(data_structs['mapa nodos de encuentro'])
+
+    for nodo in lt.iterator(lista_nodos_1):
+        gr.insertVertex(grafo,nodo)
+
+    for nodo in lt.iterator(lista_nodos_2):
+        gr.insertVertex(grafo,nodo)
+
+    return data_structs
+
+###g. crear arcos seguimiento
+def funcion_distancias_lat_long(latitud1,longitud1,latitud2,longitud2):
+    r = 6371
+    c = math.pi/180
+    d =r*2*math.asin(math.sqrt(math.sin(c*(latitud1-latitud2)/2)**2 + math.cos(c*latitud1) * math.cos(c*latitud2)*math.sin(c*(longitud1-longitud2)/2)**2))
+
+    return d
+def crear_arcos_nodos_seguimiento(data_structs):
+    mapa_lobos= data_structs['mapa lobos']
+    lista_lobos =mp.keySet(mapa_lobos)
+    grafo =data_structs['grafo']
+
+    for lobo in lt.iterator(lista_lobos):
+        
+        array_eventos=devolver_value(mapa_lobos,lobo)
+        size =lt.size(array_eventos)
+
+        i=1
+        while i<size:
+            evento_1 =lt.getElement(array_eventos,i)
+            evento_2=lt.getElement(array_eventos,i+1)
+            ###nodos
+            nodo_1=evento_1['nodo']
+            nodo_2=evento_2['nodo']
+            ### lat,long 1
+            lat_1=evento_1['locaton-lat']
+            long_1=evento_1['location-long']
+            ###lat long 2
+            lat_2=evento_2['locaton-lat']
+            long_2=evento_2['location-long']
+
+            distancia=funcion_distancias_lat_long(lat_1,long_1,lat_2,long_2) 
+
+            gr.addEdge(grafo,nodo_1,nodo_2,distancia) 
+            i+=1
+
+    return data_structs  
+
+###H. Arcos nodos de encuentro
+def poner_arcos_encuentro(data_structs):
+    grafo=data_structs['grafo']
+    mapa_nodos_encuentro=data_structs['mapa nodos de encuentro']
+    lista_nodos_encuentro = mp.keySet(mapa_nodos_encuentro)
+
+    for nodo_encuentro in lt.iterator(lista_nodos_encuentro):
+        lista_nodos_asociados=devolver_value(mapa_nodos_encuentro,nodo_encuentro)
+
+        for nodo_asociado in lt.iterator(lista_nodos_asociados):
+            gr.addEdge(grafo,nodo_asociado,nodo_encuentro)
+            gr.addEdge(grafo,nodo_encuentro,nodo_asociado)
+            
+
+    return data_structs
 
 
 

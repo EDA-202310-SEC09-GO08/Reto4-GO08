@@ -74,7 +74,7 @@ def new_data_structs():
 
     data_structs['mapa nodos seguimiento']=None
 
-    data_structs['lista nodos de encuentro']=lt.newList(datastructure='ARRAY_LIST')
+    data_structs['lista nodos de encuentro']=None
 
     data_structs['grafo']=gr.newGraph()
 
@@ -318,10 +318,32 @@ def crear_nodos_de_seguimiento(data_structs):
     return data_structs
 
 
-    
+def encontrar_ubicaciones_compartidas(data_structs):
+    seguimiento = mp.keySet(data_structs['mapa nodos de seguimiento'])
+    interseccion = mp.newMap()
+    #voy por toda las locations
+    for location in lt.iterator(seguimiento):
+        dic = mp.newMap()
+        lista = lt.newList()
+        #entro en cada una
+        for cada_uno in lt.iterator(location):
+            esta = mp.contains(dic, cada_uno)
+            #reviso si esta y si no la agrego al dic y la lista 
+            if esta == False:
+                mp.put(dic, cada_uno,0)
+                lt.addLast(cada_uno)
+        #si la lista tiene un tamaño diferente a 1 quiere decir que mas de un lobo, entonces se cruzan 
+        if lt.size(lista) != 1:
+            agregar = lt.newList()
+            interseccion[location] = agregar
+            # termina el diccionario con la ubicacion como llave y de resultado lista de los lobos a los que se le tiene que agregar 
+            for a in lt.iterator(lista):
+                lt.addLast(interseccion[location],a)
+                
+    data_structs['lista nodos de encuentro'] = interseccion
 
 
-
+    return data_structs
 
 
 

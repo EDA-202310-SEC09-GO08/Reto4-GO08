@@ -79,28 +79,28 @@ def menu_archivo():
     try:
         if int(porcentaje) == 2:
             
-            size ='datos_siniestralidad-5pct.csv'
+            size ='BA-Grey-Wolf-tracks-utf8-5pct.csv'
             return size
         elif int(porcentaje) == 3:
-            size = 'datos_siniestralidad-10pct.csv'
+            size = 'BA-Grey-Wolf-tracks-utf8-10pct.csv'
             return size
         elif int(porcentaje) == 4:
-            size = 'datos_siniestralidad-20pct.csv'
+            size = 'BA-Grey-Wolf-tracks-utf8-20pct.csv'
             return size
         elif int(porcentaje) == 5:
-            size = 'datos_siniestralidad-30pct.csv'
+            size = 'BA-Grey-Wolf-tracks-utf8-30pct.csv'
             return size
         elif int(porcentaje) == 6:
-            size = 'datos_siniestralidad-50pct.csv'
+            size = 'BA-Grey-Wolf-tracks-utf8-50pct.csv'
             return size
         elif int(porcentaje) == 1:
             size = 'BA-Grey-Wolf-tracks-utf8-small.csv'
             return size
         elif int(porcentaje) == 7:
-            size = 'datos_siniestralidad-80pct.csv'
+            size = 'BA-Grey-Wolf-tracks-utf8-80pct.csv'
             return size
         elif int(porcentaje) == 8:
-            size = 'datos_siniestralidad-large.csv'
+            size = 'BA-Grey-Wolf-tracks-utf8-large.csv'
             return size
     except ValueError:
             print(" una opción válida.\n")

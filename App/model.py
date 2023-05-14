@@ -169,6 +169,8 @@ def crear_grafo(data_structs):
     #####D. mapa nodos de seguimiento
 
     crear_nodos_de_seguimiento(data_structs)
+
+    ###E. Crear nodos de encuentro
     return data_structs
 
 ###a. Redondear lista

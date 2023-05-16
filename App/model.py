@@ -471,12 +471,46 @@ def req_3(data_structs):
     pass
 
 
-def req_4(data_structs):
+def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     """
     Función que soluciona el requerimiento 4
     """
-    # TODO: Realizar el requerimiento 4
+    grafo=data_structs['grafo']
+    nodo_dist_inicio=encontrar_nodo_encuentro_mas_cercano(data_structs,lat_1,long_1)
+    nodo_inicio=nodo_dist_inicio[0]
+    distancia_entre_punto_inicio_nodo=nodo_dist_inicio[1]
+    ###
+
+    nodo_dist_fin=encontrar_nodo_encuentro_mas_cercano(data_structs,lat_2,long_2)
+    nodo_fin=nodo_dist_fin[0]
+    distancia_entre_punto_fin_nodo=nodo_dist_fin[1] 
+
     pass
+
+
+
+def encontrar_nodo_encuentro_mas_cercano(data_structs,lat,long):
+
+    mapa_encuentro=data_structs['mapa nodos de encuentro']
+    
+    lista_encuentro =mp.keySet(mapa_encuentro)
+    lista_encuentro_it =lt.iterator(mp.keySet(mapa_encuentro))
+
+    encuentro_mas_cerca=lt.getElement(lista_encuentro,1)
+    distancia_menor=9999999999999
+    for nodo in lista_encuentro_it:
+        coordenada = nodo.replace('m','-').replace('p','.').split('_')
+        lat_nodo=float(coordenada[0])
+        long_nodo=float(coordenada[1])
+
+        distancia_a_punto= funcion_distancias_lat_long(lat,long,lat_nodo,long_nodo)
+
+        if distancia_a_punto<distancia_menor:
+            encuentro_mas_cerca=nodo
+            distancia_menor=distancia_a_punto
+
+
+    return nodo,distancia_menor
 
 
 def req_5(data_structs):

@@ -207,7 +207,21 @@ if __name__ == "__main__":
                 mapa_encuentro =data[0]['model']['mapa nodos de encuentro']
                 lista_nodos =mp.keySet(mapa_encuentro)
                 size=lt.size(lista_nodos)
-                print(size)
+
+                print('nodos seguimiento: '+str(size))
+                print('primeros')
+                print(lt.getElement(lista_nodos,1))
+                print(lt.getElement(lista_nodos,2))
+                print(lt.getElement(lista_nodos,3))
+                print(lt.getElement(lista_nodos,4))
+                print(lt.getElement(lista_nodos,5))
+
+                print('ultimos')
+                print(lt.getElement(lista_nodos,size-1))
+                print(lt.getElement(lista_nodos,size-2))
+                print(lt.getElement(lista_nodos,size-3))
+                print(lt.getElement(lista_nodos,size-4))
+                print(lt.getElement(lista_nodos,size-5))               
 
             elif int(inputs) == 2:
                 print_req_1(control)

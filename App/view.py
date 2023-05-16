@@ -204,6 +204,10 @@ if __name__ == "__main__":
                 control = new_controller()
                 data = load_data(control,size)
                 print(data[1])
+                mapa_encuentro =data[0]['model']['mapa nodos de encuentro']
+                lista_nodos =mp.keySet(mapa_encuentro)
+                size=lt.size(lista_nodos)
+                print(size)
 
             elif int(inputs) == 2:
                 print_req_1(control)

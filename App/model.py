@@ -198,11 +198,11 @@ def redondear_lista_total(data_structs):
     while i<=size:
         evento = lt.getElement(lista_original,i)
 
-        long = evento['location-long']
-        lat = evento['location-lat']
+        long = float(evento['location-long'])
+        lat = float(evento['location-lat'])
 
-        evento['location-long']=redondear_4_hacia_arriba(long)
-        evento['location-lat']=redondear_4_hacia_arriba(lat)
+        evento['location-long']=round(long,4)
+        evento['location-lat']=round(lat,4)
 
         i+=1
 

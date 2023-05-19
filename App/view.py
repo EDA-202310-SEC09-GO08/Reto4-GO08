@@ -23,6 +23,7 @@
 import config as cf
 import sys
 import controller
+import model
 from DISClib.ADT import list as lt
 from DISClib.ADT import stack as st
 from DISClib.ADT import queue as qu
@@ -31,7 +32,7 @@ from DISClib.DataStructures import mapentry as me
 assert cf
 from tabulate import tabulate
 import traceback
-
+from DISClib.ADT import graph as gr
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -122,6 +123,18 @@ def load_data_wolfs(control,size):
     control =controller.load_data_2(control,size)
     return control
 
+def calc_eventos_filt_hay(control):
+    ds=control['model']
+    mapa =ds['mapa lobos']
+    lobos =lt.iterator(mp.keySet(mapa))
+    j=0
+    for lobo in lobos:
+        size =lt.size(model.devolver_value(mapa,lobo))
+
+        j+=size
+
+    return j
+
 def print_carga_datos():
     dos_archivos = menu_archivo()
     archivo_tracks=dos_archivos[0]
@@ -140,18 +153,32 @@ def print_carga_datos():
     n_wolf=lt.size(data_structs['lista archivo lobos'])
     n_WW_data= mp.size(data_structs['mapa lobos'])
     n_events=lt.size(data_structs['lista total'])
-    print('Number of wolfs: '+n_wolf)
-    print('Number of wolfs with data: '+n_WW_data)
-    print('number of events: '+n_events)
+    print('Number of wolfs: '+str(n_wolf))
+    print('Number of wolfs with data: '+str(n_WW_data))
+    print('number of events: '+str(n_events))
 
-    ### 
+    ### NODES FEATURES
+
+    print('---------NODES FEATURES------------ ')
+    print('')
+    print('')
+    n_gathering=mp.size(data_structs['mapa nodos de encuentro'])
+    n_track= mp.size(data_structs['mapa nodos de seguimiento'])
+    n_nodes=n_track+n_gathering
+    print('Number of gathering points: '+str(n_gathering))
+    print('Number of tracking points '+str(n_track))
+    print('Total nodes: '+str(n_nodes))
+    print(n_nodes)
 
 
-    mapa_encuentro=data_structs['mapa nodos de encuentro']
+    ### EDGE FEATURES
+    n_edges=gr.numEdges(data_structs['grafo'])
+    print(n_edges)
+    print(data_structs['n arcos de seguimiento'])
+    print('eventos filt')
+    print(calc_eventos_filt_hay(control))
 
-    n_nodos_encuentro=mp.size(mapa_encuentro)
 
-    print(n_nodos_encuentro)
 
     #print('nodos seguimiento: '+str(size))
     #print('primeros')

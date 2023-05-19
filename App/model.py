@@ -256,16 +256,18 @@ def crear_mapa_lobos(data_structs):
 
         long = primer_elemento['location-long']
         lat = primer_elemento['location-lat']
+        coordenada=primer_elemento['coordenada']
 
         lt.addLast(lista_aux,primer_elemento)
         while i<=size:
             evento =lt.getElement(lista_eventos,i)
 
-            if evento['location-long']!=long and evento['location-lat']!=lat:
+            if evento['coordenada']!=coordenada:
 
                 lt.addLast(lista_aux,evento)
-                long=evento['location-long']
-                lat=evento['location-lat']
+            long=evento['location-long']
+            lat=evento['location-lat']
+            coordenada=evento['coordenada']
 
             i+=1
         mp.remove(mapa_lobos,lobo)
@@ -273,7 +275,7 @@ def crear_mapa_lobos(data_structs):
 
     data_structs['mapa lobos']=mapa_lobos
 
-
+    return data_structs
 #### C. Hash coordenadas
 
 def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(data_structs):
@@ -408,7 +410,7 @@ def crear_arcos_nodos_seguimiento(data_structs):
     mapa_lobos= data_structs['mapa lobos']
     lista_lobos =mp.keySet(mapa_lobos)
     grafo =data_structs['grafo']
-
+    j=0
     for lobo in lt.iterator(lista_lobos):
         
         array_eventos=devolver_value(mapa_lobos,lobo)
@@ -432,6 +434,9 @@ def crear_arcos_nodos_seguimiento(data_structs):
 
             gr.addEdge(grafo,nodo_1,nodo_2,distancia) 
             i+=1
+            j+=1
+
+    data_structs['n arcos de seguimiento']=j
 
     return data_structs  
 

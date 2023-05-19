@@ -73,6 +73,8 @@ def new_data_structs():
     data_structs['grafo']=gr.newGraph(directed=True)
 
     data_structs['lista archivo lobos']=lt.newList(datastructure='ARRAY_LIST')
+
+    data_structs['grafo no dirigido']=gr.newGraph(directed=False)
     return(data_structs)
 
 
@@ -204,7 +206,8 @@ def crear_grafo(data_structs):
 
 
     anadir_menor_mayor_lat_log(data_structs)
-    
+
+
     return data_structs
 
 ###a. Redondear lista
@@ -412,14 +415,18 @@ def crear_nodos_de_encuentro(data_structs):
 
 def poner_nodos__en_grafo(data_structs):
     grafo = data_structs['grafo']
+    grafo_NO_dirigido=data_structs['grafo no dirigido']
     lista_nodos_1=mp.keySet(data_structs['mapa nodos de seguimiento'])
     lista_nodos_2=mp.keySet(data_structs['mapa nodos de encuentro'])
 
     for nodo in lt.iterator(lista_nodos_1):
         gr.insertVertex(grafo,nodo)
+        gr.insertVertex(grafo_NO_dirigido,nodo)
 
     for nodo in lt.iterator(lista_nodos_2):
         gr.insertVertex(grafo,nodo)
+        gr.insertVertex(grafo_NO_dirigido,nodo)
+
 
     return data_structs
 
@@ -434,6 +441,7 @@ def crear_arcos_nodos_seguimiento(data_structs):
     mapa_lobos= data_structs['mapa lobos']
     lista_lobos =mp.keySet(mapa_lobos)
     grafo =data_structs['grafo']
+    grafo_NO_dirigido=data_structs['grafo no dirigido']
     j=0
     for lobo in lt.iterator(lista_lobos):
         
@@ -457,6 +465,7 @@ def crear_arcos_nodos_seguimiento(data_structs):
             distancia=funcion_distancias_lat_long(lat_1,long_1,lat_2,long_2) 
 
             gr.addEdge(grafo,nodo_1,nodo_2,distancia) 
+            gr.addEdge(grafo_NO_dirigido,nodo_1,nodo_2,distancia) 
             i+=1
             j+=1
 
@@ -467,6 +476,7 @@ def crear_arcos_nodos_seguimiento(data_structs):
 ###H. Arcos nodos de encuentro
 def poner_arcos_encuentro(data_structs):
     grafo=data_structs['grafo']
+    grafo_NO_dirigido=data_structs['grafo no dirigido']
     mapa_nodos_encuentro=data_structs['mapa nodos de encuentro']
     lista_nodos_encuentro = mp.keySet(mapa_nodos_encuentro)
 
@@ -476,7 +486,7 @@ def poner_arcos_encuentro(data_structs):
         for nodo_asociado in lt.iterator(lista_nodos_asociados):
             gr.addEdge(grafo,nodo_asociado,nodo_encuentro)
             gr.addEdge(grafo,nodo_encuentro,nodo_asociado)
-            
+            gr.addEdge(grafo_NO_dirigido,nodo_encuentro,nodo_asociado)
 
     return data_structs
 

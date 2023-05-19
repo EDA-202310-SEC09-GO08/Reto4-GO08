@@ -16,3 +16,7 @@ f=redondear_4_hacia_arriba(o)
 print(e)
 print(f)
 
+string= 'aaaa'
+
+string+='bbbbbbb'
+print(string)

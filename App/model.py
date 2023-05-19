@@ -199,6 +199,11 @@ def crear_grafo(data_structs):
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)
 
+
+    ##I. rectangulo de area requerido para view
+
+
+    anadir_menor_mayor_lat_log(data_structs)
     
     return data_structs
 
@@ -476,7 +481,46 @@ def poner_arcos_encuentro(data_structs):
     return data_structs
 
 
+#### I. Encontrar mayor y menor por coordenadas
 
+def encontrar_menor(lista, criterio):
+    
+    i =0
+    tamanio = lt.size(lista)
+    
+    menor = 9999999999999
+    while i <= tamanio:
+        exacto = lt.getElement(lista,i)
+        if float(exacto[criterio])<float(menor):
+            
+            menor = exacto[criterio]
+        i+=1
+    return menor
+
+def encontrar_mayor(lista, criterio):
+    
+    i =0
+    tamanio = lt.size(lista)
+    
+    mayor=-999999999999
+    while i <= tamanio:
+        exacto = lt.getElement(lista,i)
+        if float(exacto[criterio])>float(mayor):
+            
+            mayor = exacto[criterio]
+        i+=1
+    return mayor
+
+def anadir_menor_mayor_lat_log(data_structs):
+    ## lat
+    data_structs['menor lat']=encontrar_menor(data_structs['lista total'],'location-lat')
+    data_structs['mayor lat']=encontrar_mayor(data_structs['lista total'],'location-lat')
+
+### Long
+    data_structs['menor long']=encontrar_menor(data_structs['lista total'],'location-long')
+    data_structs['mayor long']=encontrar_mayor(data_structs['lista total'],'location-long')
+
+    return data_structs
 # Funciones de consulta
 def devolver_value(map, key):
     llave_valor = mp.get(map, key)

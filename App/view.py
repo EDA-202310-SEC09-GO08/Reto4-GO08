@@ -40,7 +40,11 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
-
+def devolver_value(map, key):
+    llave_valor = mp.get(map, key)
+    valor = me.getValue(llave_valor)
+    
+    return valor 
 def new_controller():
     """
     Crea una instancia del modelo
@@ -131,6 +135,11 @@ def load_data_wolfs(control,size):
     control =controller.load_data_2(control,size)
     return control
 
+
+
+
+#### FUNCIONES ASOCIADAS A IMPRIMIR LA CARGA DE DATOS
+
 def calc_eventos_filt_hay(control):
     ds=control['model']
     mapa =ds['mapa lobos']
@@ -142,6 +151,63 @@ def calc_eventos_filt_hay(control):
         j+=size
 
     return j
+
+def dic_representa_nodo_encuentro(nodo_encuentro,data_structs):
+
+    form_corr=nodo_encuentro.replace('p','.').replace('m','-')
+    lat_long=form_corr.split('_')
+
+    dic_nodo_enc={}
+    lat = lat_long[0]
+    long=lat_long[1]
+
+    array_nodos_seg = devolver_value(data_structs['mapa nodos de encuentro'],nodo_encuentro)
+
+    array_it=lt.iterator(array_nodos_seg)
+
+    string_lobos=''
+    lobos_asociados=0
+    for nodo in array_it:
+        nodo_split=nodo.split('_')
+        lobo=nodo_split[2]+nodo_split[3]
+        string_lobos+=lobo+', '
+        lobos_asociados+=1
+    dic_nodo_enc['node id']=nodo_encuentro
+    dic_nodo_enc['lat']=lat
+    dic_nodo_enc['long']=long
+    dic_nodo_enc['wolfs']=string_lobos
+    dic_nodo_enc['n wolfs']=lobos_asociados
+
+    return dic_nodo_enc
+
+def lista_10_dics_a_imprimir(data_structs):
+
+    mapa_nodos_encuentro=data_structs['mapa nodos de encuentro']
+    lista_nodos=mp.keySet(mapa_nodos_encuentro)
+    size=lt.size(lista_nodos)
+
+    lista_10_nodos=[]
+    lista_10_nodos.append(lt.getElement(lista_nodos,1))
+    lista_10_nodos.append(lt.getElement(lista_nodos,2))
+    lista_10_nodos.append(lt.getElement(lista_nodos,3))
+    lista_10_nodos.append(lt.getElement(lista_nodos,4))
+    lista_10_nodos.append(lt.getElement(lista_nodos,5))
+
+
+    lista_10_nodos.append(lt.getElement(lista_nodos,size-1))
+    lista_10_nodos.append(lt.getElement(lista_nodos,size-2))
+    lista_10_nodos.append(lt.getElement(lista_nodos,size-3))
+    lista_10_nodos.append(lt.getElement(lista_nodos,size-4))
+    lista_10_nodos.append(lt.getElement(lista_nodos,size-5))    
+
+    i=0
+    lista_10_dics=[]
+    while i<10:
+        dic=dic_representa_nodo_encuentro(lista_10_nodos[1],data_structs) 
+        lista_10_dics.append(dic)
+        i+=1
+
+    return lista_10_dics
 
 def print_carga_datos():
     dos_archivos = menu_archivo()
@@ -193,28 +259,18 @@ def print_carga_datos():
     print('Number of tracking edges '+str(n_track))
     print('Total edges: '+str(n_edges))
 
+    print('---------GRAPH AREA------------ ')
+    print('')
+    print('')
 
-    #print(n_edges)
-    #print(data_structs['n arcos de seguimiento'])
-    #print('eventos filt')
-    #print(calc_eventos_filt_hay(control))
+    print('Min-max latitude: '+str(data_structs['menor lat'])+' and '+str(data_structs['mayor lat']))
+    print('Min-max latitude: '+str(data_structs['menor long'])+' and '+str(data_structs['mayor long']))
 
 
-
-    #print('nodos seguimiento: '+str(size))
-    #print('primeros')
-    #print(lt.getElement(lista_nodos,1))
-    #print(lt.getElement(lista_nodos,2))
-    #print(lt.getElement(lista_nodos,3))
-    #print(lt.getElement(lista_nodos,4))
-    #print(lt.getElement(lista_nodos,5))
-
-    #print('ultimos')
-    #print(lt.getElement(lista_nodos,size-1))
-    #print(lt.getElement(lista_nodos,size-2))
-    #print(lt.getElement(lista_nodos,size-3))
-    #print(lt.getElement(lista_nodos,size-4))
-    #print(lt.getElement(lista_nodos,size-5))      
+    print('First 5 and last 5 gathering nodes loaded: ')
+    lista_filtrada=lista_10_dics_a_imprimir(data_structs)
+    tabulate_respuesta = tabulate(lista_filtrada, headers='keys', maxcolwidths =[30]*4, maxheadercolwidths=[30]*4)
+    print(tabulate_respuesta)
     pass
 
 

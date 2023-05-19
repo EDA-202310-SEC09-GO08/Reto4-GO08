@@ -80,17 +80,21 @@ def menu_archivo():
     try:
         if int(porcentaje) == 2:
             
-            size ='BA-Grey-Wolf-tracks-utf8-5pct.csv'
-            return size
+            size = 'BA-Grey-Wolf-tracks-utf8-5pct.csv'
+            lobos='BA-Grey-Wolf-individuals-utf8-5pct.csv'
+            return size,lobos
         elif int(porcentaje) == 3:
             size = 'BA-Grey-Wolf-tracks-utf8-10pct.csv'
-            return size
+            lobos='BA-Grey-Wolf-individuals-utf8-10pct.csv'
+            return size,lobos
         elif int(porcentaje) == 4:
             size = 'BA-Grey-Wolf-tracks-utf8-20pct.csv'
-            return size
+            lobos='BA-Grey-Wolf-individuals-utf8-20pct.csv'
+            return size,lobos
         elif int(porcentaje) == 5:
             size = 'BA-Grey-Wolf-tracks-utf8-30pct.csv'
-            return size
+            lobos='BA-Grey-Wolf-individuals-utf8-30pct.csv'
+            return size,lobos
         elif int(porcentaje) == 6:
             size = 'BA-Grey-Wolf-tracks-utf8-50pct.csv'
             lobos='BA-Grey-Wolf-individuals-utf8-50pct.csv'
@@ -102,7 +106,8 @@ def menu_archivo():
             return size,lobos
         elif int(porcentaje) == 7:
             size = 'BA-Grey-Wolf-tracks-utf8-80pct.csv'
-            return size
+            lobos='BA-Grey-Wolf-individuals-utf8-80pct.csv'
+            return size,lobos
         elif int(porcentaje) == 8:
             size = 'BA-Grey-Wolf-tracks-utf8-large.csv'
             lobos='BA-Grey-Wolf-individuals-utf8-large.csv'

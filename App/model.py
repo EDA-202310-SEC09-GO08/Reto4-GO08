@@ -177,6 +177,7 @@ def crear_grafo(data_structs):
 
     ###b. mapa lobos
     crear_mapa_lobos(data_structs)
+    filtrar_mapa_lobos(data_structs)
 
     ###C. mapa coordenadas
 
@@ -241,12 +242,15 @@ def crear_mapa_lobos(data_structs):
     llaves_mapa = lt.iterator(mp.keySet(mapa_lobos))
 
     for lobo in llaves_mapa:
+        print('h')
         lista_eventos = devolver_value(mapa_lobos,lobo)
+
         quk.sort(lista_eventos,sort_criteria_tiempo)
 
     ### filtrar si hay repetido con lista auxiliar
 
     for lobo in llaves_mapa:
+        print('kj')
         lista_eventos = devolver_value(mapa_lobos,lobo)
         size =lt.size(lista_eventos)
         lista_aux = lt.newList('ARRAY_LIST')
@@ -270,12 +274,63 @@ def crear_mapa_lobos(data_structs):
             coordenada=evento['coordenada']
 
             i+=1
+
+        print(lt.size(lista_aux)-lt.size(lista_eventos))
+        print('hola')
+    
+        
         mp.remove(mapa_lobos,lobo)
         mp.put(mapa_lobos,lobo,lista_aux)
+
 
     data_structs['mapa lobos']=mapa_lobos
 
     return data_structs
+
+def filtrar_mapa_lobos(data_structs):
+    mapa_lobos = data_structs['mapa lobos']
+
+
+    ###ordenar mapa
+    llaves_mapa = lt.iterator(mp.keySet(mapa_lobos))
+    for lobo_1 in llaves_mapa:
+        print('kj')
+        lista_eventos = devolver_value(mapa_lobos,lobo_1)
+        size =lt.size(lista_eventos)
+        lista_aux = lt.newList('ARRAY_LIST')
+        i=2
+        ##añadir el primero
+        primer_elemento =lt.getElement(lista_eventos,1)
+
+        long = primer_elemento['location-long']
+        lat = primer_elemento['location-lat']
+        coordenada=primer_elemento['coordenada']
+
+        lt.addLast(lista_aux,primer_elemento)
+        while i<=size:
+            evento =lt.getElement(lista_eventos,i)
+
+            if evento['coordenada']!=coordenada:
+
+                lt.addLast(lista_aux,evento)
+            long=evento['location-long']
+            lat=evento['location-lat']
+            coordenada=evento['coordenada']
+
+            i+=1
+
+        print(lt.size(lista_aux)-lt.size(lista_eventos))
+        print('hola')
+    
+        
+        mp.remove(mapa_lobos,lobo_1)
+        mp.put(mapa_lobos,lobo_1,lista_aux)
+
+
+    data_structs['mapa lobos']=mapa_lobos
+
+    return data_structs
+
 #### C. Hash coordenadas
 
 def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(data_structs):

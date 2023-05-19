@@ -113,12 +113,9 @@ def load_data(control,size):
     return control
 
 
-def print_data(control, id):
-    """
-        Función que imprime un dato dado su ID
-    """
-    #TODO: Realizar la función para imprimir un elemento
+def print_carga_datos(control):
     pass
+
 
 def print_req_1(control):
     """

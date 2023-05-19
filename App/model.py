@@ -201,8 +201,8 @@ def redondear_lista_total(data_structs):
         long = float(evento['location-long'])
         lat = float(evento['location-lat'])
 
-        evento['location-long']=round(long,4)
-        evento['location-lat']=round(lat,4)
+        evento['location-long']=round(long,3)
+        evento['location-lat']=round(lat,3)
 
         i+=1
 
@@ -212,7 +212,7 @@ def redondear_lista_total(data_structs):
 ####b. mapa  por lobo, con arrays ordenados por tiempo y luego filtrados si 2 consecutivos tienen la misma localización
 
 def crear_mapa_lobos(data_structs):
-    mapa_lobos = crear_mapa_de_columna_a_partir_de_ARRAy(data_structs['lista total'],'individual-local-identifier')
+    mapa_lobos = crear_mapa_de_columna_a_partir_de_ARRAy(data_structs['lista total'],'individual-id')
 
     ###ordenar mapa
     llaves_mapa = lt.iterator(mp.keySet(mapa_lobos))
@@ -259,15 +259,20 @@ def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(dat
     lista_iterable = lt.iterator(lista)
 
     for evento in lista_iterable:
+        animal_id=evento['individual-local-identifier']
+        tag_id =evento['tag-local-identifier']
+        individual_id=animal_id+'_'+tag_id
+
         long=str(evento['location-long']).replace('.','p').replace('-','m')
         lat =str(evento['location-lat']).replace('.','p').replace('-','m')
-        id=str(evento['individual-local-identifier'])
+       
 
         coordenada_compuesta= long+'_'+lat
         evento['coordenada']=coordenada_compuesta
 
-        nodo =coordenada_compuesta +'_'+id
+        nodo =coordenada_compuesta +'_'+individual_id
         evento['nodo']=nodo
+        evento['individual-id']=individual_id
     return data_structs
 
 def crear_mapa_coordenadas(data_structs):
@@ -484,6 +489,12 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     nodo_dist_fin=encontrar_nodo_encuentro_mas_cercano(data_structs,lat_2,long_2)
     nodo_fin=nodo_dist_fin[0]
     distancia_entre_punto_fin_nodo=nodo_dist_fin[1] 
+
+    recorridos_inicio=bf.BellmanFord(grafo,nodo_inicio)
+
+    recorrido_min=bf.pathTo(recorridos_inicio,nodo_dist_fin)
+
+    
 
     pass
 

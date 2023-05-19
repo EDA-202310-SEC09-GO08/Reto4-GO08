@@ -134,9 +134,18 @@ def print_carga_datos():
 
     ### WOLF AND event features
 
-    print('---------Wolfs and events features------------ ')
+    print('---------WOLFS AND EVENTS FEATURES------------ ')
     print('')
     print('')
+    n_wolf=lt.size(data_structs['lista archivo lobos'])
+    n_WW_data= mp.size(data_structs['mapa lobos'])
+    n_events=lt.size(data_structs['lista total'])
+    print('Number of wolfs: '+n_wolf)
+    print('Number of wolfs with data: '+n_WW_data)
+    print('number of events: '+n_events)
+
+    ### 
+
 
     mapa_encuentro=data_structs['mapa nodos de encuentro']
 

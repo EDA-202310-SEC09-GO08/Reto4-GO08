@@ -95,25 +95,69 @@ def menu_archivo():
             return size
         elif int(porcentaje) == 1:
             size = 'BA-Grey-Wolf-tracks-utf8-small.csv'
-            return size
+            lobos='BA-Grey-Wolf-individuals-utf8-small.csv'
+            return size,lobos
         elif int(porcentaje) == 7:
             size = 'BA-Grey-Wolf-tracks-utf8-80pct.csv'
             return size
         elif int(porcentaje) == 8:
             size = 'BA-Grey-Wolf-tracks-utf8-large.csv'
-            return size
+            return size,lobos
     except ValueError:
             print(" una opción válida.\n")
             traceback.print_exc()
-def load_data(control,size):
+
+
+def load_data_tracks(control,size):
     """
     Carga los datos
     """
     control =controller.load_data(control,size)
     return control
 
+def load_data_wolfs(control,size):
+    """
+    Carga los datos
+    """
+    control =controller.load_data_2(control,size)
+    return control
 
-def print_carga_datos(control):
+def print_carga_datos():
+    dos_archivos = menu_archivo()
+    archivo_tracks=dos_archivos[0]
+    archivo_lobos=dos_archivos[1]
+    control = new_controller()
+    load_data_tracks(control,archivo_tracks)
+    load_data_wolfs(control,archivo_lobos)
+
+    data_structs=control['model']
+
+    ### WOLF AND event features
+
+    print('---------Wolfs and events features------------ ')
+    print('')
+    print('')
+
+    mapa_encuentro=data_structs['mapa nodos de encuentro']
+
+    n_nodos_encuentro=mp.size(mapa_encuentro)
+
+    print(n_nodos_encuentro)
+
+    #print('nodos seguimiento: '+str(size))
+    #print('primeros')
+    #print(lt.getElement(lista_nodos,1))
+    #print(lt.getElement(lista_nodos,2))
+    #print(lt.getElement(lista_nodos,3))
+    #print(lt.getElement(lista_nodos,4))
+    #print(lt.getElement(lista_nodos,5))
+
+    #print('ultimos')
+    #print(lt.getElement(lista_nodos,size-1))
+    #print(lt.getElement(lista_nodos,size-2))
+    #print(lt.getElement(lista_nodos,size-3))
+    #print(lt.getElement(lista_nodos,size-4))
+    #print(lt.getElement(lista_nodos,size-5))      
     pass
 
 
@@ -197,28 +241,7 @@ if __name__ == "__main__":
         try:
             if int(inputs) == 1:
                 print("Cargando información de los archivos ....\n")
-                size = menu_archivo()
-                control = new_controller()
-                data = load_data(control,size)
-                print(data[1])
-                mapa_encuentro =data[0]['model']['mapa nodos de encuentro']
-                lista_nodos =mp.keySet(mapa_encuentro)
-                size=lt.size(lista_nodos)
-
-                print('nodos seguimiento: '+str(size))
-                print('primeros')
-                print(lt.getElement(lista_nodos,1))
-                print(lt.getElement(lista_nodos,2))
-                print(lt.getElement(lista_nodos,3))
-                print(lt.getElement(lista_nodos,4))
-                print(lt.getElement(lista_nodos,5))
-
-                print('ultimos')
-                print(lt.getElement(lista_nodos,size-1))
-                print(lt.getElement(lista_nodos,size-2))
-                print(lt.getElement(lista_nodos,size-3))
-                print(lt.getElement(lista_nodos,size-4))
-                print(lt.getElement(lista_nodos,size-5))               
+                print_carga_datos()
 
             elif int(inputs) == 2:
                 print_req_1(control)

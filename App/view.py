@@ -176,15 +176,28 @@ def print_carga_datos():
     print('Number of gathering points: '+str(n_gathering))
     print('Number of tracking points '+str(n_track))
     print('Total nodes: '+str(n_nodes))
-    print(n_nodes)
+
 
 
     ### EDGE FEATURES
+
+    print('---------EDGES FEATURES------------ ')
+    print('')
+    print('')
+
     n_edges=gr.numEdges(data_structs['grafo'])
-    print(n_edges)
-    print(data_structs['n arcos de seguimiento'])
-    print('eventos filt')
-    print(calc_eventos_filt_hay(control))
+
+    n_track= data_structs['n arcos de seguimiento']
+    n_gathering=n_edges-n_track
+    print('Number of gathering edges: '+str(n_gathering))
+    print('Number of tracking edges '+str(n_track))
+    print('Total edges: '+str(n_edges))
+
+
+    #print(n_edges)
+    #print(data_structs['n arcos de seguimiento'])
+    #print('eventos filt')
+    #print(calc_eventos_filt_hay(control))
 
 
 

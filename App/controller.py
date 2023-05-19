@@ -62,12 +62,19 @@ def load_data(control, filename):
 
 ##### Crea grafo
     model.crear_grafo(catalog)
-    size = lt.size(catalog['lista total'])
 
+    return control
 
-    return control, size
+def load_data_2(control,filename):
+    file = cf.data_dir + filename
+    input_file = csv.DictReader(open(file, encoding='utf-8'))
+    catalog = control['model']
+    for line in input_file:
+        model.add_data_lobos(catalog, line)
 
+    model.cargar_archivo_lobos(catalog)
 
+    return control
 # Funciones de ordenamiento
 
 def sort(control):

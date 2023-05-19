@@ -71,6 +71,8 @@ def new_data_structs():
 ##mapa cuya llave es el indicador del nodo(coordenada) y el valor una lista de nodos de seguimiento asociados a dicho nodo
     data_structs['mapa nodos de encuentro']=None
     data_structs['grafo']=gr.newGraph(directed=True)
+
+    data_structs['lista archivo lobos']=lt.newList(datastructure='ARRAY_LIST')
     return(data_structs)
 
 
@@ -129,7 +131,11 @@ def add_data(data_structs, data):
     """
     lt.addLast(data_structs['lista total'],data)
 
-
+def add_data_lobos(data_structs, data):
+    """
+    Función para agregar nuevos elementos a la lista
+    """
+    lt.addLast(data_structs['lista archivo lobos'],data)
 
 ####CARGAR ARCHIVO DE LOBOS
 
@@ -140,8 +146,6 @@ def cargar_archivo_lobos(data_strucst):
 
     return data_strucst
 
-def add_wolf(data_structs,data):
-    lt.addLast(data_structs['lista archivo lobos'],data)
 # Funciones para creacion de datos
 
 

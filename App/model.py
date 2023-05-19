@@ -242,7 +242,7 @@ def crear_mapa_lobos(data_structs):
     llaves_mapa = lt.iterator(mp.keySet(mapa_lobos))
 
     for lobo in llaves_mapa:
-        print('h')
+        #print('h')
         lista_eventos = devolver_value(mapa_lobos,lobo)
 
         quk.sort(lista_eventos,sort_criteria_tiempo)
@@ -294,7 +294,7 @@ def filtrar_mapa_lobos(data_structs):
     ###ordenar mapa
     llaves_mapa = lt.iterator(mp.keySet(mapa_lobos))
     for lobo_1 in llaves_mapa:
-        print('kj')
+        #print('kj')
         lista_eventos = devolver_value(mapa_lobos,lobo_1)
         size =lt.size(lista_eventos)
         lista_aux = lt.newList('ARRAY_LIST')
@@ -319,8 +319,8 @@ def filtrar_mapa_lobos(data_structs):
 
             i+=1
 
-        print(lt.size(lista_aux)-lt.size(lista_eventos))
-        print('hola')
+        #print(lt.size(lista_aux)-lt.size(lista_eventos))
+        #print('hola')
     
         
         mp.remove(mapa_lobos,lobo_1)

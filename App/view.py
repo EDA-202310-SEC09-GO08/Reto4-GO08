@@ -93,7 +93,9 @@ def menu_archivo():
             return size
         elif int(porcentaje) == 6:
             size = 'BA-Grey-Wolf-tracks-utf8-50pct.csv'
-            return size
+            lobos='BA-Grey-Wolf-individuals-utf8-50pct.csv'
+            return size,lobos
+            
         elif int(porcentaje) == 1:
             size = 'BA-Grey-Wolf-tracks-utf8-small.csv'
             lobos='BA-Grey-Wolf-individuals-utf8-small.csv'
@@ -103,6 +105,7 @@ def menu_archivo():
             return size
         elif int(porcentaje) == 8:
             size = 'BA-Grey-Wolf-tracks-utf8-large.csv'
+            lobos='BA-Grey-Wolf-individuals-utf8-large.csv'
             return size,lobos
     except ValueError:
             print(" una opción válida.\n")

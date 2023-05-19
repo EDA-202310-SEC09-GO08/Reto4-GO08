@@ -169,7 +169,7 @@ def dic_representa_nodo_encuentro(nodo_encuentro,data_structs):
     lobos_asociados=0
     for nodo in array_it:
         nodo_split=nodo.split('_')
-        lobo=nodo_split[2]+nodo_split[3]
+        lobo=nodo_split[2]+'_'+nodo_split[3]
         string_lobos+=lobo+', '
         lobos_asociados+=1
     dic_nodo_enc['node id']=nodo_encuentro
@@ -203,7 +203,7 @@ def lista_10_dics_a_imprimir(data_structs):
     i=0
     lista_10_dics=[]
     while i<10:
-        dic=dic_representa_nodo_encuentro(lista_10_nodos[1],data_structs) 
+        dic=dic_representa_nodo_encuentro(lista_10_nodos[i],data_structs) 
         lista_10_dics.append(dic)
         i+=1
 

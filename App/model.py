@@ -247,44 +247,8 @@ def crear_mapa_lobos(data_structs):
 
         quk.sort(lista_eventos,sort_criteria_tiempo)
 
-    ### filtrar si hay repetido con lista auxiliar
-
-    for lobo in llaves_mapa:
-        print('kj')
-        lista_eventos = devolver_value(mapa_lobos,lobo)
-        size =lt.size(lista_eventos)
-        lista_aux = lt.newList('ARRAY_LIST')
-        i=2
-        ##añadir el primero
-        primer_elemento =lt.getElement(lista_eventos,1)
-
-        long = primer_elemento['location-long']
-        lat = primer_elemento['location-lat']
-        coordenada=primer_elemento['coordenada']
-
-        lt.addLast(lista_aux,primer_elemento)
-        while i<=size:
-            evento =lt.getElement(lista_eventos,i)
-
-            if evento['coordenada']!=coordenada:
-
-                lt.addLast(lista_aux,evento)
-            long=evento['location-long']
-            lat=evento['location-lat']
-            coordenada=evento['coordenada']
-
-            i+=1
-
-        print(lt.size(lista_aux)-lt.size(lista_eventos))
-        print('hola')
-    
-        
-        mp.remove(mapa_lobos,lobo)
-        mp.put(mapa_lobos,lobo,lista_aux)
-
 
     data_structs['mapa lobos']=mapa_lobos
-
     return data_structs
 
 def filtrar_mapa_lobos(data_structs):

@@ -130,15 +130,32 @@ def add_data(data_structs, data):
     lt.addLast(data_structs['lista total'],data)
 
 
+
+####CARGAR ARCHIVO DE LOBOS
+
+def cargar_archivo_lobos(data_strucst):
+    lista_lobos =data_strucst['lista archivo lobos']
+    anadir_individual_id_a_lobo(data_strucst)
+    data_strucst['mapa archivo lobos']=crear_mapa_de_columna_a_partir_de_ARRAy(lista_lobos,'individual-id')
+
+    return data_strucst
+
+def add_wolf(data_structs,data):
+    lt.addLast(data_structs['lista archivo lobos'],data)
 # Funciones para creacion de datos
 
-def new_data(id, info):
-    """
-    Crea una nueva estructura para modelar los datos
-    """
-    #TODO: Crear la función para estructurar los datos
-    pass
 
+def anadir_individual_id_a_lobo(data_structs):
+
+    lista_lobos = lt.iterator(data_structs['lista archivo lobos'])
+
+    for lobo in lista_lobos:
+        animal_id =lobo['animal-id']
+        tag_id=lobo['tag-id']
+        individual_id=animal_id+'_'+tag_id
+        lobo['individual-id']=individual_id
+
+    return data_structs
 
 
 
@@ -176,6 +193,8 @@ def crear_grafo(data_structs):
 
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)
+
+    
     return data_structs
 
 ###a. Redondear lista

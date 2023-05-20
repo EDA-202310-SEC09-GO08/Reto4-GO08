@@ -209,11 +209,11 @@ def lista_10_dics_a_imprimir(data_structs):
 
     return lista_10_dics
 
-def print_carga_datos():
+def print_carga_datos(control):
     dos_archivos = menu_archivo()
     archivo_tracks=dos_archivos[0]
     archivo_lobos=dos_archivos[1]
-    control = new_controller()
+
     load_data_tracks(control,archivo_tracks)
     load_data_wolfs(control,archivo_lobos)
 
@@ -355,7 +355,7 @@ if __name__ == "__main__":
         try:
             if int(inputs) == 1:
                 print("Cargando información de los archivos ....\n")
-                print_carga_datos()
+                print_carga_datos(control)
 
             elif int(inputs) == 2:
                 print_req_1(control)

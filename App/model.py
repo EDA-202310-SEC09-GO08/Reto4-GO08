@@ -577,12 +577,14 @@ def req_3(data_structs):
     # TODO: Realizar el requerimiento 3
     grafo=data_structs["model"]['grafo']
     kosaraju = scc.KosarajuSCC(grafo)
+    "los puntos conectados "
     total = scc.connectedComponents(kosaraju)
     keys = mp.keySet(kosaraju["idscc"])
     mapa = mp.newMap()
-    
+
     for manada in lt.iterator(keys):
-        actual = devolver_value(kosaraju,manada)
+        "invertir las llaves como valores dentro de una lista y el valor se volvio la llave"
+        actual = devolver_value(kosaraju["idscc"],manada)
         esta = mp.contains(mapa, actual)
         if esta == False:
             lista = lt.newList()

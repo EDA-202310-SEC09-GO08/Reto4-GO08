@@ -354,7 +354,7 @@ if __name__ == "__main__":
         try:
             if int(inputs) == 1:
                 print("Cargando información de los archivos ....\n")
-                print_carga_datos()
+                print_carga_datos(control)
 
             elif int(inputs) == 2:
                 print_req_1(control)

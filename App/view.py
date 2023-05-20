@@ -295,7 +295,8 @@ def print_req_3(control):
         Función que imprime la solución del Requerimiento 3 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 3
-    pass
+    res = controller.req_3(control)
+    print(res)
 
 
 def print_req_4(control):

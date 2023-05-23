@@ -595,7 +595,25 @@ def req_3(data_structs):
             lt.addLast(agregar, manada)
 
 
-
+    llaves_scc = mp.keySet(mapa)
+    i = 1 
+    final = lt.newList()
+    while i <= 5:
+        mayor = 0 
+        sccc = 0
+        a = 1
+        
+        while a < lt.size(llaves_scc):
+            sccdid = lt.getElement(llaves_scc,a)
+            cantidad_list = devolver_value(mapa,sccdid)
+            if lt.size(cantidad_list) > mayor:
+                mayor = lt.size(cantidad_list)
+                sccc = sccdid
+                pos = a 
+            a += 1
+        lt.addLast(final,sccc)  
+        lt.deleteElement(llaves_scc, pos)
+        i +=1
 
     
     return total, mapa

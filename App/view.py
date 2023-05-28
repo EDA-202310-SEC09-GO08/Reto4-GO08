@@ -158,8 +158,8 @@ def dic_representa_nodo_encuentro(nodo_encuentro,data_structs):
     lat_long=form_corr.split('_')
 
     dic_nodo_enc={}
-    lat = lat_long[0]
-    long=lat_long[1]
+    long = lat_long[0]
+    lat=lat_long[1]
 
     array_nodos_seg = devolver_value(data_structs['mapa nodos de encuentro'],nodo_encuentro)
 

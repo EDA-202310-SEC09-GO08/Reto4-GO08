@@ -311,7 +311,7 @@ def print_req_4(control):
     plong1=-111.911
     plat1=57.431
     plong2=-111.865
-    plat2=57.435
+    plat2=57.453
     res=controller.req_4(control,plat1,plong1,plat2,plong2)
     pass
 

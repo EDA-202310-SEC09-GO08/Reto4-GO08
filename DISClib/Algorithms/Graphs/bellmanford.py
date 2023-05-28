@@ -170,6 +170,29 @@ def pathTo(search, vertex):
     except Exception as exp:
         error.reraise(exp, 'bellman:pathto')
 
+def pathToArray(search, vertex):
+    """
+    Retorna el camino entre source y vertex
+    en una pila.
+    Args:
+        search: La estructura de busqueda
+        vertex: El vertice de destino
+    Returns:
+        Una pila con el camino entre source y vertex
+    Raises:
+        Exception
+    """
+    try:
+        if hasPathTo(search, vertex) is False:
+            return None
+        path = lt.newList(datastructure='ARRAYLIST')
+        while vertex != search['source']:
+            edge = map.get(search['edgeTo'], vertex)['value']
+            lt.addLast(path, edge)
+            vertex = e.either(edge)
+        return path
+    except Exception as exp:
+        error.reraise(exp, 'bellman:pathto')
 
 # ----------------------------------------------
 #         Funciones Auxiliares

@@ -786,16 +786,22 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
 
     ###C. mapa coordenadas
 
+    data_structs['mapa localizacion']=None
+
     crear_mapa_coordenadas(data_structs)
 
     #####D. mapa nodos de seguimiento
+    data_structs['mapa nodos de seguimiento']=None
 
     crear_nodos_de_seguimiento(data_structs)
 
     ###E. Crear nodos de encuentro
+    data_structs['mapa nodos de encuentro']=None
     crear_nodos_de_encuentro(data_structs)
 
     ####F. Poner nodos  en grafo
+    data_structs['grafo']=gr.newGraph(directed=True)
+    
     poner_nodos__en_grafo(data_structs)
 
     ###G. Crear arcos entre nodos de seguimiento

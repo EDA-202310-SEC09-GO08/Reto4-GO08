@@ -623,6 +623,8 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     Función que soluciona el requerimiento 4
     """
     grafo=data_structs['grafo']
+
+    ### retorna encuentro más cerca y distancia a este
     nodo_dist_inicio=encontrar_nodo_encuentro_mas_cercano(data_structs,lat_1,long_1)
     nodo_inicio=nodo_dist_inicio[0]
     distancia_entre_punto_inicio_nodo=nodo_dist_inicio[1]
@@ -632,9 +634,10 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     nodo_fin=nodo_dist_fin[0]
     distancia_entre_punto_fin_nodo=nodo_dist_fin[1] 
 
+    ###recorridos minimos del nodo de incio a todos los demás
     recorridos_inicio=bf.BellmanFord(grafo,nodo_inicio)
 
-    recorrido_min=bf.pathTo(recorridos_inicio,nodo_dist_fin)
+    recorrido_min=bf.pathTo(recorridos_inicio,nodo_fin)
 
     
 
@@ -663,7 +666,7 @@ def encontrar_nodo_encuentro_mas_cercano(data_structs,lat,long):
             distancia_menor=distancia_a_punto
 
 
-    return nodo,distancia_menor
+    return encuentro_mas_cerca,distancia_menor
 
 
 def req_5(data_structs):

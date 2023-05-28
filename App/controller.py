@@ -120,12 +120,12 @@ def req_3(control):
     return res
 
 
-def req_4(control):
+def req_4(control,lat1,long1,lat2,long2):
     """
     Retorna el resultado del requerimiento 4
     """
-    # TODO: Modificar el requerimiento 4
-    pass
+    res = model.req_4(control['model'],lat1,long1,lat2,long2)
+    return res
 
 
 def req_5(control):

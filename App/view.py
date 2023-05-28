@@ -304,7 +304,11 @@ def print_req_4(control):
     """
         Función que imprime la solución del Requerimiento 4 en consola
     """
-    # TODO: Imprimir el resultado del requerimiento 4
+    lat1=float(input('Latitud inicial: '))
+    long1=float(input('Longitud inicial: '))
+    lat2=float(input('Latitud final: '))
+    long2=float(input('Longitud final: '))
+    res=controller.req_4(control,lat1,long1,lat2,long2)
     pass
 
 

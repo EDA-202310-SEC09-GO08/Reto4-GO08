@@ -537,6 +537,7 @@ def devolver_value(map, key):
     valor = me.getValue(llave_valor)
     
     return valor 
+
 def get_data(data_structs, id):
     """
     Retorna un dato a partir de su ID
@@ -574,8 +575,48 @@ def req_3(data_structs):
     Función que soluciona el requerimiento 3
     """
     # TODO: Realizar el requerimiento 3
-    pass
+    grafo=data_structs["model"]['grafo']
+    kosaraju = scc.KosarajuSCC(grafo)
+    "los puntos conectados "
+    total = scc.connectedComponents(kosaraju)
+    keys = mp.keySet(kosaraju["idscc"])
+    mapa = mp.newMap()
 
+    for manada in lt.iterator(keys):
+        "invertir las llaves como valores dentro de una lista y el valor se volvio la llave"
+        actual = devolver_value(kosaraju["idscc"],manada)
+        esta = mp.contains(mapa, actual)
+        if esta == False:
+            lista = lt.newList()
+            lt.addFirst(lista,manada)
+            mp.put(mapa,actual,lista)
+        else:
+            agregar = devolver_value(mapa, actual)
+            lt.addLast(agregar, manada)
+
+
+    llaves_scc = mp.keySet(mapa)
+    i = 1 
+    final = lt.newList()
+    while i <= 5:
+        mayor = 0 
+        sccc = 0
+        a = 1
+        
+        while a < lt.size(llaves_scc):
+            sccdid = lt.getElement(llaves_scc,a)
+            cantidad_list = devolver_value(mapa,sccdid)
+            if lt.size(cantidad_list) > mayor:
+                mayor = lt.size(cantidad_list)
+                sccc = sccdid
+                pos = a 
+            a += 1
+        lt.addLast(final,sccc)  
+        lt.deleteElement(llaves_scc, pos)
+        i +=1
+
+    
+    return total, mapa
 
 def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     """

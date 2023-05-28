@@ -327,7 +327,7 @@ def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(dat
         evento['individual-id']=individual_id
     return data_structs
 
-def crear_mapa_coordenadas(data_structs):
+#def crear_mapa_coordenadas(data_structs):
     
     map= mp.newMap()
 
@@ -345,6 +345,35 @@ def crear_mapa_coordenadas(data_structs):
         else:
             valor =devolver_value(map,cor)
             lt.addLast(valor,evento)
+
+    
+
+
+    data_structs['mapa localizacion']=map
+    
+
+    return data_structs
+
+def crear_mapa_coordenadas(data_structs):
+    
+    map= mp.newMap()
+
+    mapa_lobos=data_structs['mapa lobos']
+    lobos = lt.iterator(mp.keySet(mapa_lobos))
+
+    for lobo in lobos:
+        lista=lt.iterator(devolver_value(mapa_lobos,lobo))
+        for evento in lista:
+            cor = evento['coordenada']
+            estaa= mp.contains(map,cor)
+            if estaa==False:
+                lista = lt.newList()
+                lt.addFirst(lista,evento)
+                mp.put(map, cor, lista)
+
+            else:
+                valor =devolver_value(map,cor)
+                lt.addLast(valor,evento)
 
     
 
@@ -733,7 +762,32 @@ def filtrar_array_por_temp(array,temp1,temp2):
         i+=1
     return array_filt
 
-   
+def filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2):
+    mapa_lobos=data_structs['mapa lobos']
+    mapa_filt=mp.newMap()
+    lobos=lt.iterator(mp.keySet(mapa_lobos))
+    
+    for lobo in lobos:
+        array_0=devolver_value(mapa_lobos,lobo)
+        arrayfilt=array_ordenado_filtrado_por_rango_fechas(array_0,time1,time2)
+        arrayfilt=filtrar_array_por_temp(arrayfilt,temp1,temp2)
+        mp.put(mapa_filt,lobo,arrayfilt)
+
+    data_structs['mapa lobos']=mapa_filt
+
+    return data_structs
+
+##### filtra el data structs
+        
+def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
+
+    ##a. mapa filt
+    filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2)
+
+    #b. crear nodos de seguimiento 
+    crear_nodos_de_seguimiento(data_structs)
+
+
 def req_6(data_structs):
     """
     Función que soluciona el requerimiento 6

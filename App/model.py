@@ -777,7 +777,7 @@ def filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2):
 
     return data_structs
 
-##### filtra el data structs según los parámetros
+##### filtra el data structs según los parámetros para req 7
         
 def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
 
@@ -812,6 +812,9 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
 
     print(gr.numEdges(data_structs['grafo']))
     print(gr.numVertices(data_structs['grafo']))
+    print(mp.size(data_structs['mapa nodos de seguimiento']))
+    print(mp.size(data_structs['mapa nodos de encuentro']))
+
 
 def req_6(data_structs):
     """

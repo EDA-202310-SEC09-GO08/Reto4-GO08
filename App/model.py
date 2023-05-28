@@ -733,9 +733,9 @@ def array_ordenado_filtrado_por_rango_fechas(array,fecha1,fecha2):
     array_filt=lt.newList(datastructure='ARRAY_LIST')
     size=lt.size(array)
 
-    i=0
+    i=1
     while i<=size:
-        evento= lt.getElement(i)
+        evento= lt.getElement(array,i)
         fecha=float(evento["timestamp"].replace(':','').replace('-','').replace(' ',''))
         if fecha >=fecha_in and fecha<=fecha_fin:
             lt.addLast(array_filt,evento)
@@ -753,10 +753,10 @@ def filtrar_array_por_temp(array,temp1,temp2):
     array_filt=lt.newList(datastructure='ARRAY_LIST')
     size=lt.size(array)
 
-    i=0
+    i=1
     while i<=size:
-        evento= lt.getElement(i)
-        temp=float(evento["temperature"])
+        evento= lt.getElement(array,i)
+        temp=float(evento["external-temperature"])
         if temp >=temp_in and temp <=temp_fin:
             lt.addLast(array_filt,evento)
         i+=1
@@ -804,6 +804,8 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)
 
+    print(gr.numEdges(data_structs['grafo']))
+    print(gr.numVertices(data_structs['grafo']))
 
 def req_6(data_structs):
     """

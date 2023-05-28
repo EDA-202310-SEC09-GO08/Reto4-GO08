@@ -340,6 +340,7 @@ def print_req_7(control):
     fecha2='2014-05-17 23:59'
     temp1='-17.3'
     temp2='9.7'
+    res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
     
     # TODO: Imprimir el resultado del requerimiento 7
     pass

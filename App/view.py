@@ -286,6 +286,7 @@ def print_req_2(control):
     """
         Función que imprime la solución del Requerimiento 2 en consola
     """
+    print()
     # TODO: Imprimir el resultado del requerimiento 2
     pass
 
@@ -339,7 +340,7 @@ def print_req_8(control):
 
 
 # Se crea el controlador asociado a la vista
-control = new_controller()
+
 
 # main del reto
 if __name__ == "__main__":
@@ -354,6 +355,7 @@ if __name__ == "__main__":
         try:
             if int(inputs) == 1:
                 print("Cargando información de los archivos ....\n")
+                control = new_controller()
                 print_carga_datos(control)
 
             elif int(inputs) == 2:

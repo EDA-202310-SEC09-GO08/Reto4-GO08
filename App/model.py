@@ -639,6 +639,10 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
 
     recorrido_min=bf.pathTo(recorridos_inicio,nodo_fin)
 
+    print(nodo_inicio)
+    print(nodo_fin)
+    print(recorrido_min)
+
     
 
     pass

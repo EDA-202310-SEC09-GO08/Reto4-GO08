@@ -264,7 +264,7 @@ def print_carga_datos(control):
     print('')
 
     print('Min-max latitude: '+str(data_structs['menor lat'])+' and '+str(data_structs['mayor lat']))
-    print('Min-max latitude: '+str(data_structs['menor long'])+' and '+str(data_structs['mayor long']))
+    print('Min-max long: '+str(data_structs['menor long'])+' and '+str(data_structs['mayor long']))
 
 
     print('First 5 and last 5 gathering nodes loaded: ')
@@ -304,11 +304,15 @@ def print_req_4(control):
     """
         Función que imprime la solución del Requerimiento 4 en consola
     """
-    lat1=float(input('Latitud inicial: '))
-    long1=float(input('Longitud inicial: '))
-    lat2=float(input('Latitud final: '))
-    long2=float(input('Longitud final: '))
-    res=controller.req_4(control,lat1,long1,lat2,long2)
+    #lat1=float(input('Latitud inicial: '))
+    #long1=float(input('Longitud inicial: '))
+    #lat2=float(input('Latitud final: '))
+    #long2=float(input('Longitud final: '))
+    plong1=-111.911
+    plat1=57.431
+    plong2=-111.865
+    plat2=57.435
+    res=controller.req_4(control,plat1,plong1,plat2,plong2)
     pass
 
 

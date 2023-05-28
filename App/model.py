@@ -695,7 +695,44 @@ def req_5(data_structs):
     # TODO: Realizar el requerimiento 5
     pass
 
+##### Funcion para 6 y 7 de filtrar array_ordenado de eventos por rango de fechas
+def array_ordenado_filtrado_por_rango_fechas(array,fecha1,fecha2):
+    ### Devuelve un array filtrado ordenado de los eventos en ese rango
+    fecha_in=float(fecha1.replace(':','').replace('-','').replace(' ',''))
+    fecha_fin=float(fecha2.replace(':','').replace('-','').replace(' ',''))
+    array_filt=lt.newList(datastructure='ARRAY_LIST')
+    size=lt.size(array)
 
+    i=0
+    while i<=size:
+        evento= lt.getElement(i)
+        fecha=float(evento["timestamp"].replace(':','').replace('-','').replace(' ',''))
+        if fecha >=fecha_in and fecha<=fecha_fin:
+            lt.addLast(array_filt,evento)
+
+        if fecha>fecha_fin:
+            break
+
+        i+=1
+    
+    return array_filt
+
+def filtrar_array_por_temp(array,temp1,temp2):
+    temp_in=float(temp1)
+    temp_fin=float(temp2)
+    array_filt=lt.newList(datastructure='ARRAY_LIST')
+    size=lt.size(array)
+
+    i=0
+    while i<=size:
+        evento= lt.getElement(i)
+        temp=float(evento["temperature"])
+        if temp >=temp_in and temp <=temp_fin:
+            lt.addLast(array_filt,evento)
+        i+=1
+    return array_filt
+
+   
 def req_6(data_structs):
     """
     Función que soluciona el requerimiento 6

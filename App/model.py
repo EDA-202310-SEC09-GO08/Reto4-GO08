@@ -747,6 +747,7 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
         datos['lat']=lat
         datos['lobos']=lobos
         datos['n_lobos']=n_lobos
+        datos['distancia']=arco['weight']
         lista_dics.append(datos)
         print(datos)
         i+=1
@@ -754,7 +755,46 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
     return lista_dics
 
     
+def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
+    lista_dics=[]
+    size=lt.size(recorrido_min)
+    i=0
+    while i<=3:
+        datos={}
+        arco=lt.getElement(recorrido_min,i)
+        id_punto=arco['vertexB']
+        form_corr=id_punto.replace('p','.').replace('m','-')
+        long_lat=form_corr.split('_')
+        long=long_lat[0]
+        lat=long_lat[1]
+        if len(long_lat)==2:
+            array_nodos_seguimiento=devolver_value(mapa_nodos_encuentro,id_punto)
+            n_lobos=lt.size(array_nodos_seguimiento)
+            it =lt.iterator(array_nodos_seguimiento)
+            lobos=''
+            for nodo in it:
 
+                compuesto=nodo.split('_')
+                lobo=compuesto[2]+'_'+compuesto[3]
+                lobos+=lobo+', '
+
+        else:
+
+
+            lobos=long_lat[2]+'_'+long_lat[3]
+            n_lobos=1
+
+        datos['id_nodo']=id_punto
+        datos['long']=long
+        datos['lat']=lat
+        datos['lobos']=lobos
+        datos['n_lobos']=n_lobos
+        datos['distancia']=arco['weight']
+        lista_dics.append(datos)
+        print(datos)
+        i+=1
+    
+    return lista_dics
 
 def identifica_n_lobos_en_camino(camino):
     it=lt.iterator(camino)

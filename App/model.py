@@ -777,15 +777,32 @@ def filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2):
 
     return data_structs
 
-##### filtra el data structs
+##### filtra el data structs según los parámetros
         
 def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
 
     ##a. mapa filt
     filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2)
 
-    #b. crear nodos de seguimiento 
+    ###C. mapa coordenadas
+
+    crear_mapa_coordenadas(data_structs)
+
+    #####D. mapa nodos de seguimiento
+
     crear_nodos_de_seguimiento(data_structs)
+
+    ###E. Crear nodos de encuentro
+    crear_nodos_de_encuentro(data_structs)
+
+    ####F. Poner nodos  en grafo
+    poner_nodos__en_grafo(data_structs)
+
+    ###G. Crear arcos entre nodos de seguimiento
+    crear_arcos_nodos_seguimiento(data_structs)
+
+    ####H. Crear arcos para los nodos de encuentro
+    poner_arcos_encuentro(data_structs)
 
 
 def req_6(data_structs):
@@ -796,12 +813,11 @@ def req_6(data_structs):
     pass
 
 
-def req_7(data_structs):
+def req_7(data_structs,time1,time2,temp1,temp2):
     """
     Función que soluciona el requerimiento 7
     """
-    # TODO: Realizar el requerimiento 7
-    pass
+    crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2)
 
 
 def req_8(data_structs):

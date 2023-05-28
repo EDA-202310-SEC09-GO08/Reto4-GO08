@@ -639,12 +639,24 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
 
     recorrido_min=bf.pathTo(recorridos_inicio,nodo_fin)
 
-    print(nodo_inicio)
-    print(nodo_fin)
-    print(recorrido_min)
-
     
 
+    print(nodo_inicio)
+    print(nodo_fin)
+    
+    total_arcos=lt.size(recorrido_min)
+    total_nodos=total_arcos+1
+    
+    print(total_arcos)
+    it=lt.iterator(recorrido_min)
+    dist_total=0
+    for i in it:
+        print(i)
+        dist_total+=i['weight']
+
+    print(dist_total)
+    
+    
     pass
 
 
@@ -656,12 +668,12 @@ def encontrar_nodo_encuentro_mas_cercano(data_structs,lat,long):
     lista_encuentro =mp.keySet(mapa_encuentro)
     lista_encuentro_it =lt.iterator(mp.keySet(mapa_encuentro))
 
-    encuentro_mas_cerca=lt.getElement(lista_encuentro,1)
+    encuentro_mas_cerca=None
     distancia_menor=9999999999999
     for nodo in lista_encuentro_it:
         coordenada = nodo.replace('m','-').replace('p','.').split('_')
-        lat_nodo=float(coordenada[0])
-        long_nodo=float(coordenada[1])
+        lat_nodo=float(coordenada[1])
+        long_nodo=float(coordenada[0])
 
         distancia_a_punto= funcion_distancias_lat_long(lat,long,lat_nodo,long_nodo)
 
@@ -672,6 +684,9 @@ def encontrar_nodo_encuentro_mas_cercano(data_structs,lat,long):
 
     return encuentro_mas_cerca,distancia_menor
 
+def identifica_n_lobos_en_camino(camino):
+    it=lt.iterator(camino)
+    
 
 def req_5(data_structs):
     """

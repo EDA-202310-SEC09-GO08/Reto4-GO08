@@ -20,3 +20,8 @@ string= 'aaaa'
 
 string+='bbbbbbb'
 print(string)
+
+i=''
+
+if float(i)<0:
+    print('h')

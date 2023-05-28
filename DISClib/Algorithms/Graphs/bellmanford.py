@@ -185,7 +185,7 @@ def pathToArray(search, vertex):
     try:
         if hasPathTo(search, vertex) is False:
             return None
-        path = lt.newList(datastructure='ARRAYLIST')
+        path = lt.newList(datastructure='ARRAY_LIST')
         while vertex != search['source']:
             edge = map.get(search['edgeTo'], vertex)['value']
             lt.addLast(path, edge)

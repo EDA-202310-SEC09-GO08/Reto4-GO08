@@ -637,7 +637,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     ###recorridos minimos del nodo de incio a todos los demás
     recorridos_inicio=bf.BellmanFord(grafo,nodo_inicio)
 
-    recorrido_min=bf.pathTo(recorridos_inicio,nodo_fin)
+    recorrido_min=bf.pathToArray(recorridos_inicio,nodo_fin)
 
     
 
@@ -655,7 +655,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
         dist_total+=i['weight']
 
     print(dist_total)
-    
+    print(recorrido_min)
     
     pass
 
@@ -695,7 +695,8 @@ def req_5(data_structs):
     # TODO: Realizar el requerimiento 5
     pass
 
-##### Funcion para 6 y 7 de filtrar array_ordenado de eventos por rango de fechas
+##### Funciones para 6 y 7 de filtrar array_ordenado de eventos por rango de fechas y temperaturas, devuelven el arrray 
+### ordenadp por tiempo con los eventos dentro del rango
 def array_ordenado_filtrado_por_rango_fechas(array,fecha1,fecha2):
     ### Devuelve un array filtrado ordenado de los eventos en ese rango
     fecha_in=float(fecha1.replace(':','').replace('-','').replace(' ',''))

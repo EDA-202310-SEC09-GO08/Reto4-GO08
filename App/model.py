@@ -48,7 +48,7 @@ from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
 import math 
 assert cf
-
+from tabulate import tabulate
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá
 dos listas, una para los videos, otra para las categorias de los mismos.
@@ -629,12 +629,13 @@ def req_3(data_structs):
     llaves_scc = mp.keySet(mapa)
     i = 1 
     final = lt.newList()
+    'encontrar el top 5 '
     while i <= 5:
         mayor = 0 
         sccc = 0
         a = 1
         
-        while a < lt.size(llaves_scc):
+        while a <= lt.size(llaves_scc):
             sccdid = lt.getElement(llaves_scc,a)
             cantidad_list = devolver_value(mapa,sccdid)
             if lt.size(cantidad_list) > mayor:
@@ -646,8 +647,132 @@ def req_3(data_structs):
         lt.deleteElement(llaves_scc, pos)
         i +=1
 
+    ' ir poniendo requerimiento por requerimiento'
+    valor = pedido(data_structs["model"],mapa,final)
+
+    return total, valor
+
+def pedido( data_structs, mapa, lista_mejores):
+    valor = []
+    for ultima in lt.iterator(lista_mejores):
+        respuesta = {}
+        respuesta["SCCID"] = ultima 
+        respuesta["NODEIDS"] = node_ids(mapa,ultima)
+        lista = devolver_value(mapa,ultima)
+        respuesta["SCC Size "] = lt.size(lista)
+        max_mins = encontrar(lista, data_structs["mapa archivo lobos"])
+        respuesta ["min-lat"] = max_mins[0]
+        respuesta ["max-lat"] = max_mins[1]
+        respuesta ["min-lon"] = max_mins[2]
+        respuesta ["max-lon"] = max_mins[3]
+        respuesta["wolf Count"] = max_mins[4]
+        respuesta["Wolf details"] = max_mins[5]
+        valor.append(respuesta)
+    return valor 
+
+def separar(el_str):
+
+    lista = el_str.replace("m", "-").replace("p",".")
+    separado = lista.split("_")
+    return separado
+
+def encontrar (lista,mapa_lobos ):
+    menorlat = 999999999999
+    menorlon = 9999999999999
+
+    mayorlat= -999999999999
+    mayorlon = -9999999999999
+    cantidad = []
+    lobos = 0 
+    for codigo in lt.iterator(lista):
+        separado = separar(codigo)
+        "encontrar los mayores y menores"
+        if float(separado[1]) > mayorlat:
+            mayorlat = float(separado[1])
+        if float(separado[1]) < menorlat:
+            menorlat = float(separado[1])
+        if float(separado[0]) > mayorlon:
+            mayorlon = float(separado[0])
+        if float(separado[0]) < menorlon:
+            menorlon = float(separado[0])
+        if len(separado)== 4:
+            id = separado[2] + "_" + separado[3]
+            esta = False 
+            'verificar cuantos lobos hay en la manada'
+            if len(cantidad) == 0:
+                cantidad.append(id)
+                lobos +=1
+            for ids in cantidad:
+                if ids == id:
+                    esta = True
+            if esta == False:
+                lobos +=1 
+                cantidad.append(id)
+    lobos_info = []
+    a = 0
+    while a < 3 and a < len(cantidad):
+        identificador = cantidad[a]
+        lobos_info.append(caracteristicas(mapa_lobos, identificador))
+        a +=1
+    size = len(cantidad)
+    if size >= 6:
+        i = 3
+        while i > 0 :
+            identificador = cantidad[size - i ]
+            lobos_info.append(caracteristicas(mapa_lobos, identificador))
+            i-=1
+    final_lobos = tabulate(lobos_info, headers="keys", tablefmt= "grid", maxcolwidths=5, maxheadercolwidths=5  )
+        
+    res = [menorlat, mayorlat, menorlon, mayorlon, lobos, final_lobos]
+    return res 
+def caracteristicas (lobo, id):
+    ' sacarle las caracteristicas al lobo'
+    res = {}
+    x = devolver_value(lobo, id)
+    info = x["elements"][0]
+    res["individual-id"] = id
+    if info["animal-sex"] != "":
+        res["animal-sex"] = info["animal-sex"]
+    else:
+        res["animal-sex"] = "Unknown"
     
-    return total, mapa
+    if info["animal-life-stage"] != "":
+        res["animal-life-stage"] = info["animal-life-stage"]
+    else:
+        res["animal-life-stage"] = "Unknown"
+
+    if info["study-site"] != "":
+        res["study-site"] = info["study-site"]
+    else:
+        res["study-site"] = "Unknown"
+    
+    if info["deployment-comments"] != "":
+        res["deployment-comments"] = info["deployment-comments"]
+    else:
+        res["deployment-comments"] = "Unknown"
+    return res 
+    
+def node_ids (mapa, llave):
+    ' sacar los primero tres y los ultimos tres ids segun la lista'
+    valor = devolver_value(mapa,llave)
+    i = 1
+    respuesta = []
+    if lt.size(valor) >= 3:
+        while i <= 3:
+            pos = lt.getElement(valor,i)
+            respuesta.append(pos)
+            i += 1
+        a = 3
+        size = lt.size(valor)
+        while a > 0:
+            posicion = size - a
+            respuesta.append(lt.getElement(valor,posicion ))
+            a -=1 
+    else:
+        pos =lt.getElement(valor,1)
+        respuesta.append(pos)
+    return respuesta
+
 
 def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     """
@@ -924,8 +1049,67 @@ def req_7(data_structs,time1,time2,temp1,temp2):
     Función que soluciona el requerimiento 7
     """
     crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2)
+    grafo=data_structs['grafo']
+    kosaraju = scc.KosarajuSCC(grafo)
+    "los puntos conectados "
+    total = scc.connectedComponents(kosaraju)
+    keys = mp.keySet(kosaraju["idscc"])
+    mapa = mp.newMap()
+
+    for manada in lt.iterator(keys):
+        "invertir las llaves como valores dentro de una lista y el valor se volvio la llave"
+        actual = devolver_value(kosaraju["idscc"],manada)
+        esta = mp.contains(mapa, actual)
+        if esta == False:
+            lista = lt.newList()
+            lt.addFirst(lista,manada)
+            mp.put(mapa,actual,lista)
+        else:
+            agregar = devolver_value(mapa, actual)
+            lt.addLast(agregar, manada)
 
 
+    llaves_scc = mp.keySet(mapa)
+    i = 1 
+    final = lt.newList()
+    'encontrar el top 3 '
+    while i <= 3:
+        mayor = 0 
+        sccc = 0
+        a = 1
+        
+        while a <= lt.size(llaves_scc):
+            sccdid = lt.getElement(llaves_scc,a)
+            cantidad_list = devolver_value(mapa,sccdid)
+            if lt.size(cantidad_list) > mayor:
+                mayor = lt.size(cantidad_list)
+                sccc = sccdid
+                pos = a 
+            a += 1
+        lt.addLast(final,sccc)  
+        lt.deleteElement(llaves_scc, pos)
+        i +=1
+    e = 1
+    while e <= 3:
+        mayor = 99999999999
+        sccc = 0
+        a = 1
+        
+        while a <= lt.size(llaves_scc):
+            sccdid = lt.getElement(llaves_scc,a)
+            cantidad_list = devolver_value(mapa,sccdid)
+            if lt.size(cantidad_list) < mayor:
+                mayor = lt.size(cantidad_list)
+                sccc = sccdid
+                pos = a 
+            a += 1
+        lt.addLast(final,sccc)  
+        lt.deleteElement(llaves_scc, pos)
+        e +=1
+
+    respuesta = pedido(data_structs, mapa, final)
+
+    return total, respuesta
 def req_8(data_structs):
     """
     Función que soluciona el requerimiento 8

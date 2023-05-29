@@ -33,6 +33,7 @@ assert cf
 from tabulate import tabulate
 import traceback
 from DISClib.ADT import graph as gr
+import folium
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -338,7 +339,11 @@ def print_req_4(control):
     print(' Los tres últimos puntos de la ruta en orden descendente son :')
     tabulete6=tabulate(res[6], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
     print(tabulete6)
-    print('')    
+    print('') 
+    lat_c= control(['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=control(['model']['mayor long']   + control['model']['menor long'] )/2
+    mapa=folium.Map(location=[lat_c,long_c])
+    print(mapa)
 
 
 

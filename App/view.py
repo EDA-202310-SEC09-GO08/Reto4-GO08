@@ -367,7 +367,7 @@ def print_req_4(control):
         folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
     mapa.save("C:/Users/samis/Downloads/mapa.html")
     
-    print(time)
+    print('tiempo: '+str(time))
 
 
 

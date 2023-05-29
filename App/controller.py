@@ -143,12 +143,12 @@ def req_6(control):
     pass
 
 
-def req_7(control):
+def req_7(control,time1,time2,temp1,temp2):
     """
     Retorna el resultado del requerimiento 7
     """
-    # TODO: Modificar el requerimiento 7
-    pass
+    res = model.req_7(control['model'],time1,time2,temp1,temp2)
+    return res
 
 
 def req_8(control):

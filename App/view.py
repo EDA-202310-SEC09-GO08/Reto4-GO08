@@ -158,8 +158,8 @@ def dic_representa_nodo_encuentro(nodo_encuentro,data_structs):
     lat_long=form_corr.split('_')
 
     dic_nodo_enc={}
-    lat = lat_long[0]
-    long=lat_long[1]
+    long = lat_long[0]
+    lat=lat_long[1]
 
     array_nodos_seg = devolver_value(data_structs['mapa nodos de encuentro'],nodo_encuentro)
 
@@ -315,6 +315,35 @@ def print_req_4(control):
     plong2=-111.865
     plat2=57.453
     res=controller.req_4(control,plat1,plong1,plat2,plong2)
+    
+    print(' La distancia entre el punto GPS de origen y el punto de encuentro más cercano: ')
+    print(str(res[0])+' km')
+    print('')
+    print(' La distancia el punto de encuentro de destino más cercano y el punto GPS de destino: ')
+    print(str(res[1])+' km')
+    print('')
+    print('  La distancia total que tomará el recorrido entre los puntos de encuentro de origen y destino: ')
+    print(str(res[2])+'km')
+    print('')
+    print('Total de nodos:')
+    print(res[3])
+    print('')  
+    print('Total de arcos:')
+    print(res[4])
+    print('')  
+    print(' Los tres primeros puntos de la ruta en orden ascendente son :')
+    tabulete5=tabulate(res[5], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
+    print(tabulete5)
+    print('')
+    print(' Los tres últimos puntos de la ruta en orden descendente son :')
+    tabulete6=tabulate(res[6], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
+    print(tabulete6)
+    print('')    
+
+
+
+
+
     pass
 
 
@@ -338,6 +367,12 @@ def print_req_7(control):
     """
         Función que imprime la solución del Requerimiento 7 en consola
     """
+    fecha1='2012-11-28 00:00'
+    fecha2='2014-05-17 23:59'
+    temp1='-17.3'
+    temp2='9.7'
+    res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
+    
     # TODO: Imprimir el resultado del requerimiento 7
     pass
 

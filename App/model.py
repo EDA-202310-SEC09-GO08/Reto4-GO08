@@ -327,7 +327,7 @@ def poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(dat
         evento['individual-id']=individual_id
     return data_structs
 
-def crear_mapa_coordenadas(data_structs):
+#def crear_mapa_coordenadas(data_structs):
     
     map= mp.newMap()
 
@@ -345,6 +345,35 @@ def crear_mapa_coordenadas(data_structs):
         else:
             valor =devolver_value(map,cor)
             lt.addLast(valor,evento)
+
+    
+
+
+    data_structs['mapa localizacion']=map
+    
+
+    return data_structs
+
+def crear_mapa_coordenadas(data_structs):
+    
+    map= mp.newMap()
+
+    mapa_lobos=data_structs['mapa lobos']
+    lobos = lt.iterator(mp.keySet(mapa_lobos))
+
+    for lobo in lobos:
+        lista=lt.iterator(devolver_value(mapa_lobos,lobo))
+        for evento in lista:
+            cor = evento['coordenada']
+            estaa= mp.contains(map,cor)
+            if estaa==False:
+                lista = lt.newList()
+                lt.addFirst(lista,evento)
+                mp.put(map, cor, lista)
+
+            else:
+                valor =devolver_value(map,cor)
+                lt.addLast(valor,evento)
 
     
 
@@ -758,22 +787,33 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
 
     
 
-    print(nodo_inicio)
-    print(nodo_fin)
+    #print(nodo_inicio)
+    #print(nodo_fin)
     
     total_arcos=lt.size(recorrido_min)
     total_nodos=total_arcos+1
     
-    print(total_arcos)
+    #print(total_arcos)
     it=lt.iterator(recorrido_min)
     dist_total=0
     for i in it:
-        print(i)
+        #print(i)
         dist_total+=i['weight']
 
-    print(dist_total)
-    print(recorrido_min)
-    
+    #print(dist_total)
+    #print(recorrido_min)
+    prim=tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    ult=tres_ultimos_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    lista_a_devolver=[]
+    lista_a_devolver.append(distancia_entre_punto_inicio_nodo)
+    lista_a_devolver.append(distancia_entre_punto_fin_nodo)
+    lista_a_devolver.append(dist_total)
+    lista_a_devolver.append(total_nodos)
+    lista_a_devolver.append(total_arcos)
+    lista_a_devolver.append(prim)
+    lista_a_devolver.append(ult)
+
+    return lista_a_devolver
     pass
 
 
@@ -800,6 +840,88 @@ def encontrar_nodo_encuentro_mas_cercano(data_structs,lat,long):
 
 
     return encuentro_mas_cerca,distancia_menor
+def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
+    lista_dics=[]
+    size=lt.size(recorrido_min)
+    i=0
+    while i<3:
+        datos={}
+        arco=lt.getElement(recorrido_min,size-i)
+        id_punto=arco['vertexA']
+        form_corr=id_punto.replace('p','.').replace('m','-')
+        long_lat=form_corr.split('_')
+        long=long_lat[0]
+        lat=long_lat[1]
+        if len(long_lat)==2:
+            array_nodos_seguimiento=devolver_value(mapa_nodos_encuentro,id_punto)
+            n_lobos=lt.size(array_nodos_seguimiento)
+            it =lt.iterator(array_nodos_seguimiento)
+            lobos=''
+            for nodo in it:
+
+                compuesto=nodo.split('_')
+                lobo=compuesto[2]+'_'+compuesto[3]
+                lobos+=lobo+', '
+
+        else:
+
+
+            lobos=long_lat[2]+'_'+long_lat[3]
+            n_lobos=1
+
+        datos['id_nodo']=id_punto
+        datos['long']=long
+        datos['lat']=lat
+        datos['lobos']=lobos
+        datos['n_lobos']=n_lobos
+        datos['distancia']=arco['weight']
+        lista_dics.append(datos)
+        #print(datos)
+        i+=1
+    
+    return lista_dics
+
+    
+def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
+    lista_dics=[]
+    size=lt.size(recorrido_min)
+    i=1
+    while i<=3:
+        datos={}
+        arco=lt.getElement(recorrido_min,i)
+        id_punto=arco['vertexB']
+        form_corr=id_punto.replace('p','.').replace('m','-')
+        long_lat=form_corr.split('_')
+        long=long_lat[0]
+        lat=long_lat[1]
+        if len(long_lat)==2:
+            array_nodos_seguimiento=devolver_value(mapa_nodos_encuentro,id_punto)
+            n_lobos=lt.size(array_nodos_seguimiento)
+            it =lt.iterator(array_nodos_seguimiento)
+            lobos=''
+            for nodo in it:
+
+                compuesto=nodo.split('_')
+                lobo=compuesto[2]+'_'+compuesto[3]
+                lobos+=lobo+', '
+
+        else:
+
+
+            lobos=long_lat[2]+'_'+long_lat[3]
+            n_lobos=1
+
+        datos['id_nodo']=id_punto
+        datos['long']=long
+        datos['lat']=lat
+        datos['lobos']=lobos
+        datos['n_lobos']=n_lobos
+        datos['distancia']=arco['weight']
+        lista_dics.append(datos)
+        #print(datos)
+        i+=1
+    
+    return lista_dics
 
 def identifica_n_lobos_en_camino(camino):
     it=lt.iterator(camino)
@@ -821,9 +943,9 @@ def array_ordenado_filtrado_por_rango_fechas(array,fecha1,fecha2):
     array_filt=lt.newList(datastructure='ARRAY_LIST')
     size=lt.size(array)
 
-    i=0
+    i=1
     while i<=size:
-        evento= lt.getElement(i)
+        evento= lt.getElement(array,i)
         fecha=float(evento["timestamp"].replace(':','').replace('-','').replace(' ',''))
         if fecha >=fecha_in and fecha<=fecha_fin:
             lt.addLast(array_filt,evento)
@@ -841,16 +963,69 @@ def filtrar_array_por_temp(array,temp1,temp2):
     array_filt=lt.newList(datastructure='ARRAY_LIST')
     size=lt.size(array)
 
-    i=0
+    i=1
     while i<=size:
-        evento= lt.getElement(i)
-        temp=float(evento["temperature"])
+        evento= lt.getElement(array,i)
+        temp=float(evento["external-temperature"])
         if temp >=temp_in and temp <=temp_fin:
             lt.addLast(array_filt,evento)
         i+=1
     return array_filt
 
-   
+def filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2):
+    mapa_lobos=data_structs['mapa lobos']
+    mapa_filt=mp.newMap()
+    lobos=lt.iterator(mp.keySet(mapa_lobos))
+    
+    for lobo in lobos:
+        array_0=devolver_value(mapa_lobos,lobo)
+        arrayfilt=array_ordenado_filtrado_por_rango_fechas(array_0,time1,time2)
+        arrayfilt=filtrar_array_por_temp(arrayfilt,temp1,temp2)
+        mp.put(mapa_filt,lobo,arrayfilt)
+
+    data_structs['mapa lobos']=mapa_filt
+
+    return data_structs
+
+##### filtra el data structs según los parámetros para req 7
+        
+def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
+
+    ##a. mapa filt
+    filtrar_mapa_lobos_porintervalos(data_structs,time1,time2,temp1,temp2)
+
+    ###C. mapa coordenadas
+
+    data_structs['mapa localizacion']=None
+
+    crear_mapa_coordenadas(data_structs)
+
+    #####D. mapa nodos de seguimiento
+    data_structs['mapa nodos de seguimiento']=None
+
+    crear_nodos_de_seguimiento(data_structs)
+
+    ###E. Crear nodos de encuentro
+    data_structs['mapa nodos de encuentro']=None
+    crear_nodos_de_encuentro(data_structs)
+
+    ####F. Poner nodos  en grafo
+    data_structs['grafo']=gr.newGraph(directed=True)
+    
+    poner_nodos__en_grafo(data_structs)
+
+    ###G. Crear arcos entre nodos de seguimiento
+    crear_arcos_nodos_seguimiento(data_structs)
+
+    ####H. Crear arcos para los nodos de encuentro
+    poner_arcos_encuentro(data_structs)
+
+    print(gr.numEdges(data_structs['grafo']))
+    print(gr.numVertices(data_structs['grafo']))
+    print(mp.size(data_structs['mapa nodos de seguimiento']))
+    print(mp.size(data_structs['mapa nodos de encuentro']))
+
+
 def req_6(data_structs):
     """
     Función que soluciona el requerimiento 6
@@ -859,12 +1034,11 @@ def req_6(data_structs):
     pass
 
 
-def req_7(data_structs):
+def req_7(data_structs,time1,time2,temp1,temp2):
     """
     Función que soluciona el requerimiento 7
     """
-    # TODO: Realizar el requerimiento 7
-    pass
+    crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2)
 
 
 def req_8(data_structs):

@@ -48,7 +48,7 @@ from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
 import math 
 assert cf
-
+from tabulate import tabulate
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá
 dos listas, una para los videos, otra para las categorias de los mismos.
@@ -598,12 +598,13 @@ def req_3(data_structs):
     llaves_scc = mp.keySet(mapa)
     i = 1 
     final = lt.newList()
+    'encontrar el top 5 '
     while i <= 5:
         mayor = 0 
         sccc = 0
         a = 1
         
-        while a < lt.size(llaves_scc):
+        while a <= lt.size(llaves_scc):
             sccdid = lt.getElement(llaves_scc,a)
             cantidad_list = devolver_value(mapa,sccdid)
             if lt.size(cantidad_list) > mayor:
@@ -615,8 +616,124 @@ def req_3(data_structs):
         lt.deleteElement(llaves_scc, pos)
         i +=1
 
+    ' ir poniendo requerimiento por requerimiento'
+    valor = []
+    for ultima in lt.iterator(final):
+        respuesta = {}
+        respuesta["SCCID"] = ultima 
+        respuesta["NODEIDS"] = node_ids(mapa,ultima)
+        lista = devolver_value(mapa,ultima)
+        respuesta["SCC Size "] = lt.size(lista)
+        max_mins = encontrar(lista, data_structs["model"]["mapa archivo lobos"])
+        respuesta ["min-lat"] = max_mins[0]
+        respuesta ["max-lat"] = max_mins[1]
+        respuesta ["min-lon"] = max_mins[2]
+        respuesta ["max-lon"] = max_mins[3]
+        respuesta["wolf Count"] = max_mins[4]
+        respuesta["Wolf details"] = max_mins[5]
+        valor.append(respuesta)
+
+    return total, valor
+
+def separar(el_str):
+
+    lista = el_str.replace("m", "-").replace("p",".")
+    separado = lista.split("_")
+    return separado
+
+def encontrar (lista,mapa_lobos ):
+    menorlat = 999999999999
+    menorlon = 9999999999999
+
+    mayorlat= -999999999999
+    mayorlon = -9999999999999
+    cantidad = []
+    lobos = 0 
+    for codigo in lt.iterator(lista):
+        separado = separar(codigo)
+        "encontrar los mayores y menores"
+        if float(separado[1]) > mayorlat:
+            mayorlat = float(separado[1])
+        if float(separado[1]) < menorlat:
+            menorlat = float(separado[1])
+        if float(separado[0]) > mayorlon:
+            mayorlon = float(separado[0])
+        if float(separado[0]) < menorlon:
+            menorlon = float(separado[0])
+        if len(separado)== 4:
+            id = separado[2] + "_" + separado[3]
+            esta = False 
+            'verificar cuantos lobos hay en la manada'
+            if len(cantidad) == 0:
+                cantidad.append(id)
+                lobos +=1
+            for ids in cantidad:
+                if ids == id:
+                    esta = True
+            if esta == False:
+                lobos +=1 
+                cantidad.append(id)
+    lobos_info = []
+    a = 0
+    while a < 3 and a < len(cantidad):
+        identificador = cantidad[a]
+        lobos_info.append(caracteristicas(mapa_lobos, identificador))
+        a +=1
+    size = len(cantidad)
+    if size >= 6:
+        i = 3
+        while i > 0 :
+            identificador = cantidad[size - i ]
+            lobos_info.append(caracteristicas(mapa_lobos, identificador))
+            i-=1
+    final_lobos = tabulate(lobos_info, headers="keys", tablefmt= "grid", maxcolwidths=5, maxheadercolwidths=5  )
+        
+    res = [menorlat, mayorlat, menorlon, mayorlon, lobos, final_lobos]
+    return res 
+def caracteristicas (lobo, id):
+    ' sacarle las caracteristicas al lobo'
+    res = {}
+    x = devolver_value(lobo, id)
+    info = x["elements"][0]
+    res["individual-id"] = id
+    if info["animal-sex"] != "":
+        res["animal-sex"] = info["animal-sex"]
+    else:
+        res["animal-sex"] = "Unknown"
     
-    return total, mapa
+    if info["animal-life-stage"] != "":
+        res["animal-life-stage"] = info["animal-life-stage"]
+    else:
+        res["animal-life-stage"] = "Unknown"
+
+    if info["study-site"] != "":
+        res["study-site"] = info["study-site"]
+    else:
+        res["study-site"] = "Unknown"
+    
+    if info["deployment-comments"] != "":
+        res["deployment-comments"] = info["deployment-comments"]
+    else:
+        res["deployment-comments"] = "Unknown"
+    return res 
+    
+def node_ids (mapa, llave):
+    ' sacar los primero tres y los ultimos tres ids segun la lista'
+    valor = devolver_value(mapa,llave)
+    i = 1
+    respuesta = []
+    while i <= 3:
+        pos = lt.getElement(valor,i)
+        respuesta.append(pos)
+        i += 1
+    a = 3
+    size = lt.size(valor)
+    while a > 0:
+        posicion = size - a
+        respuesta.append(lt.getElement(valor,posicion ))
+        a -=1 
+    return respuesta
+
 
 def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     """

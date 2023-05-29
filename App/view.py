@@ -297,7 +297,9 @@ def print_req_3(control):
     """
     # TODO: Imprimir el resultado del requerimiento 3
     res = controller.req_3(control)
-    print(res)
+    print("There are " + str(res[0]) + " strongly connectec components (SCC) in the graph ")
+    print( "The top 5 SCC in the graph are: ")
+    print(tabulate(res[1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
 
 
 def print_req_4(control):

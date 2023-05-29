@@ -466,7 +466,7 @@ def funcion_distancias_lat_long(latitud1,longitud1,latitud2,longitud2):
     d =r*2*math.asin(math.sqrt(math.sin(c*(latitud1-latitud2)/2)**2 + math.cos(c*latitud1) * math.cos(c*latitud2)*math.sin(c*(longitud1-longitud2)/2)**2))
 
     return d
-def crear_arcos_nodos_seguimiento(data_structs):
+def crear_arcos_nodos_seguimiento(data_structs,positivos=True):
     mapa_lobos= data_structs['mapa lobos']
     lista_lobos =mp.keySet(mapa_lobos)
     grafo =data_structs['grafo']
@@ -492,8 +492,10 @@ def crear_arcos_nodos_seguimiento(data_structs):
             long_2=evento_2['location-long']
 
             distancia=funcion_distancias_lat_long(lat_1,long_1,lat_2,long_2) 
-
-            gr.addEdge(grafo,nodo_1,nodo_2,distancia) 
+            if positivos==True:
+                gr.addEdge(grafo,nodo_1,nodo_2,distancia) 
+            else:
+                gr.addEdge(grafo,nodo_1,nodo_2,-distancia) 
             gr.addEdge(grafo_NO_dirigido,nodo_1,nodo_2,distancia) 
             i+=1
             j+=1
@@ -898,7 +900,7 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
     poner_nodos__en_grafo(data_structs)
 
     ###G. Crear arcos entre nodos de seguimiento
-    crear_arcos_nodos_seguimiento(data_structs)
+    crear_arcos_nodos_seguimiento(data_structs,False)
 
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)

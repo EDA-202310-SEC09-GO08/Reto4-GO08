@@ -124,8 +124,11 @@ def req_4(control,lat1,long1,lat2,long2):
     """
     Retorna el resultado del requerimiento 4
     """
+    time1=get_time()
     res = model.req_4(control['model'],lat1,long1,lat2,long2)
-    return res
+    time2=get_time
+    delta_t=delta_time(time1,time2)
+    return res,delta_t
 
 
 def req_5(control):

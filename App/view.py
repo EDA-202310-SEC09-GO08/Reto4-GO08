@@ -318,6 +318,8 @@ def print_req_4(control):
     plong2=-111.865
     plat2=57.453
     res=controller.req_4(control,plat1,plong1,plat2,plong2)
+    time=res[1]
+    res=res[0]
     
     print(' La distancia entre el punto GPS de origen y el punto de encuentro más cercano: ')
     print(str(res[0])+' km')
@@ -365,7 +367,7 @@ def print_req_4(control):
         folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
     mapa.save("C:/Users/samis/Downloads/mapa.html")
     
-
+    print(time)
 
 
 

@@ -871,7 +871,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
         dist_total+=i['weight']
 
     #print(dist_total)
-    print(recorrido_min)
+    #print(recorrido_min)
     prim=tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
     ult=tres_ultimos_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
     lista_a_devolver=[]

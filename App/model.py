@@ -670,23 +670,33 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
 
     
 
-    print(nodo_inicio)
-    print(nodo_fin)
+    #print(nodo_inicio)
+    #print(nodo_fin)
     
     total_arcos=lt.size(recorrido_min)
     total_nodos=total_arcos+1
     
-    print(total_arcos)
+    #print(total_arcos)
     it=lt.iterator(recorrido_min)
     dist_total=0
     for i in it:
-        print(i)
+        #print(i)
         dist_total+=i['weight']
 
-    print(dist_total)
-    print(recorrido_min)
-    tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
-    
+    #print(dist_total)
+    #print(recorrido_min)
+    prim=tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    ult=tres_ultimos_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    lista_a_devolver=[]
+    lista_a_devolver.append(distancia_entre_punto_inicio_nodo)
+    lista_a_devolver.append(distancia_entre_punto_fin_nodo)
+    lista_a_devolver.append(dist_total)
+    lista_a_devolver.append(total_nodos)
+    lista_a_devolver.append(total_arcos)
+    lista_a_devolver.append(prim)
+    lista_a_devolver.append(ult)
+
+    return lista_a_devolver
     pass
 
 
@@ -749,7 +759,7 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
         datos['n_lobos']=n_lobos
         datos['distancia']=arco['weight']
         lista_dics.append(datos)
-        print(datos)
+        #print(datos)
         i+=1
     
     return lista_dics
@@ -758,7 +768,7 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
 def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
     lista_dics=[]
     size=lt.size(recorrido_min)
-    i=0
+    i=1
     while i<=3:
         datos={}
         arco=lt.getElement(recorrido_min,i)
@@ -791,7 +801,7 @@ def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
         datos['n_lobos']=n_lobos
         datos['distancia']=arco['weight']
         lista_dics.append(datos)
-        print(datos)
+        #print(datos)
         i+=1
     
     return lista_dics

@@ -646,14 +646,19 @@ def req_3(data_structs):
         i +=1
 
     ' ir poniendo requerimiento por requerimiento'
+    valor = pedido(data_structs["model"],mapa,final)
+
+    return total, valor
+
+def pedido( data_structs, mapa, lista_mejores):
     valor = []
-    for ultima in lt.iterator(final):
+    for ultima in lt.iterator(lista_mejores):
         respuesta = {}
         respuesta["SCCID"] = ultima 
         respuesta["NODEIDS"] = node_ids(mapa,ultima)
         lista = devolver_value(mapa,ultima)
         respuesta["SCC Size "] = lt.size(lista)
-        max_mins = encontrar(lista, data_structs["model"]["mapa archivo lobos"])
+        max_mins = encontrar(lista, data_structs["mapa archivo lobos"])
         respuesta ["min-lat"] = max_mins[0]
         respuesta ["max-lat"] = max_mins[1]
         respuesta ["min-lon"] = max_mins[2]
@@ -661,8 +666,7 @@ def req_3(data_structs):
         respuesta["wolf Count"] = max_mins[4]
         respuesta["Wolf details"] = max_mins[5]
         valor.append(respuesta)
-
-    return total, valor
+    return valor 
 
 def separar(el_str):
 
@@ -751,16 +755,20 @@ def node_ids (mapa, llave):
     valor = devolver_value(mapa,llave)
     i = 1
     respuesta = []
-    while i <= 3:
-        pos = lt.getElement(valor,i)
+    if lt.size(valor) >= 3:
+        while i <= 3:
+            pos = lt.getElement(valor,i)
+            respuesta.append(pos)
+            i += 1
+        a = 3
+        size = lt.size(valor)
+        while a > 0:
+            posicion = size - a
+            respuesta.append(lt.getElement(valor,posicion ))
+            a -=1 
+    else:
+        pos =lt.getElement(valor,1)
         respuesta.append(pos)
-        i += 1
-    a = 3
-    size = lt.size(valor)
-    while a > 0:
-        posicion = size - a
-        respuesta.append(lt.getElement(valor,posicion ))
-        a -=1 
     return respuesta
 
 
@@ -1039,8 +1047,67 @@ def req_7(data_structs,time1,time2,temp1,temp2):
     Función que soluciona el requerimiento 7
     """
     crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2)
+    grafo=data_structs['grafo']
+    kosaraju = scc.KosarajuSCC(grafo)
+    "los puntos conectados "
+    total = scc.connectedComponents(kosaraju)
+    keys = mp.keySet(kosaraju["idscc"])
+    mapa = mp.newMap()
+
+    for manada in lt.iterator(keys):
+        "invertir las llaves como valores dentro de una lista y el valor se volvio la llave"
+        actual = devolver_value(kosaraju["idscc"],manada)
+        esta = mp.contains(mapa, actual)
+        if esta == False:
+            lista = lt.newList()
+            lt.addFirst(lista,manada)
+            mp.put(mapa,actual,lista)
+        else:
+            agregar = devolver_value(mapa, actual)
+            lt.addLast(agregar, manada)
 
 
+    llaves_scc = mp.keySet(mapa)
+    i = 1 
+    final = lt.newList()
+    'encontrar el top 3 '
+    while i <= 3:
+        mayor = 0 
+        sccc = 0
+        a = 1
+        
+        while a <= lt.size(llaves_scc):
+            sccdid = lt.getElement(llaves_scc,a)
+            cantidad_list = devolver_value(mapa,sccdid)
+            if lt.size(cantidad_list) > mayor:
+                mayor = lt.size(cantidad_list)
+                sccc = sccdid
+                pos = a 
+            a += 1
+        lt.addLast(final,sccc)  
+        lt.deleteElement(llaves_scc, pos)
+        i +=1
+    e = 1
+    while e <= 3:
+        mayor = 99999999999
+        sccc = 0
+        a = 1
+        
+        while a <= lt.size(llaves_scc):
+            sccdid = lt.getElement(llaves_scc,a)
+            cantidad_list = devolver_value(mapa,sccdid)
+            if lt.size(cantidad_list) < mayor:
+                mayor = lt.size(cantidad_list)
+                sccc = sccdid
+                pos = a 
+            a += 1
+        lt.addLast(final,sccc)  
+        lt.deleteElement(llaves_scc, pos)
+        e +=1
+
+    respuesta = pedido(data_structs, mapa, final)
+
+    return total, respuesta
 def req_8(data_structs):
     """
     Función que soluciona el requerimiento 8

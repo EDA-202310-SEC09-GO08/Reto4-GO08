@@ -372,9 +372,18 @@ def print_req_7(control):
     temp1='-17.3'
     temp2='9.7'
     res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
-    
+
+    print("Considering the folowwing date range: ")
+    print("Start date : " + str(fecha1))
+    print("End date : " +str(fecha2))
+    print("Considering the folowwing temperature range: ")
+    print("low temperature: " + str(temp1))
+    print("Hight temperature: " +str(temp2))
+    print("There are " + str(res[0]) + " strongly connectec components (SCC) in the graph ")
+    print( "The first 3 and the last 3 SCC in the graph are: ")
+    print(tabulate(res[1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
     # TODO: Imprimir el resultado del requerimiento 7
-    pass
+    
 
 
 def print_req_8(control):

@@ -289,7 +289,9 @@ def print_req_2(control):
     """
     print()
     # TODO: Imprimir el resultado del requerimiento 2
-    pass
+    nodo1 = "m111p862_57p449"
+    nodo2 = "m111p908_57p427"
+    res = controller.req_2(control, nodo1, nodo2)
 
 
 def print_req_3(control):

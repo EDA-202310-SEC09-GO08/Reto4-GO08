@@ -593,13 +593,68 @@ def req_1(data_structs):
     pass
 
 
-def req_2(data_structs):
+def req_2(data_structs, nodo1, nodo2):
     """
     Función que soluciona el requerimiento 2
     """
     # TODO: Realizar el requerimiento 2
-    pass
+    busqueda = dfs.DepthFirstSearch(data_structs["model"]["grafo"], nodo1)
+    hay = dfs.hasPathTo(busqueda,nodo2)
+    if hay == True:
+        como = dfs.pathTo(busqueda,nodo2)
+    lista = []
 
+    i = 1 
+    lista = lt.newList()
+    while i <= 5:
+        pos = lt.getElement(como,i)
+        lt.addLast(lista, pos)
+        i +=1
+
+    a = 5
+    while a > 0:
+        size = lt.size(como) - a 
+        pos = lt.getElement(como, size)
+        lt.addLast(lista,pos)
+        a +=1
+    
+    res = []
+    vez = 0
+    for valor in lt.iterator(lista):
+        dic = {}
+        cada_una = separar(valor)
+        dic["Location long-aprox"] = cada_una[0]
+        dic["location lat-aprox"] = cada_una[1]
+        dic["node-id"] = valor
+        cuantos = devolver_value(data_structs["model"]["mapa nodos de encuentro"], valor)
+        size = lt.size(cuantos)
+        adelante = adelante(como, vez)
+        dic["individual-id"]
+        dic["individual-count"] = size
+        dic["edge-to"] = adelante
+        if adelante != "unknown":
+            dist = gr.getEdge(data_structs["model"]["grafo"], valor, adelante)
+        else:
+            dist = "unknown"
+            
+        dic["edge distance- km"] = dist
+        vez +=1
+    res.append(dic)
+    return res 
+    
+def individual( lista):
+    res = []
+    for ind in lt.iterator(lista):
+        res.append(ind)
+    return res 
+def adelante(lista, pos):
+    if pos < 4:
+        donde = lt.getElement(lt.size(lista)- pos)
+    elif pos == 4 and pos < 9:
+        donde = lt.getElement(lista,pos-3)
+    else:
+        donde = "unknown "
+    return donde
 
 def req_3(data_structs):
     """

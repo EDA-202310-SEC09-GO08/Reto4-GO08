@@ -103,12 +103,12 @@ def req_1(control):
     pass
 
 
-def req_2(control):
+def req_2(control,nodo1, nodo2):
     """
     Retorna el resultado del requerimiento 2
     """
     # TODO: Modificar el requerimiento 2
-    pass
+    res = model.req_2(control,nodo1,nodo2)
 
 
 def req_3(control):

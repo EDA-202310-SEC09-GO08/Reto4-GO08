@@ -200,7 +200,7 @@ def lista_10_dics_a_imprimir(data_structs):
     lista_10_nodos.append(lt.getElement(lista_nodos,size-3))
     lista_10_nodos.append(lt.getElement(lista_nodos,size-4))
     lista_10_nodos.append(lt.getElement(lista_nodos,size-5))    
-
+#
     i=0
     lista_10_dics=[]
     while i<10:

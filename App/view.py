@@ -33,6 +33,7 @@ assert cf
 from tabulate import tabulate
 import traceback
 from DISClib.ADT import graph as gr
+import folium
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -199,7 +200,7 @@ def lista_10_dics_a_imprimir(data_structs):
     lista_10_nodos.append(lt.getElement(lista_nodos,size-3))
     lista_10_nodos.append(lt.getElement(lista_nodos,size-4))
     lista_10_nodos.append(lt.getElement(lista_nodos,size-5))    
-
+#
     i=0
     lista_10_dics=[]
     while i<10:
@@ -319,6 +320,8 @@ def print_req_4(control):
     plong2=-111.865
     plat2=57.453
     res=controller.req_4(control,plat1,plong1,plat2,plong2)
+    time=res[1]
+    res=res[0]
     
     print(' La distancia entre el punto GPS de origen y el punto de encuentro más cercano: ')
     print(str(res[0])+' km')
@@ -342,9 +345,31 @@ def print_req_4(control):
     print(' Los tres últimos puntos de la ruta en orden descendente son :')
     tabulete6=tabulate(res[6], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
     print(tabulete6)
-    print('')    
+    print('') 
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
 
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    folium.Marker(location=[plat1,plong1],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+    folium.Marker(location=[plat2,plong2],icon=folium.Icon(color='red',icon='fire')).add_to(mapa)
+    for dic in res[5]:
+            folium.Marker(location=[dic['lat'],dic['long']],icon=folium.Icon(color='green',icon='fire')).add_to(mapa)
 
+    for dic in res[6]:
+        folium.Marker(location=[dic['lat'],dic['long']],icon=folium.Icon(color='orange',icon='fire')).add_to(mapa)
+    
+    for arco in lt.iterator(res[7]):
+        vertexA=arco['vertexA'].replace('m','-').replace('p','.').split('_')
+        vertexB=arco['vertexB'].replace('m','-').replace('p','.').split('_')
+        latA=float(vertexA[1])
+        latB=float(vertexB[1])
+        longA=float(vertexA[0])
+        longB=float(vertexB[0])
+        locs=[(latA,longA),(latB,longB)]
+        folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
+    mapa.save("C:/Users/samis/Downloads/mapa.html")
+    
+    print('tiempo: '+str(time))
 
 
 

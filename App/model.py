@@ -173,41 +173,46 @@ def anadir_individual_id_a_lobo(data_structs):
 
 def crear_grafo(data_structs):
 
-    ###a. Redondear
+    ###a. Redondear:
+    ### recoje lista total y redondea las coordenadas a 3 decimales
     redondear_lista_total(data_structs)
+    ### Añade a cada evento su coordenada asociada y su nodo de seguimiento asociado 
     poner_coordenada_en_formato_a_evento_Y_asociarlo_con_nodo_de_seguimiento(data_structs)
 
     ###b. mapa lobos
+    ## Crea mapa con llave animal-id y valor array ordenado por fecha de los eventos asociados a ese lobo
     crear_mapa_lobos(data_structs)
+    ##de cada array un elemento si el anterior tiene su misma coordenada.
     filtrar_mapa_lobos(data_structs)
 
     ###C. mapa coordenadas
-
+    ## mediante iteración del mapa lobos, crea mapa con llave coordenada y valor array eventos en dicha coordenada
     crear_mapa_coordenadas(data_structs)
 
     #####D. mapa nodos de seguimiento
-
+    ## Iterando mapa lobos, crea mapa de nodos de seguimiento cuyo valor es la coordenada.
     crear_nodos_de_seguimiento(data_structs)
 
     ###E. Crear nodos de encuentro
+    ### Iterando mapa de coordenadas, crea mapa con llave nodo-id y valor array de nodos de seguimiento adyacentes.
     crear_nodos_de_encuentro(data_structs)
 
     ####F. Poner nodos  en grafo
+    ##Itera los mapas y pone los nodos en el grafo
     poner_nodos__en_grafo(data_structs)
 
     ###G. Crear arcos entre nodos de seguimiento
+
+    ## Itera mapa lobos para crear arcos de nodos de seguimiento
     crear_arcos_nodos_seguimiento(data_structs)
 
     ####H. Crear arcos para los nodos de encuentro
+    ###Itera mapa nodos de encuentro para poner arcos adyacentes.
     poner_arcos_encuentro(data_structs)
 
 
     ##I. rectangulo de area requerido para view
-
-
     anadir_menor_mayor_lat_log(data_structs)
-
-
     return data_structs
 
 ###a. Redondear lista
@@ -911,6 +916,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     lista_a_devolver.append(total_arcos)
     lista_a_devolver.append(prim)
     lista_a_devolver.append(ult)
+    lista_a_devolver.append(recorrido_min)
 
     return lista_a_devolver
     pass
@@ -1056,6 +1062,7 @@ def array_ordenado_filtrado_por_rango_fechas(array,fecha1,fecha2):
     
     return array_filt
 
+## Filtra array por rango de temperatura
 def filtrar_array_por_temp(array,temp1,temp2):
     temp_in=float(temp1)
     temp_fin=float(temp2)

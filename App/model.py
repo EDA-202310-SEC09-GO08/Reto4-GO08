@@ -1123,7 +1123,7 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
     poner_nodos__en_grafo(data_structs)
 
     ###G. Crear arcos entre nodos de seguimiento
-    crear_arcos_nodos_seguimiento(data_structs,False)
+    crear_arcos_nodos_seguimiento(data_structs)
 
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)

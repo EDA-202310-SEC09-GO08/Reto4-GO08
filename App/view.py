@@ -322,13 +322,20 @@ def print_req_4(control):
     res=controller.req_4(control,plat1,plong1,plat2,plong2)
     time=res[1]
     res=res[0]
-    
+
     print(' La distancia entre el punto GPS de origen y el punto de encuentro más cercano: ')
     print(str(res[0])+' km')
     print('')
+
     print(' La distancia el punto de encuentro de destino más cercano y el punto GPS de destino: ')
     print(str(res[1])+' km')
     print('')
+    if len(res)==4:
+        print('Nodo inicio: '+res[2])
+        print('Nodo fin: '+res[3])
+        print('No hay camino')
+        print('tiempo: '+str(time))
+        return None
     print('  La distancia total que tomará el recorrido entre los puntos de encuentro de origen y destino: ')
     print(str(res[2])+'km')
     print('')

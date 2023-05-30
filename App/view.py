@@ -279,8 +279,13 @@ def print_req_1(control):
         Función que imprime la solución del Requerimiento 1 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 1
+    origen = input("Ingrese el identificador del punto de origen: ")
+    destino = input( "Ingrese el identificador del punto de destino: ")
+    respuesta = controller.req_1(control, origen, destino)
+    
     pass
-
+#Long-111.874754_Lat57.498278
+#Long-111.921908_Lat56.56768
 
 def print_req_2(control):
     """

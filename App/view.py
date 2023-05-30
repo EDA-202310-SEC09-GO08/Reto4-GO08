@@ -33,6 +33,7 @@ assert cf
 from tabulate import tabulate
 import traceback
 from DISClib.ADT import graph as gr
+import folium
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -158,8 +159,8 @@ def dic_representa_nodo_encuentro(nodo_encuentro,data_structs):
     lat_long=form_corr.split('_')
 
     dic_nodo_enc={}
-    lat = lat_long[0]
-    long=lat_long[1]
+    long = lat_long[0]
+    lat=lat_long[1]
 
     array_nodos_seg = devolver_value(data_structs['mapa nodos de encuentro'],nodo_encuentro)
 
@@ -199,7 +200,7 @@ def lista_10_dics_a_imprimir(data_structs):
     lista_10_nodos.append(lt.getElement(lista_nodos,size-3))
     lista_10_nodos.append(lt.getElement(lista_nodos,size-4))
     lista_10_nodos.append(lt.getElement(lista_nodos,size-5))    
-
+#
     i=0
     lista_10_dics=[]
     while i<10:
@@ -293,8 +294,12 @@ def print_req_2(control):
     """
     print()
     # TODO: Imprimir el resultado del requerimiento 2
-    pass
-
+    nodo1 = "m111p862_57p449"
+    nodo2 = "m111p908_57p427"
+    #nodo1=(input('Nodo 1: '))
+    #nodo2=(input('Nodo 2: '))
+    res = controller.req_2(control, nodo1, nodo2)
+    print(tabulate(res, headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
 
 def print_req_3(control):
     """
@@ -302,7 +307,9 @@ def print_req_3(control):
     """
     # TODO: Imprimir el resultado del requerimiento 3
     res = controller.req_3(control)
-    print(res)
+    print("There are " + str(res[0]) + " strongly connectec components (SCC) in the graph ")
+    print( "The top 5 SCC in the graph are: ")
+    print(tabulate(res[1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
 
 
 def print_req_4(control):
@@ -318,6 +325,66 @@ def print_req_4(control):
     plong2=-111.865
     plat2=57.453
     res=controller.req_4(control,plat1,plong1,plat2,plong2)
+    time=res[1]
+    res=res[0]
+
+    print(' La distancia entre el punto GPS de origen y el punto de encuentro más cercano: ')
+    print(str(res[0])+' km')
+    print('')
+
+    print(' La distancia el punto de encuentro de destino más cercano y el punto GPS de destino: ')
+    print(str(res[1])+' km')
+    print('')
+    if len(res)==4:
+        print('Nodo inicio: '+res[2])
+        print('Nodo fin: '+res[3])
+        print('No hay camino')
+        print('tiempo: '+str(time))
+        return None
+    print('  La distancia total que tomará el recorrido entre los puntos de encuentro de origen y destino: ')
+    print(str(res[2])+'km')
+    print('')
+    print('Total de nodos:')
+    print(res[3])
+    print('')  
+    print('Total de arcos:')
+    print(res[4])
+    print('')  
+    print(' Los tres primeros puntos de la ruta en orden ascendente son :')
+    tabulete5=tabulate(res[5], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
+    print(tabulete5)
+    print('')
+    print(' Los tres últimos puntos de la ruta en orden descendente son :')
+    tabulete6=tabulate(res[6], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
+    print(tabulete6)
+    print('') 
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
+
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    folium.Marker(location=[plat1,plong1],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+    folium.Marker(location=[plat2,plong2],icon=folium.Icon(color='red',icon='fire')).add_to(mapa)
+    for dic in res[5]:
+            folium.Marker(location=[dic['lat'],dic['long']],icon=folium.Icon(color='green',icon='fire')).add_to(mapa)
+
+    for dic in res[6]:
+        folium.Marker(location=[dic['lat'],dic['long']],icon=folium.Icon(color='orange',icon='fire')).add_to(mapa)
+    
+    for arco in lt.iterator(res[7]):
+        vertexA=arco['vertexA'].replace('m','-').replace('p','.').split('_')
+        vertexB=arco['vertexB'].replace('m','-').replace('p','.').split('_')
+        latA=float(vertexA[1])
+        latB=float(vertexB[1])
+        longA=float(vertexA[0])
+        longB=float(vertexB[0])
+        locs=[(latA,longA),(latB,longB)]
+        folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
+    mapa.save("C:/Users/samis/Downloads/mapa.html")
+    
+    print('tiempo: '+str(time))
+
+
+#
     pass
 
 
@@ -341,8 +408,23 @@ def print_req_7(control):
     """
         Función que imprime la solución del Requerimiento 7 en consola
     """
+    fecha1='2012-11-28 00:00'
+    fecha2='2014-05-17 23:59'
+    temp1='-17.3'
+    temp2='9.7'
+    res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
+
+    print("Considering the folowwing date range: ")
+    print("Start date : " + str(fecha1))
+    print("End date : " +str(fecha2))
+    print("Considering the folowwing temperature range: ")
+    print("low temperature: " + str(temp1))
+    print("Hight temperature: " +str(temp2))
+    print("There are " + str(res[0]) + " strongly connectec components (SCC) in the graph ")
+    print( "The first 3 and the last 3 SCC in the graph are: ")
+    print(tabulate(res[1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
     # TODO: Imprimir el resultado del requerimiento 7
-    pass
+    
 
 
 def print_req_8(control):

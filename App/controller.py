@@ -27,6 +27,9 @@ import csv
 import tracemalloc
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+
+
+
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
@@ -121,13 +124,13 @@ def req_1(control, origen, destino):
     return respuesta
 
 
-def req_2(control):
+def req_2(control,nodo1, nodo2):
     """
     Retorna el resultado del requerimiento 2
     """
     # TODO: Modificar el requerimiento 2
-    pass
-
+    res = model.req_2(control,nodo1,nodo2)
+    return res
 
 def req_3(control):
     """
@@ -142,8 +145,11 @@ def req_4(control,lat1,long1,lat2,long2):
     """
     Retorna el resultado del requerimiento 4
     """
+    time1=get_time()
     res = model.req_4(control['model'],lat1,long1,lat2,long2)
-    return res
+    time2=get_time()
+    delta_t=delta_time(time1,time2)
+    return res,delta_t
 
 
 def req_5(control):
@@ -161,12 +167,12 @@ def req_6(control):
     pass
 
 
-def req_7(control):
+def req_7(control,time1,time2,temp1,temp2):
     """
     Retorna el resultado del requerimiento 7
     """
-    # TODO: Modificar el requerimiento 7
-    pass
+    res = model.req_7(control['model'],time1,time2,temp1,temp2)
+    return res
 
 
 def req_8(control):

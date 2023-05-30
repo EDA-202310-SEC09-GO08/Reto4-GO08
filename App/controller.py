@@ -109,7 +109,7 @@ def req_2(control,nodo1, nodo2):
     """
     # TODO: Modificar el requerimiento 2
     res = model.req_2(control,nodo1,nodo2)
-
+    return res
 
 def req_3(control):
     """

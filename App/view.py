@@ -290,8 +290,10 @@ def print_req_2(control):
     # TODO: Imprimir el resultado del requerimiento 2
     nodo1 = "m111p862_57p449"
     nodo2 = "m111p908_57p427"
+    #nodo1=(input('Nodo 1: '))
+    #nodo2=(input('Nodo 2: '))
     res = controller.req_2(control, nodo1, nodo2)
-
+    print(tabulate(res, headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
 
 def print_req_3(control):
     """

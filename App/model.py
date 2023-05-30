@@ -608,38 +608,63 @@ def req_2(data_structs, nodo1, nodo2):
     lista = lt.newList()
     while i <= 5:
         pos = lt.getElement(como,i)
-        lt.addLast(lista, pos)
+        lt.addFirst(lista, pos)
         i +=1
 
-    a = 5
-    while a > 0:
+    a = 4
+    while a >= 0:
         size = lt.size(como) - a 
         pos = lt.getElement(como, size)
-        lt.addLast(lista,pos)
-        a +=1
+        lt.addFirst(lista,pos)
+        a -=1
     
     res = []
-    vez = 0
+    vez = 1
+    menos = 0 
     for valor in lt.iterator(lista):
         dic = {}
         cada_una = separar(valor)
         dic["Location long-aprox"] = cada_una[0]
         dic["location lat-aprox"] = cada_una[1]
         dic["node-id"] = valor
-        cuantos = devolver_value(data_structs["model"]["mapa nodos de encuentro"], valor)
-        size = lt.size(cuantos)
-        adelante = adelante(como, vez)
-        dic["individual-id"]
-        dic["individual-count"] = size
-        dic["edge-to"] = adelante
-        if adelante != "unknown":
-            dist = gr.getEdge(data_structs["model"]["grafo"], valor, adelante)
+        
+        siguiente = adelante(como, vez- menos)
+        if len(cada_una) == 2:
+            cuantos = devolver_value(data_structs["model"]["mapa nodos de encuentro"], valor)
+            size = lt.size(cuantos)
+            
+            indvid = []
+            for individual in lt.iterator(cuantos):
+                indvid.append(individual)
+
+            dic["individual-id"] = indvid
+            dic["individual-count"] = size
+            
+        else:
+            dic["individual-id"] = cada_una[2] + "_" + cada_una[3]
+            dic["individual-count"] = 1
+    
+        dic["edge-to"] = siguiente
+        if vez <= 5:
+            edge = gr.getEdge(data_structs["model"]["grafo"], valor, siguiente)
+            if edge != None:
+
+                dist = edge["weight"]
+            else:
+                dist = 0 
+        elif vez < 10:
+            edge = gr.getEdge(data_structs["model"]["grafo"], valor, siguiente)
+            if edge != None:
+
+                dist = edge["weight"]
+            else:
+                dist = 0 
         else:
             dist = "unknown"
             
         dic["edge distance- km"] = dist
         vez +=1
-    res.append(dic)
+        res.append(dic)
     return res 
     
 def individual( lista):
@@ -648,13 +673,22 @@ def individual( lista):
         res.append(ind)
     return res 
 def adelante(lista, pos):
-    if pos < 4:
-        donde = lt.getElement(lt.size(lista)- pos)
-    elif pos == 4 and pos < 9:
-        donde = lt.getElement(lista,pos-3)
+    if pos <= 5 :
+        res = lt.getElement(lista, lt.size(lista) - pos)
+        
+    elif pos > 5 and pos <10:
+        if pos == 6:
+            pos = 4
+        elif pos == 7:
+            pos = 3
+        elif pos == 8:
+            pos = 2
+        elif pos == 9:
+            pos = 1
+        res = lt.getElement(lista, pos)
     else:
-        donde = "unknown "
-    return donde
+        res = "unknown"
+    return res
 
 def req_3(data_structs):
     """

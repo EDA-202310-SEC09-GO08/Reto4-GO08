@@ -853,6 +853,8 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     ###recorridos minimos del nodo de incio a todos los demás
     recorridos_inicio=bf.BellmanFord(grafo,nodo_inicio)
 
+    if bf.hasPathTo(recorridos_inicio,nodo_fin)==False:
+        return distancia_entre_punto_inicio_nodo,distancia_entre_punto_fin_nodo,nodo_inicio,nodo_fin
     recorrido_min=bf.pathToArray(recorridos_inicio,nodo_fin)
 
     

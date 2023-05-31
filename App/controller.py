@@ -24,6 +24,7 @@ import config as cf
 import model
 import time
 import csv
+import sys
 import tracemalloc
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -33,7 +34,9 @@ from DISClib.ADT import map as mp
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-
+csv.field_size_limit(2147483647)
+default_limit = 1000
+sys.setrecursionlimit(default_limit*100000)
 
 def new_controller():
     """
@@ -169,10 +172,11 @@ def req_7(control,time1,time2,temp1,temp2):
     """
     Retorna el resultado del requerimiento 7
     """
-    time1=get_time()
+    timea=get_time()
     res = model.req_7(control['model'],time1,time2,temp1,temp2)
+    #print(len(res))
     time2=get_time()
-    delta_t=delta_time(time1,time2)
+    delta_t=delta_time(timea,time2)
     return res, delta_t
 
 

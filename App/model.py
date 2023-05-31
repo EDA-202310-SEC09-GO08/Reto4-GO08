@@ -794,7 +794,7 @@ def req_3(data_structs):
     ' ir poniendo requerimiento por requerimiento'
     valor = pedido(data_structs["model"],mapa,final)
 
-    return total, valor
+    return total, valor, mapa, final
 
 def pedido( data_structs, mapa, lista_mejores):
     valor = []

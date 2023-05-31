@@ -590,13 +590,63 @@ def data_size(data_structs):
     pass
 
 
-def req_1(data_structs):
+def req_1(data_structs , origen, destino):
     """
     Función que soluciona el requerimiento 1
     """
     # TODO: Realizar el requerimiento 1
-    pass
+    respuesta = lt.newList("ARRAY_LIST")
+    grafo = data_structs["grafo"]
+    result = dfs.DepthFirstSearch(grafo, origen)
+    tiene = dfs.hasPathTo(result, destino)
+    if tiene == False:
+        s
+    else:
+        pila = dfs.pathTo(result, destino)
+        dist = aux_tam(grafo, pila)
+        lt.addLast(respuesta, dist)
+        tam = lt.size(pila)
+        lt.addLast(respuesta, tam)
+        t5 = aux_t5(pila, 5)
+        lt.addLast(respuesta, t5)
+    
+    return respuesta
 
+def aux_tam (grafo, pila):
+        i = 0
+        j = 1
+        dist = 0
+        tam = lt.size(pila)-1
+        while j <= tam:
+            a = pila[i]
+            b = pila[j]
+            dn = gr.getEdge(grafo, a, b)
+            item = 0
+            while item < lt.size(dn):
+                dicco = dn[item]
+                dist_a = dicco["weight"]
+                dist += dist_a
+                i += 1
+                j += 1
+                item += 1
+        return dist
+
+def aux_t5 (pila, top):
+    respuesta = lt.newList("ARRAY_LIST")
+    tam = lt.size(pila)
+    i = 0
+    j = 1
+    while i <= (top - 1):
+        pos = i
+        vertix = pila[pos]
+        lt.addFirst(respuesta, vertix)
+        i += 1
+    while j <= top:
+        pos = tam - j
+        vertix = pila[pos]
+        lt.addFirst(respuesta, vertix)
+        j += 1
+    return respuesta
 
 def req_2(data_structs, nodo1, nodo2):
     """
@@ -910,6 +960,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     #print(recorrido_min)
     prim=tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
     ult=tres_ultimos_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    n_lobos=num_lobos(recorrido_min)
     lista_a_devolver=[]
     lista_a_devolver.append(distancia_entre_punto_inicio_nodo)
     lista_a_devolver.append(distancia_entre_punto_fin_nodo)
@@ -919,6 +970,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     lista_a_devolver.append(prim)
     lista_a_devolver.append(ult)
     lista_a_devolver.append(recorrido_min)
+    lista_a_devolver.append(n_lobos)
 
     return lista_a_devolver
     
@@ -988,7 +1040,24 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
     
     return lista_dics
 
+def num_lobos(camino_min):
+    ruta_min =lt.iterator(camino_min)
+    mapa_aux=mp.newMap()
+    for arco in ruta_min:
+        nodoA=arco['vertexA'].replace('m','-').replace('p','.').split('_')
+        if len(nodoA)==4:
+            nodoA=nodoA[2]+'_'+nodoA[3]
+            print(nodoA)
+            estaa=mp.contains(mapa_aux,nodoA)
+            #print(nodoA)
+            #print(estaa)
+            if estaa==False:
+                mp.put(mapa_aux,nodoA,None)
     
+    size=mp.size(mapa_aux)
+    return size
+      
+        
 def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
     lista_dics=[]
     size=lt.size(recorrido_min)
@@ -1039,7 +1108,7 @@ def req_5(data_structs):
     Función que soluciona el requerimiento 5
     """
     # TODO: Realizar el requerimiento 5
-    pass
+    
 
 ##### Funciones para 6 y 7 de filtrar array_ordenado de eventos por rango de fechas y temperaturas, devuelven el arrray 
 ### ordenadp por tiempo con los eventos dentro del rango
@@ -1139,7 +1208,180 @@ def req_6(data_structs):
     Función que soluciona el requerimiento 6
     """
     # TODO: Realizar el requerimiento 6
-    pass
+    respuesta = lt.newList("ARRAY_LIST")
+    grafo = data_structs["grafo no dirigido"]
+    array = data_structs["lista total"]
+    
+    filtro = array_ordenado_filtrado_por_rango_fechas(array, fecha_1, fecha_2)
+    lt_gen = aux_gen(filtro, genero)
+    vertices = lista_vert(lt_gen)
+    max_camin = 0
+    min_camin = 100
+    r1 = lt.newlist("ARRAY_LIST")
+    r2 = lt.newlist("ARRAY_LIST")
+    lobo_1 = str()
+    r1_1 = str()
+    r1_2 = str()
+    lobo_2 = str()
+    r2_1 = str()
+    r2_2 = str()
+    for id in lobos:
+        eventos = lobos[id]
+        nodos = aux_lt_nodo(eventos)
+        nodo_m = (grafo, nodos, "max")
+        dist = nodo_m[0]
+        if dist >= max_camin:
+            max_camin = dist
+            lobo_1 = id
+            r1_1 = dist[1]
+            r1_2 = dist[2]
+
+    lt.addLast(r1, lobo_1)
+    lt.addLast(r1, r1_1)
+    lt.addLast(r1, r1_2)
+    
+    for id in lobos:
+        eventos = lobos[id]
+        nodos = aux_lt_nodo(eventos)
+        nodo_m = (grafo, nodos, "min")
+        dist = nodo_m[0]
+        if dist >= max_camin:
+            max_camin = dist
+            lobo_2 = id
+            r2_1 = dist[1]
+            r2_2 = dist[2]
+    lt.addLast(r1, lobo_2)
+    lt.addLast(r1, r2_1)
+    lt.addLast(r1, r2_2)
+    
+    lt.addLast(respuesta, r1)
+    lt.addLast(respuesta, r2)
+    
+    resultado_final = aux_resp6(respuesta, data_structs)
+    
+    return resultado_final
+    
+def aux_gen(filtro , genero, archivo):
+    tam = len(filtro)
+    i = 0
+    respuesta = {}
+    while i < tam:
+        evento = filtro[i]
+        lobo = evento["individual-local-identifier"]
+        dico = archivo[lobo]
+        gen = dico["animals-sex"]
+        if genero == gen:
+            if lobo in respuesta:
+                lista = respuesta[lobo]
+                lt.addLast(lista, evento)
+            else:
+                respuesta[lobo] = lt.newlist("ARRAY_LIST")
+    return respuesta
+
+def aux_camino(grafo, lt_nodos, valor):
+    min_camin = 100
+    max_camin = 0
+    respuesta = lt.newlist("ARRAY_LIST")
+    dist_f = 0
+    nodo_in = str()
+    nodo_f = str()
+    if valor == "max":
+        num_n = 0
+        while num_n < lt.size(lt_nodos):
+            nodo = lt_nodos[num_n]
+            num_c = num_n + 1
+            pila = dfs.DepthFirstSearch(grafo, nodo)
+            while num_c < lt.size(lt_nodos):
+                nodo_c = lt_nodos[num_c]
+                camino = dfs.pathTo(pila, nodo_c)
+                dist = aux_tam(grafo, camino)
+                if dist >= max_camin:
+                    max_camin = dist
+                    dist_f = dist
+                    nodo_in = nodo
+                    nodo_f = nodo_c
+            num_c += 1
+        num_n += 1
+    if valor == "min":
+        num_n = 0
+        while num_n < lt.size(lt_nodos):
+            nodo = lt_nodos[num_n]
+            num_c = num_n + 1
+            pila = dfs.DepthFirstSearch(grafo, nodo)
+            while num_c < lt.size(lt_nodos):
+                nodo_c = lt_nodos[num_c]
+                camino = dfs.pathTo(pila, nodo_c)
+                dist = aux_tam(grafo, camino)
+                if dist <= min_camin:
+                    min_camin = dist
+                    dist_f = dist
+                    nodo_in = nodo
+                    nodo_f = nodo_c
+            num_c += 1
+        num_n += 1
+    lt.addLast(respuesta, dist_f)
+    lt.addLast(respuesta, nodo_in)
+    lt.addLast(respuesta, nodo_f)
+    return respuesta
+     
+def aux_lt_nodo (eventos):
+    respuesta = lt.newlist("ARRAY_LIST")
+    even = 0
+    while even < lt.size(eventos):
+        evento = eventos[even]
+        lat = str(evento['location-lat']).replace('.','p').replace('-','m')
+        long = str(evento['location-long']).replace('.','p').replace('-','m')
+        coord = long + "_" + lat
+        animal_id=evento['individual-local-identifier']
+        tag_id =evento['tag-local-identifier']
+        individual_id=animal_id+'_'+tag_id
+        nodo = coord + "_" + individual_id
+        lt.addLast(respuesta , nodo)
+        even +=1
+    return respuesta
+
+def aux_resp6(respuesta, data_structs):
+    i = 0
+    final = lt.newlist("ARRAY_LIST")
+    lobos = data_structs["mapa archivo lobo"]
+    grafo = data_structs["grafo no dirigido"]
+    while i < lt.size(respuesta):
+        r_n = lt.newlist("ARRAY_LIST")
+        r = respuesta[i]
+        
+        lobo_id = r[0]
+        lobo_info = lobos[lobo_id]
+        lobo_dicc = {}
+        lobo_dicc["individual-id"] = lobo_info["individual-id"]
+        lobo_dicc["animal-taxon"] = lobo_info["animal-taxon"]
+        lobo_dicc["animal-life-stage"] = lobo_info["animal-life-stage"]
+        lobo_dicc["animal-sex"] = lobo_info["animal-sex"]
+        lobo_dicc["study-site"] = lobo_info["study-site"]
+        lobo_dicc["travel-dist"] = lobo_info["travel-dist"]
+        lobo_dicc["deployment-comments"] = lobo_info["deployment-comments"]
+        
+        info = lt.newlist("ARRAY_LIST")
+        verti_a = r[1]
+        verti_b = r[2]
+        verta = dfs.DepthFirstSearch(grafo, verti_a)
+        pila = dfs.pathTo(grafo, verti_a, verti_b)
+        nodos = lt.size(pila) + 1
+        arcos = lt.size(pila)
+        dist = aux_tam(grafo, verti_a, verti_b)
+        lt.addLast(info, nodos)
+        lt.addLast(info, arcos)
+        lt.addLast(info, dist)
+        
+        vertices = aux_t5(pila, 3)
+        
+        lt.addLast(r_n, lobo_dicc)
+        lt.addLast(r_n, info)
+        lt.addLast(r_n, vertices)
+        
+        lt.addLast(respuesta, r_n)
+
+    return respuesta
+    #informacion del lobo
 
 
 def req_7(data_structs,time1,time2,temp1,temp2):

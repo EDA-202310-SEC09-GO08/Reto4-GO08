@@ -280,8 +280,13 @@ def print_req_1(control):
         Función que imprime la solución del Requerimiento 1 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 1
+    origen = input("Ingrese el identificador del punto de origen: ")
+    destino = input( "Ingrese el identificador del punto de destino: ")
+    respuesta = controller.req_1(control, origen, destino)
+    
     pass
-
+#Long-111.874754_Lat57.498278
+#Long-111.921908_Lat56.56768
 
 def print_req_2(control):
     """
@@ -334,15 +339,15 @@ def print_req_4(control):
     """
         Función que imprime la solución del Requerimiento 4 en consola
     """
-    #lat1=float(input('Latitud inicial: '))
-    #long1=float(input('Longitud inicial: '))
-    #lat2=float(input('Latitud final: '))
-    #long2=float(input('Longitud final: '))
-    plong1=-111.911
-    plat1=57.431
-    plong2=-111.865
-    plat2=57.453
-    res=controller.req_4(control,plat1,plong1,plat2,plong2)
+    lat1=float(input('Latitud inicial: '))
+    long1=float(input('Longitud inicial: '))
+    lat2=float(input('Latitud final: '))
+    long2=float(input('Longitud final: '))
+    #plong1=-111.911
+    #plat1=57.431
+    #plong2=-111.865
+    #plat2=57.453
+    res=controller.req_4(control,lat1,long1,lat2,long2)
     time=res[1]
     res=res[0]
 
@@ -368,6 +373,9 @@ def print_req_4(control):
     print('Total de arcos:')
     print(res[4])
     print('')  
+    print('Total de lobos distintos que UTILIZAN el camino:')
+    print(res[8])
+    print('')  
     print(' Los tres primeros puntos de la ruta en orden ascendente son :')
     tabulete5=tabulate(res[5], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
     print(tabulete5)
@@ -380,8 +388,8 @@ def print_req_4(control):
     long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
 
     mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
-    folium.Marker(location=[plat1,plong1],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
-    folium.Marker(location=[plat2,plong2],icon=folium.Icon(color='red',icon='fire')).add_to(mapa)
+    folium.Marker(location=[lat1,long1],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+    folium.Marker(location=[lat2,long2],icon=folium.Icon(color='red',icon='fire')).add_to(mapa)
     for dic in res[5]:
             folium.Marker(location=[dic['lat'],dic['long']],icon=folium.Icon(color='green',icon='fire')).add_to(mapa)
 
@@ -396,13 +404,13 @@ def print_req_4(control):
         longA=float(vertexA[0])
         longB=float(vertexB[0])
         locs=[(latA,longA),(latB,longB)]
-        folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
+        folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
     mapa.save("C:/Users/samis/Downloads/mapa.html")
     
     print('tiempo: '+str(time))
 
 
-
+#
     pass
 
 

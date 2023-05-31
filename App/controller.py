@@ -98,12 +98,30 @@ def get_data(control, id):
     pass
 
 
-def req_1(control):
+def req_1(control, origen, destino):
     """
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-    pass
+    pila = model.req_1(control['model'], origen, destino)
+    respuesta = lt.newList("ARRAY_LIST")
+    tam = len(pila)
+    i = 0
+    j = 1
+    while i <= 4:
+        pos = i
+        vertix = pila[pos]
+        lt.addFirst(respuesta, vertix)
+        i += 1
+    while j <= 5:
+        pos = tam - j
+        vertix = pila[pos]
+        lt.addFirst(respuesta, vertix)
+        j += 1
+    r1 = control["model"]
+    r2 = r1["grafo"]
+    print(r2)
+    return respuesta
 
 
 def req_2(control,nodo1, nodo2):

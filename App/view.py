@@ -443,8 +443,10 @@ def print_req_7(control):
     temp1='-17.3'
     temp2='9.7'
     print('LOading correspondig graph:')
+
     
     res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
+    a=res[0][3]
     print('Graph featrures:')
     print('Total nodes: '+str(gr.numVertices(res[0][3]['grafo'])))
     print('Total edges: '+str(gr.numEdges(res[0][3]['grafo'])))

@@ -381,7 +381,7 @@ def print_req_4(control):
         longA=float(vertexA[0])
         longB=float(vertexB[0])
         locs=[(latA,longA),(latB,longB)]
-        folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
+        folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
     mapa.save("C:/Users/samis/Downloads/mapa.html")
     
     print('tiempo: '+str(time))

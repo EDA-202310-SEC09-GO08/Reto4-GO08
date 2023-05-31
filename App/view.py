@@ -492,6 +492,31 @@ def print_req_7(control):
     print("The longest path per sccid: ")
     print(tabulate(res[0][2], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
 
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
+    colores = ["darkblue", "pink", "red", "green", "black", "purple"]
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    llaves = res[0][5]
+    col = 0
+    for cada in lt.iterator(llaves):
+        i = 1
+        esta = devolver_value(res[0][4], cada)
+        for indv in lt.iterator(esta):
+            if i + 1 < lt.size(esta):
+                indv2 = lt.getElement(esta, i+1)
+                punto = indv.replace('m','-').replace('p','.').split('_')
+                lat = float(punto[1])
+                lon = float(punto[0])
+                folium.Marker(location=[lat,lon],icon=folium.Icon(color=colores[col],icon='fire')).add_to(mapa)
+                punto2 = indv2.replace('m','-').replace('p','.').split('_')
+                lat2 = float(punto2[1])
+                lon2 = float(punto2[0])
+                folium.Marker(location=[lat2,lon2],icon=folium.Icon(color=colores[col],icon='fire')).add_to(mapa)
+                locs=[(lat,lon),(lat2,lon2)]
+                folium.PolyLine(locs,color=colores[col],weight=5,opacity=0.8).add_to(mapa)
+            i +=1
+        col +=1
+    mapa.save("C:/Users/olgay/Downloads/mapa.html")
     print( " El tiempo es de:" + str(res[1]))
     # TODO: Imprimir el resultado del requerimiento 7
     

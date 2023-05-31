@@ -1197,10 +1197,11 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)
 
-    print(gr.numEdges(data_structs['grafo']))
-    print(gr.numVertices(data_structs['grafo']))
-    print(mp.size(data_structs['mapa nodos de seguimiento']))
-    print(mp.size(data_structs['mapa nodos de encuentro']))
+    #print(gr.numEdges(data_structs['grafo']))
+    #print(gr.numVertices(data_structs['grafo']))
+
+    return data_structs
+
 
 
 def req_6(data_structs):
@@ -1449,7 +1450,7 @@ def req_7(data_structs,time1,time2,temp1,temp2):
 
     respuesta = pedido(data_structs, mapa, final)
 
-    return total, respuesta
+    return total, respuesta,data_structs
 def req_8(data_structs):
     """
     Función que soluciona el requerimiento 8

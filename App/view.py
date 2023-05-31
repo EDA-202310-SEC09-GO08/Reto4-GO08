@@ -415,8 +415,12 @@ def print_req_7(control):
     fecha2='2014-05-17 23:59'
     temp1='-17.3'
     temp2='9.7'
+    print('LOading correspondig graph:')
+    
     res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
-
+    print('Graph featrures:')
+    print('Total nodes: '+str(gr.numVertices(res[2]['grafo'])))
+    print('Total edges: '+str(gr.numEdges(res[2]['grafo'])))
     print("Considering the folowwing date range: ")
     print("Start date : " + str(fecha1))
     print("End date : " +str(fecha2))

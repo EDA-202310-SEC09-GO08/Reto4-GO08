@@ -294,7 +294,30 @@ def print_req_2(control):
     #nodo1=(input('Nodo 1: '))
     #nodo2=(input('Nodo 2: '))
     res = controller.req_2(control, nodo1, nodo2)
-    print(tabulate(res, headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    print(tabulate(res[0][0], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
+
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    i = 1
+    for indv in lt.iterator(res[0][1]):
+        if i + 1 < lt.size(res[0][1]):
+            indv2 = lt.getElement(res[0][1], i)
+            punto = indv.replace('m','-').replace('p','.').split('_')
+            lat = float(punto[1])
+            lon = float(punto[0])
+            folium.Marker(location=[lat,lon],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+            punto2 = indv2.replace('m','-').replace('p','.').split('_')
+            lat2 = float(punto2[1])
+            lon2 = float(punto2[0])
+            folium.Marker(location=[lat2,lon2],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+            locs=[(lat,lon),(lat2,lon2)]
+            folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
+        i +=1
+    mapa.save("C:/Users/olgay/Downloads/mapa.html")
+        
+
+
 
 def print_req_3(control):
     """

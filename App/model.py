@@ -589,7 +589,7 @@ def data_size(data_structs):
     #TODO: Crear la función para obtener el tamaño de una lista
     pass
 
-
+#
 def req_1(data_structs):
     """
     Función que soluciona el requerimiento 1

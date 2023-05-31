@@ -600,7 +600,7 @@ def req_1(data_structs , origen, destino):
     result = dfs.DepthFirstSearch(grafo, origen)
     tiene = dfs.hasPathTo(result, destino)
     if tiene == False:
-        s
+        respuesta = None
     else:
         pila = dfs.pathTo(result, destino)
         dist = aux_tam(grafo, pila)
@@ -609,7 +609,7 @@ def req_1(data_structs , origen, destino):
         lt.addLast(respuesta, tam)
         t5 = aux_t5(pila, 5)
         lt.addLast(respuesta, t5)
-    
+        
     return respuesta
 
 def aux_tam (grafo, pila):
@@ -1238,7 +1238,7 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
     print(mp.size(data_structs['mapa nodos de encuentro']))
 
 
-def req_6(data_structs):
+def req_6(data_structs, fecha_1, fecha_2, genero):
     """
     Función que soluciona el requerimiento 6
     """
@@ -1248,8 +1248,7 @@ def req_6(data_structs):
     array = data_structs["lista total"]
     
     filtro = array_ordenado_filtrado_por_rango_fechas(array, fecha_1, fecha_2)
-    lt_gen = aux_gen(filtro, genero)
-    vertices = lista_vert(lt_gen)
+    lobos = aux_gen(filtro, genero)
     max_camin = 0
     min_camin = 100
     r1 = lt.newlist("ARRAY_LIST")
@@ -1280,8 +1279,8 @@ def req_6(data_structs):
         nodos = aux_lt_nodo(eventos)
         nodo_m = (grafo, nodos, "min")
         dist = nodo_m[0]
-        if dist >= max_camin:
-            max_camin = dist
+        if dist <= min_camin:
+            min_camin = dist
             lobo_2 = id
             r2_1 = dist[1]
             r2_2 = dist[2]

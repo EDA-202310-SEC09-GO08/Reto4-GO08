@@ -446,8 +446,8 @@ def print_req_7(control):
     
     res=controller.req_7(control,fecha1,fecha2,temp1,temp2)
     print('Graph featrures:')
-    print('Total nodes: '+str(gr.numVertices(res[2]['grafo'])))
-    print('Total edges: '+str(gr.numEdges(res[2]['grafo'])))
+    print('Total nodes: '+str(gr.numVertices(res[3]['grafo'])))
+    print('Total edges: '+str(gr.numEdges(res[3]['grafo'])))
     print("Considering the folowwing date range: ")
     print("Start date : " + str(fecha1))
     print("End date : " +str(fecha2))

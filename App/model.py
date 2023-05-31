@@ -1238,9 +1238,11 @@ def crear_grafo_filtrado(data_structs,time1,time2,temp1,temp2):
 
     ####H. Crear arcos para los nodos de encuentro
     poner_arcos_encuentro(data_structs)
+    print('Arcos')
 
-    #print(gr.numEdges(data_structs['grafo']))
-    #print(gr.numVertices(data_structs['grafo']))
+    print(gr.numEdges(data_structs['grafo']))
+    print('Nodos')
+    print(gr.numVertices(data_structs['grafo']))
 
     return data_structs
 

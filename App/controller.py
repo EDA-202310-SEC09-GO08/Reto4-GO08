@@ -106,25 +106,11 @@ def req_1(control, origen, destino):
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-    pila = model.req_1(control['model'], origen, destino)
-    respuesta = lt.newList("ARRAY_LIST")
-    tam = len(pila)
-    i = 0
-    j = 1
-    while i <= 4:
-        pos = i
-        vertix = pila[pos]
-        lt.addFirst(respuesta, vertix)
-        i += 1
-    while j <= 5:
-        pos = tam - j
-        vertix = pila[pos]
-        lt.addFirst(respuesta, vertix)
-        j += 1
-    r1 = control["model"]
-    r2 = r1["grafo"]
-    print(r2)
-    return respuesta
+    time1 = get_time()
+    res = model.req_1(control["model"], origen, destino)
+    time2 = get_time
+    delta_t=delta_time(time1,time2)
+    return res, delta_t
 
 
 def req_2(control,nodo1, nodo2):
@@ -161,19 +147,25 @@ def req_4(control,lat1,long1,lat2,long2):
     return res,delta_t
 
 
-def req_5(control):
+def req_5(control, nodo, distancia, min ):
     """
     Retorna el resultado del requerimiento 5
     """
-    # TODO: Modificar el requerimiento 5
-    pass
+    time1 = get_time()
+    res = model.req_5(control["model"], min, nodo, distancia)
+    time2 = get_time()
+    delta_t=delta_time(time1,time2)
+    return res, delta_t
 
-def req_6(control):
+def req_6(control, fecha_1, fecha_2, genero):
     """
     Retorna el resultado del requerimiento 6
     """
-    # TODO: Modificar el requerimiento 6
-    pass
+    time1 = get_time()
+    res = model.req_6(control["model"], fecha_1, fecha_2, genero)
+    time2 = get_time()
+    delta_t=delta_time(time1,time2)
+    return res, delta_t
 
 
 def req_7(control,time1,time2,temp1,temp2):

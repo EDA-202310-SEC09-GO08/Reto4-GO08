@@ -284,6 +284,25 @@ def print_req_1(control):
     origen = input("Ingrese el identificador del punto de origen: ")
     destino = input( "Ingrese el identificador del punto de destino: ")
     respuesta = controller.req_1(control, origen, destino)
+    res = respuesta[0]
+    tiempo = respuesta[1]
+    print("Start gathering Point: " + origen)
+    print("End Gathering Point: " + destino)
+    if res != None:
+        distance = res[0]
+        edges = res[1]
+        vert = edges + 1
+        print("Total distance in the path: " + str(distance) + " km")
+        print("Total number of nodes in the path: " + str(vert))
+        print("\n")
+        print("First 5 & last 5 nodes in the path are:")
+        print(tabulate(res[2], headers= "keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40))
+    else:
+        print("There is no path between the points")
+    
+    print("The time is: " + str(tiempo))
+        
+        
     
     pass
 #Long-111.874754_Lat57.498278
@@ -423,6 +442,20 @@ def print_req_5(control):
         Función que imprime la solución del Requerimiento 5 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 5
+    punto = input("Ingrese la identificacion del vertice: ")
+    min_a = int(input("Ingrese el numero minimo de puntos de encuentro/seguimientos: "))
+    dista = float(input("Ingrese la distancia: "))
+    respuesta = controller.req_5(control, punto, dista, min_a)
+    res = respuesta[0]
+    tiempo = respuesta[1]
+    
+    edges = res[0]
+    print("There are " + str(edges) + " possible paths from point " + punto)
+    print("The minimum number of gathering points to visit is: " + str(min_a))
+    print("The maximum roundtrip distance to travel is: " + str(dista) + " km")
+    print(tabulate(res[1], headers="keys", tablefmt="grid", maxcolwidths=40, maxheadercolwidths=40))
+    
+    print("tiempo" + str(tiempo))
     pass
 
 
@@ -431,7 +464,47 @@ def print_req_6(control):
         Función que imprime la solución del Requerimiento 6 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 6
-    pass
+    fecha_in = input("Ingrese la fecha inicial: ")
+    fecha_fin = input("Ingrese la fecha final: ")
+    gen = input("Diga si quiiere que el animal sea f o m: ")
+    respuesta = controller.req_6(control, fecha_in, fecha_fin, gen)
+    res = respuesta[0]
+    tiempo = respuesta[1]
+    
+    lobo_max = res[0]
+    dicco_lob1 = lobo_max[0]
+    info_lob1 = lobo_max[1]
+    vert1 = lobo_max[2]
+    print("The individual with the longest distance is: ")
+    print("Individual ID: " + str(dicco_lob1["individual-id"]))
+    print(tabulate(dicco_lob1, headers="keys", tablefmt="grid", maxcolwidths=40, maxheadercolwidths=40))
+    print("The longest path for the wolf " +str(dicco_lob1["individual-id"]) + " has:" )
+    print("-Node count: " + str(info_lob1[0]))
+    print("-Edge count: " + str(info_lob1[1]))
+    print("-TOTAL DISTANCE: " + str(info_lob1[2]) + " km")
+    print("\n")
+    print("There are " + str(info_lob1[1]) + " edges in route")
+    print("The first 3 and las 3 in range are: ")
+    print(tabulate(vert1, headers="keys", tablefmt="grid", maxcolwidths=40, maxheadercolwidths=40))
+    print("\n")
+    
+    lobo_min = res[1]
+    dicco_lob2 = lobo_min[0]
+    info_lob2 = lobo_min[1]
+    vert2 = lobo_min[2]
+    print("The individual with the shortest distance is: ")
+    print("Individual ID: " + str(dicco_lob2["individual-id"]))
+    print(tabulate(dicco_lob2, headers="keys", tablefmt="grid", maxcolwidths=40, maxheadercolwidths=40))
+    print("The shortest path for the wolf " +str(dicco_lob2["individual-id"]) + " has:" )
+    print("-Node count: " + str(info_lob2[0]))
+    print("-Edge count: " + str(info_lob2[1]))
+    print("-TOTAL DISTANCE: " + str(info_lob2[2]) + " km")
+    print("\n")
+    print("There are " + str(info_lob2[1]) + " edges in route")
+    print("The first 3 and las 3 in range are: ")
+    print(tabulate(vert2, headers="keys", tablefmt="grid", maxcolwidths=40, maxheadercolwidths=40))
+
+
 
 
 def print_req_7(control):

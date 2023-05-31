@@ -180,10 +180,11 @@ def req_7(control,time1,time2,temp1,temp2):
     """
     Retorna el resultado del requerimiento 7
     """
-    time1=get_time()
+    timea=get_time()
     res = model.req_7(control['model'],time1,time2,temp1,temp2)
+    #print(len(res))
     time2=get_time()
-    delta_t=delta_time(time1,time2)
+    delta_t=delta_time(timea,time2)
     return res, delta_t
 
 

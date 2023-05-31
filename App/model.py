@@ -960,6 +960,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     #print(recorrido_min)
     prim=tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
     ult=tres_ultimos_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    n_lobos=num_lobos(recorrido_min)
     lista_a_devolver=[]
     lista_a_devolver.append(distancia_entre_punto_inicio_nodo)
     lista_a_devolver.append(distancia_entre_punto_fin_nodo)
@@ -969,6 +970,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     lista_a_devolver.append(prim)
     lista_a_devolver.append(ult)
     lista_a_devolver.append(recorrido_min)
+    lista_a_devolver.append(n_lobos)
 
     return lista_a_devolver
     pass
@@ -1038,7 +1040,24 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
     
     return lista_dics
 
+def num_lobos(camino_min):
+    ruta_min =lt.iterator(camino_min)
+    mapa_aux=mp.newMap()
+    for arco in ruta_min:
+        nodoA=arco['vertexA'].replace('m','-').replace('p','.').split('_')
+        if len(nodoA)==4:
+            nodoA=nodoA[2]+'_'+nodoA[3]
+            print(nodoA)
+            estaa=mp.contains(mapa_aux,nodoA)
+            print(nodoA)
+            print(estaa)
+            if estaa==False:
+                mp.put(mapa_aux,nodoA,None)
     
+    size=mp.size(mapa_aux)
+    return size
+      
+        
 def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
     lista_dics=[]
     size=lt.size(recorrido_min)

@@ -295,10 +295,10 @@ def print_req_2(control):
     """
     print()
     # TODO: Imprimir el resultado del requerimiento 2
-    nodo1 = "m111p862_57p449"
-    nodo2 = "m111p908_57p427"
-    #nodo1=(input('Nodo 1: '))
-    #nodo2=(input('Nodo 2: '))
+    #nodo1 = "m111p862_57p449"
+    #nodo2 = "m111p908_57p427"
+    nodo1=(input('Nodo 1: '))
+    nodo2=(input('Nodo 2: '))
     res = controller.req_2(control, nodo1, nodo2)
     print(tabulate(res[0][0], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
     lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
@@ -308,7 +308,7 @@ def print_req_2(control):
     i = 1
     for indv in lt.iterator(res[0][1]):
         if i + 1 < lt.size(res[0][1]):
-            indv2 = lt.getElement(res[0][1], i)
+            indv2 = lt.getElement(res[0][1], i+1)
             punto = indv.replace('m','-').replace('p','.').split('_')
             lat = float(punto[1])
             lon = float(punto[0])
@@ -318,7 +318,7 @@ def print_req_2(control):
             lon2 = float(punto2[0])
             folium.Marker(location=[lat2,lon2],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
             locs=[(lat,lon),(lat2,lon2)]
-            folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
+            folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
         i +=1
     mapa.save("C:/Users/olgay/Downloads/mapa.html")
 
@@ -336,9 +336,39 @@ def print_req_3(control):
     print("There are " + str(res[0][0]) + " strongly connectec components (SCC) in the graph ")
     print( "The top 5 SCC in the graph are: ")
     print(tabulate(res[0][1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
+    colores = ["darkblue", "pink", "red", "green", "black"]
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    llaves = res[0][3]
+    col = 0
+    for cada in lt.iterator(llaves):
+        i = 1
+        esta = devolver_value(res[0][2], cada)
+        for indv in lt.iterator(esta):
+            if i + 1 < lt.size(esta):
+                indv2 = lt.getElement(esta, i+1)
+                punto = indv.replace('m','-').replace('p','.').split('_')
+                lat = float(punto[1])
+                lon = float(punto[0])
+                folium.Marker(location=[lat,lon],icon=folium.Icon(color=colores[col],icon='fire')).add_to(mapa)
+                punto2 = indv2.replace('m','-').replace('p','.').split('_')
+                lat2 = float(punto2[1])
+                lon2 = float(punto2[0])
+                folium.Marker(location=[lat2,lon2],icon=folium.Icon(color=colores[col],icon='fire')).add_to(mapa)
+                locs=[(lat,lon),(lat2,lon2)]
+                folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
+            i +=1
+        col +=1
+    mapa.save("C:/Users/olgay/Downloads/mapa.html")
+
     print( " El tiempo es de:" + str(res[1]))
 
-
+def devolver_value(map, key):
+    llave_valor = mp.get(map, key)
+    valor = me.getValue(llave_valor)
+    
+    return valor
 def print_req_4(control):
     """
         Función que imprime la solución del Requerimiento 4 en consola
@@ -462,6 +492,31 @@ def print_req_7(control):
     print("The longest path per sccid: ")
     print(tabulate(res[0][2], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
 
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
+    colores = ["darkblue", "pink", "red", "green", "black", "purple"]
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    llaves = res[0][5]
+    col = 0
+    for cada in lt.iterator(llaves):
+        i = 1
+        esta = devolver_value(res[0][4], cada)
+        for indv in lt.iterator(esta):
+            if i + 1 < lt.size(esta):
+                indv2 = lt.getElement(esta, i+1)
+                punto = indv.replace('m','-').replace('p','.').split('_')
+                lat = float(punto[1])
+                lon = float(punto[0])
+                folium.Marker(location=[lat,lon],icon=folium.Icon(color=colores[col],icon='fire')).add_to(mapa)
+                punto2 = indv2.replace('m','-').replace('p','.').split('_')
+                lat2 = float(punto2[1])
+                lon2 = float(punto2[0])
+                folium.Marker(location=[lat2,lon2],icon=folium.Icon(color=colores[col],icon='fire')).add_to(mapa)
+                locs=[(lat,lon),(lat2,lon2)]
+                folium.PolyLine(locs,color=colores[col],weight=5,opacity=0.8).add_to(mapa)
+            i +=1
+        col +=1
+    mapa.save("C:/Users/olgay/Downloads/mapa.html")
     print( " El tiempo es de:" + str(res[1]))
     # TODO: Imprimir el resultado del requerimiento 7
     

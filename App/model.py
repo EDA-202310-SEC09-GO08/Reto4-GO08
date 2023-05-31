@@ -794,7 +794,7 @@ def req_3(data_structs):
     ' ir poniendo requerimiento por requerimiento'
     valor = pedido(data_structs["model"],mapa,final)
 
-    return total, valor
+    return total, valor, mapa, final
 
 def pedido( data_structs, mapa, lista_mejores):
     valor = []
@@ -1509,14 +1509,17 @@ def req_7(data_structs,time1,time2,temp1,temp2):
         dic ["min-lon"] = respuesta1[vez]["min-lon"]
         dic ["max-lon"] = respuesta1[vez]["max-lon"]
         dic["LP node count"] = res[0]
-        dic["LP edge count"] = res[0] -1
+        if res[0] == 0:
+            dic["LP edge count"]= 0
+        else:
+            dic["LP edge count"] = res[0] -1
         dic["LP distance km"] = res[1]
 
         vez +=1
         respuesta2.append(dic)
 
     
-    return total, respuesta1, respuesta2, data_structs
+    return total, respuesta1, respuesta2, data_structs, mapa, final 
 
 
 def mayordfs (grafo, lista,ultimo):

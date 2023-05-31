@@ -468,10 +468,14 @@ def print_req_7(control):
     """
         Función que imprime la solución del Requerimiento 7 en consola
     """
-    fecha1='2012-11-28 00:00'
-    fecha2='2014-05-17 23:59'
-    temp1='-17.3'
-    temp2='9.7'
+    #fecha1='2012-11-28 00:00'
+    #fecha2='2014-05-17 23:59'
+    #temp1='-17.3'
+    #temp2='9.7'
+    fecha1=input('primera fecha: ')
+    fecha2= input('segunda fecha: ')
+    temp1=float(input('clima inicial: '))
+    temp2=float(input('clima final: '))
     print('LOading correspondig graph:')
 
     

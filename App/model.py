@@ -720,7 +720,7 @@ def req_2(data_structs, nodo1, nodo2):
         dic["edge distance- km"] = dist
         vez +=1
         res.append(dic)
-    return res 
+    return res, lista
     
 def individual( lista):
     res = []
@@ -973,7 +973,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     lista_a_devolver.append(n_lobos)
 
     return lista_a_devolver
-    pass
+    
 
 
 
@@ -1103,11 +1103,46 @@ def identifica_n_lobos_en_camino(camino):
     it=lt.iterator(camino)
     
 
-def req_5(data_structs):
+def req_5(data_structs, min, nodo, dist):
     """
     Función que soluciona el requerimiento 5
     """
-    # TODO: Realizar el requerimiento 5
+    grafo = data_structs["grafo no dirigido"]
+    respuesta = lt.newList("ARRAY_LIST")
+    dist_f = dist / 2
+    re = prim.PrimMST(grafo, nodo)
+    mst = re["mst"]
+    num = 0
+    peso = 0
+    
+    edges = gr.adjacentEdges(grafo, nodo)
+    tam = len(edges)
+    lt.addLast(respuesta, tam)
+    
+    r2 = {}
+    lt_nodos = lt.newList("ARRAYLIST")
+    lt.addLast(lt_nodos,nodo)
+    animales = lt.newList("ARRAY_LIST")
+    
+    if mst > (min-1):
+        while num < lt.size(mst):
+            dicco = mst[num]
+            pes_dicco = dicco["weight"]
+            peso += pes_dicco
+            vecto_b = dicco["vertexB"]
+            edges_B = data_structs["mapa nodos de encuentro"]
+            tam_b = len(edges_B[vecto_b])
+            if peso <= dist_f and vecto_b not in lt_nodos:
+                r2["Path distance [km]"] = peso
+                lt.addLast(lt_nodos, vecto_b)
+                lt.addLast(animales, tam_b)
+                
+            num += 1
+    else:
+        respuesta = None
+    
+    return respuesta
+        
     
 
 ##### Funciones para 6 y 7 de filtrar array_ordenado de eventos por rango de fechas y temperaturas, devuelven el arrray 
@@ -1448,9 +1483,66 @@ def req_7(data_structs,time1,time2,temp1,temp2):
         lt.deleteElement(llaves_scc, pos)
         e +=1
 
-    respuesta = pedido(data_structs, mapa, final)
+    respuesta1 = pedido(data_structs, mapa, final)
+    respuesta2 = []
+    vez = 0
+    for manada in lt.iterator(final):
+        dic = {}
+        actual = devolver_value(mapa,manada)
+        
+        vertice2 = lt.getElement(actual,lt.size(actual))
+        res = mayordfs(grafo,actual,vertice2)
+        dic["SCCID"] = manada
+        dic["SCC size "] = lt.size(actual)
+        dic ["min-lat"] = respuesta1[vez]["min-lat"]
+        dic["max-lat"] = respuesta1[vez]["max-lat"]
+        dic ["min-lon"] = respuesta1[vez]["min-lon"]
+        dic ["max-lon"] = respuesta1[vez]["max-lon"]
+        dic["LP node count"] = res[0]
+        dic["LP edge count"] = res[0] -1
+        dic["LP distance km"] = res[1]
 
-    return total, respuesta,data_structs
+        vez +=1
+        respuesta2.append(dic)
+
+    
+    return total, respuesta1, respuesta2
+
+
+def mayordfs (grafo, lista,ultimo):
+    mayor = 0 
+    res = 0
+    for actual in lt.iterator(lista):
+        
+        eldfs = dfs.DepthFirstSearch(grafo,actual)
+        hay = dfs.hasPathTo(eldfs, ultimo)
+        como = dfs.pathTo(eldfs,ultimo)
+        suma = suma_vertices(grafo, como)
+        if suma> mayor:
+            mayor = suma
+            res = lt.size(como)
+    
+
+    return res, mayor
+
+def suma_vertices(grafo, eldfs):
+    i = 1 
+    suma = 0
+    while i<= lt.size(eldfs):
+        if i + 1 <=lt.size(eldfs):
+            vertice1 = lt.getElement(eldfs,i)
+            vertice2 = lt.getElement(eldfs,i+1)
+            valor = gr.getEdge(grafo, vertice2, vertice1)
+            if valor != None:
+                elque = valor["weight"]
+            else: 
+                elque = 0
+            suma += elque
+            i+=1
+        else:
+            i+=1
+    return suma
+
 def req_8(data_structs):
     """
     Función que soluciona el requerimiento 8

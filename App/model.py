@@ -1049,8 +1049,8 @@ def num_lobos(camino_min):
             nodoA=nodoA[2]+'_'+nodoA[3]
             print(nodoA)
             estaa=mp.contains(mapa_aux,nodoA)
-            print(nodoA)
-            print(estaa)
+            #print(nodoA)
+            #print(estaa)
             if estaa==False:
                 mp.put(mapa_aux,nodoA,None)
     

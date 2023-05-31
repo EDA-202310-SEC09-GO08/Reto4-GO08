@@ -129,16 +129,22 @@ def req_2(control,nodo1, nodo2):
     Retorna el resultado del requerimiento 2
     """
     # TODO: Modificar el requerimiento 2
+    time1=get_time()
     res = model.req_2(control,nodo1,nodo2)
-    return res
+    time2=get_time()
+    delta_t=delta_time(time1,time2)
+    return res, delta_t
 
 def req_3(control):
     """
     Retorna el resultado del requerimiento 3
     """
     # TODO: Modificar el requerimiento 3
+    time1=get_time()
     res = model.req_3(control)
-    return res
+    time2=get_time()
+    delta_t=delta_time(time1,time2)
+    return res, delta_t
 
 
 def req_4(control,lat1,long1,lat2,long2):
@@ -171,8 +177,11 @@ def req_7(control,time1,time2,temp1,temp2):
     """
     Retorna el resultado del requerimiento 7
     """
+    time1=get_time()
     res = model.req_7(control['model'],time1,time2,temp1,temp2)
-    return res
+    time2=get_time()
+    delta_t=delta_time(time1,time2)
+    return res, delta_t
 
 
 def req_8(control):

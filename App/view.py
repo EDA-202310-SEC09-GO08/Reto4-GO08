@@ -299,7 +299,30 @@ def print_req_2(control):
     #nodo1=(input('Nodo 1: '))
     #nodo2=(input('Nodo 2: '))
     res = controller.req_2(control, nodo1, nodo2)
-    print(tabulate(res, headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    print(tabulate(res[0][0], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    lat_c= (control['model']['mayor lat']   + control['model']['menor lat'] )/2
+    long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
+
+    mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
+    i = 1
+    for indv in lt.iterator(res[0][1]):
+        if i + 1 < lt.size(res[0][1]):
+            indv2 = lt.getElement(res[0][1], i)
+            punto = indv.replace('m','-').replace('p','.').split('_')
+            lat = float(punto[1])
+            lon = float(punto[0])
+            folium.Marker(location=[lat,lon],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+            punto2 = indv2.replace('m','-').replace('p','.').split('_')
+            lat2 = float(punto2[1])
+            lon2 = float(punto2[0])
+            folium.Marker(location=[lat2,lon2],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+            locs=[(lat,lon),(lat2,lon2)]
+            folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
+        i +=1
+    mapa.save("C:/Users/olgay/Downloads/mapa.html")
+        
+
+
 
 def print_req_3(control):
     """
@@ -316,15 +339,15 @@ def print_req_4(control):
     """
         Función que imprime la solución del Requerimiento 4 en consola
     """
-    #lat1=float(input('Latitud inicial: '))
-    #long1=float(input('Longitud inicial: '))
-    #lat2=float(input('Latitud final: '))
-    #long2=float(input('Longitud final: '))
-    plong1=-111.911
-    plat1=57.431
-    plong2=-111.865
-    plat2=57.453
-    res=controller.req_4(control,plat1,plong1,plat2,plong2)
+    lat1=float(input('Latitud inicial: '))
+    long1=float(input('Longitud inicial: '))
+    lat2=float(input('Latitud final: '))
+    long2=float(input('Longitud final: '))
+    #plong1=-111.911
+    #plat1=57.431
+    #plong2=-111.865
+    #plat2=57.453
+    res=controller.req_4(control,lat1,long1,lat2,long2)
     time=res[1]
     res=res[0]
 
@@ -350,6 +373,9 @@ def print_req_4(control):
     print('Total de arcos:')
     print(res[4])
     print('')  
+    print('Total de lobos distintos que UTILIZAN el camino:')
+    print(res[8])
+    print('')  
     print(' Los tres primeros puntos de la ruta en orden ascendente son :')
     tabulete5=tabulate(res[5], headers='keys', maxcolwidths =[30]*6, maxheadercolwidths=[30]*6)
     print(tabulete5)
@@ -362,8 +388,8 @@ def print_req_4(control):
     long_c=(control['model']['mayor long']   + control['model']['menor long'] )/2
 
     mapa=folium.Map(location=[lat_c,long_c],zoom_start=5)
-    folium.Marker(location=[plat1,plong1],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
-    folium.Marker(location=[plat2,plong2],icon=folium.Icon(color='red',icon='fire')).add_to(mapa)
+    folium.Marker(location=[lat1,long1],icon=folium.Icon(color='darkblue',icon='fire')).add_to(mapa)
+    folium.Marker(location=[lat2,long2],icon=folium.Icon(color='red',icon='fire')).add_to(mapa)
     for dic in res[5]:
             folium.Marker(location=[dic['lat'],dic['long']],icon=folium.Icon(color='green',icon='fire')).add_to(mapa)
 
@@ -378,7 +404,7 @@ def print_req_4(control):
         longA=float(vertexA[0])
         longB=float(vertexB[0])
         locs=[(latA,longA),(latB,longB)]
-        folium.PolyLine(locs,color='pink',weight=5,opacity=0.8).add_to(mapa)
+        folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
     mapa.save("C:/Users/samis/Downloads/mapa.html")
     
     print('tiempo: '+str(time))

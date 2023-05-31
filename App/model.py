@@ -720,7 +720,7 @@ def req_2(data_structs, nodo1, nodo2):
         dic["edge distance- km"] = dist
         vez +=1
         res.append(dic)
-    return res 
+    return res, lista
     
 def individual( lista):
     res = []
@@ -960,6 +960,7 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     #print(recorrido_min)
     prim=tres_primeros_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
     ult=tres_ultimos_nodos(recorrido_min,data_structs['mapa nodos de encuentro'])
+    n_lobos=num_lobos(recorrido_min)
     lista_a_devolver=[]
     lista_a_devolver.append(distancia_entre_punto_inicio_nodo)
     lista_a_devolver.append(distancia_entre_punto_fin_nodo)
@@ -969,9 +970,10 @@ def req_4(data_structs,lat_1,long_1,lat_2,long_2):
     lista_a_devolver.append(prim)
     lista_a_devolver.append(ult)
     lista_a_devolver.append(recorrido_min)
+    lista_a_devolver.append(n_lobos)
 
     return lista_a_devolver
-    pass
+    
 
 
 
@@ -1038,7 +1040,24 @@ def tres_primeros_nodos(recorrido_min,mapa_nodos_encuentro):
     
     return lista_dics
 
+def num_lobos(camino_min):
+    ruta_min =lt.iterator(camino_min)
+    mapa_aux=mp.newMap()
+    for arco in ruta_min:
+        nodoA=arco['vertexA'].replace('m','-').replace('p','.').split('_')
+        if len(nodoA)==4:
+            nodoA=nodoA[2]+'_'+nodoA[3]
+            print(nodoA)
+            estaa=mp.contains(mapa_aux,nodoA)
+            #print(nodoA)
+            #print(estaa)
+            if estaa==False:
+                mp.put(mapa_aux,nodoA,None)
     
+    size=mp.size(mapa_aux)
+    return size
+      
+        
 def tres_ultimos_nodos(recorrido_min,mapa_nodos_encuentro):
     lista_dics=[]
     size=lt.size(recorrido_min)
@@ -1463,9 +1482,66 @@ def req_7(data_structs,time1,time2,temp1,temp2):
         lt.deleteElement(llaves_scc, pos)
         e +=1
 
-    respuesta = pedido(data_structs, mapa, final)
+    respuesta1 = pedido(data_structs, mapa, final)
+    respuesta2 = []
+    vez = 0
+    for manada in lt.iterator(final):
+        dic = {}
+        actual = devolver_value(mapa,manada)
+        
+        vertice2 = lt.getElement(actual,lt.size(actual))
+        res = mayordfs(grafo,actual,vertice2)
+        dic["SCCID"] = manada
+        dic["SCC size "] = lt.size(actual)
+        dic ["min-lat"] = respuesta1[vez]["min-lat"]
+        dic["max-lat"] = respuesta1[vez]["max-lat"]
+        dic ["min-lon"] = respuesta1[vez]["min-lon"]
+        dic ["max-lon"] = respuesta1[vez]["max-lon"]
+        dic["LP node count"] = res[0]
+        dic["LP edge count"] = res[0] -1
+        dic["LP distance km"] = res[1]
 
-    return total, respuesta
+        vez +=1
+        respuesta2.append(dic)
+
+    
+    return total, respuesta1, respuesta2
+
+
+def mayordfs (grafo, lista,ultimo):
+    mayor = 0 
+    res = 0
+    for actual in lt.iterator(lista):
+        
+        eldfs = dfs.DepthFirstSearch(grafo,actual)
+        hay = dfs.hasPathTo(eldfs, ultimo)
+        como = dfs.pathTo(eldfs,ultimo)
+        suma = suma_vertices(grafo, como)
+        if suma> mayor:
+            mayor = suma
+            res = lt.size(como)
+    
+
+    return res, mayor
+
+def suma_vertices(grafo, eldfs):
+    i = 1 
+    suma = 0
+    while i<= lt.size(eldfs):
+        if i + 1 <=lt.size(eldfs):
+            vertice1 = lt.getElement(eldfs,i)
+            vertice2 = lt.getElement(eldfs,i+1)
+            valor = gr.getEdge(grafo, vertice2, vertice1)
+            if valor != None:
+                elque = valor["weight"]
+            else: 
+                elque = 0
+            suma += elque
+            i+=1
+        else:
+            i+=1
+    return suma
+
 def req_8(data_structs):
     """
     Función que soluciona el requerimiento 8

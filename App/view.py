@@ -22,6 +22,7 @@
 
 import config as cf
 import sys
+import threading
 import controller
 import model
 from DISClib.ADT import list as lt
@@ -320,6 +321,8 @@ def print_req_2(control):
             folium.PolyLine(locs,color='black',weight=5,opacity=0.8).add_to(mapa)
         i +=1
     mapa.save("C:/Users/olgay/Downloads/mapa.html")
+
+    print( " El tiempo es de:" + str(res[1]))
         
 
 
@@ -330,9 +333,10 @@ def print_req_3(control):
     """
     # TODO: Imprimir el resultado del requerimiento 3
     res = controller.req_3(control)
-    print("There are " + str(res[0]) + " strongly connectec components (SCC) in the graph ")
+    print("There are " + str(res[0][0]) + " strongly connectec components (SCC) in the graph ")
     print( "The top 5 SCC in the graph are: ")
-    print(tabulate(res[1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    print(tabulate(res[0][1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    print( " El tiempo es de:" + str(res[1]))
 
 
 def print_req_4(control):
@@ -452,7 +456,11 @@ def print_req_7(control):
     print("Hight temperature: " +str(temp2))
     print("There are " + str(res[0]) + " strongly connectec components (SCC) in the graph ")
     print( "The first 3 and the last 3 SCC in the graph are: ")
-    print(tabulate(res[1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    print(tabulate(res[0][1], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+    print("The longest path per sccid: ")
+    print(tabulate(res[0][2], headers="keys", tablefmt= "grid", maxcolwidths=40, maxheadercolwidths=40 ))
+
+    print( " El tiempo es de:" + str(res[1]))
     # TODO: Imprimir el resultado del requerimiento 7
     
 
@@ -518,3 +526,5 @@ if __name__ == "__main__":
             print("ERR:", exp)
             traceback.print_exc()
     sys.exit(0)
+
+

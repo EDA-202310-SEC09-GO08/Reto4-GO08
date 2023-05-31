@@ -24,6 +24,7 @@ import config as cf
 import model
 import time
 import csv
+import sys
 import tracemalloc
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -33,7 +34,9 @@ from DISClib.ADT import map as mp
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-
+csv.field_size_limit(2147483647)
+default_limit = 1000
+sys.setrecursionlimit(default_limit*100000)
 
 def new_controller():
     """

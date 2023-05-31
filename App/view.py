@@ -533,7 +533,8 @@ def print_req_6(control):
     print("There are " + str(info_lob2[1]) + " edges in route")
     print("The first 3 and las 3 in range are: ")
     print(tabulate(vert2, headers="keys", tablefmt="grid", maxcolwidths=40, maxheadercolwidths=40))
-
+    
+    print("tiempo" + str(tiempo))
 
 
 

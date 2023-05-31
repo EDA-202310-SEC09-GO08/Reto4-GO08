@@ -1506,7 +1506,7 @@ def req_7(data_structs,time1,time2,temp1,temp2):
         respuesta2.append(dic)
 
     
-    return total, respuesta1, respuesta2
+    return total, respuesta1, respuesta2, data_structs
 
 
 def mayordfs (grafo, lista,ultimo):

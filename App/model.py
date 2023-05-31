@@ -1103,11 +1103,46 @@ def identifica_n_lobos_en_camino(camino):
     it=lt.iterator(camino)
     
 
-def req_5(data_structs):
+def req_5(data_structs, min, nodo, dist):
     """
     Función que soluciona el requerimiento 5
     """
-    # TODO: Realizar el requerimiento 5
+    grafo = data_structs["grafo no dirigido"]
+    respuesta = lt.newList("ARRAY_LIST")
+    dist_f = dist / 2
+    re = prim.PrimMST(grafo, nodo)
+    mst = re["mst"]
+    num = 0
+    peso = 0
+    
+    edges = gr.adjacentEdges(grafo, nodo)
+    tam = len(edges)
+    lt.addLast(respuesta, tam)
+    
+    r2 = {}
+    lt_nodos = lt.newList("ARRAYLIST")
+    lt.addLast(lt_nodos,nodo)
+    animales = lt.newList("ARRAY_LIST")
+    
+    if mst > (min-1):
+        while num < lt.size(mst):
+            dicco = mst[num]
+            pes_dicco = dicco["weight"]
+            peso += pes_dicco
+            vecto_b = dicco["vertexB"]
+            edges_B = data_structs["mapa nodos de encuentro"]
+            tam_b = len(edges_B[vecto_b])
+            if peso <= dist_f and vecto_b not in lt_nodos:
+                r2["Path distance [km]"] = peso
+                lt.addLast(lt_nodos, vecto_b)
+                lt.addLast(animales, tam_b)
+                
+            num += 1
+    else:
+        respuesta = None
+    
+    return respuesta
+        
     
 
 ##### Funciones para 6 y 7 de filtrar array_ordenado de eventos por rango de fechas y temperaturas, devuelven el arrray 

@@ -1272,7 +1272,7 @@ def req_6(data_structs, fecha_1, fecha_2, genero):
     for id in lobos:
         eventos = lobos[id]
         nodos = aux_lt_nodo(eventos)
-        nodo_m = (grafo, nodos, "max")
+        nodo_m = aux_camino(grafo, nodos, "max")
         dist = nodo_m[0]
         if dist >= max_camin:
             max_camin = dist
@@ -1287,7 +1287,7 @@ def req_6(data_structs, fecha_1, fecha_2, genero):
     for id in lobos:
         eventos = lobos[id]
         nodos = aux_lt_nodo(eventos)
-        nodo_m = (grafo, nodos, "min")
+        nodo_m = aux_camino(grafo, nodos, "min")
         dist = nodo_m[0]
         if dist <= min_camin:
             min_camin = dist
@@ -1408,7 +1408,7 @@ def aux_resp6(respuesta, data_structs):
         verti_a = r[1]
         verti_b = r[2]
         verta = dfs.DepthFirstSearch(grafo, verti_a)
-        pila = dfs.pathTo(grafo, verti_a, verti_b)
+        pila = dfs.pathTo(verta, verti_b)
         nodos = lt.size(pila) + 1
         arcos = lt.size(pila)
         dist = aux_tam(grafo, verti_a, verti_b)
@@ -1422,9 +1422,9 @@ def aux_resp6(respuesta, data_structs):
         lt.addLast(r_n, info)
         lt.addLast(r_n, vertices)
         
-        lt.addLast(respuesta, r_n)
+        lt.addLast(final, r_n)
 
-    return respuesta
+    return final
     #informacion del lobo
 
 
